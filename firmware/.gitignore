@@ -1,1 +1,5 @@
 build
+cmake-build-esp-idf-debug
+dependencies.lock
+sdkconfig
+sdkconfig.old
