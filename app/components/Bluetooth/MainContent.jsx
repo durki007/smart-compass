@@ -1,7 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { Modal, StyleSheet, Text, Alert, View, Image, PermissionsAndroid, TouchableOpacity, Button } from 'react-native';
-import { BleManager } from 'react-native-ble-plx'
-import RNFS, {DocumentDirectoryPath, writeFile} from 'react-native-fs';
 import useBLE from './useBLE';
 import { useFonts } from 'expo-font'
 import SearchButton from './SearchButton';

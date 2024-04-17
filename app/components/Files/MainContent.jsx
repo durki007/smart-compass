@@ -11,10 +11,10 @@ const MainContent = () => {
         centerContent={true}
         >
                 <FileComponent name="John Doe" date="2024-04-13" num={5} />
-                <FileComponent name="Radoslaw" date="2123-04-13" num={778} />
-                <FileComponent name="Radoslaw" date="2123-04-13" num={778} />
-                <FileComponent name="Radoslaw" date="2123-04-13" num={778} />
-                <FileComponent name="Radoslaw" date="2123-04-13" num={778} />
+                <FileComponent name="AAA" date="2123-04-13" num={778} />
+                <FileComponent name="BB" date="2123-04-13" num={778} />
+                <FileComponent name="CCC" date="2123-04-13" num={778} />
+                <FileComponent name="DDD" date="2123-04-13" num={778} />
         </ScrollView>
       </View>
     );

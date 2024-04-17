@@ -11,11 +11,6 @@ import { Buffer } from 'buffer';
 import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
 
-import {atob} from 'react-native-quick-base64';
-
-// const HEART_RATE_UUID = '0000180d-0000-1000-8000-00805f9b34fb';
-// const HEART_RATE_CHARACTERISTIC = '00002a37-0000-1000-8000-00805f9b34fb';
-
 const bleManager = new BleManager();
 
 let serviceid="d0611e78-bbb4-4591-a5f8-487910ae4366";
@@ -98,6 +93,7 @@ function useBLE() {
       const services = await device.services();
       console.log('services: ', services);
       
+      // PRINT AVALIABLE CHARACTERISTICS
       services.forEach(async (service) => {
         const characteristics = await service.characteristics();
         console.log('Characteristics for service', service.uuid, ':', characteristics);
@@ -108,8 +104,6 @@ function useBLE() {
 
       setConnectedDevice(device);
       
-      // console.log('Currently connected to:' ,device.serviceData);
-    //   startStreamingData(deviceConnection);
     } catch (e) {
       console.log('FAILED TO CONNECT', e);
     }
@@ -123,20 +117,7 @@ function useBLE() {
     }
   };
 
-  const checkBluetoothEnabled = async () => {
-    try {
-          // turn on bluetooth if it is not on
-    BleManager.enableBluetooth().then(() => {
-      console.log('Bluetooth is turned on!');
-    });
-      
-    } catch (error) {
-      console.error('BLE is not available on this device.');
-    }
-  }
-
   useEffect(() => {
-    // checkBluetoothEnabled();
     if (Platform.OS === 'android' && Platform.Version >= 23) {
   
         PermissionsAndroid.requestMultiple([
@@ -166,7 +147,7 @@ function useBLE() {
         try {
             const base64Value = Buffer.from("Ala ma kota").toString('base64');
             connectedDevice.writeCharacteristicWithResponseForService(serviceid, caracid, base64Value);
-            console.log('Success sending!');
+            console.log('Message sent');
         } catch (error){
             console.error('Error sending message:', error);
         }

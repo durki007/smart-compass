@@ -65,7 +65,7 @@ function BottomTabNavg() {
         options={{
           tabBarLabel: 'Map',
           tabBarIcon: ({ color, size }) => (
-            <Feather name="settings" color={color} size={size} />
+            <Feather name="map" color={color} size={size} />
           ),
         }}
       />
@@ -86,19 +86,6 @@ export default function App() {
     </NavigationContainer>
 
   )
-
-  
-  // return(
-  //   <NavigationContainer>
-  //     <Stack.Navigator>
-  //       <Stack.Screen 
-  //       name="BluetoothScreen" 
-  //       component={FilesScreen} 
-  //       options={{headerShown: false}}
-  //       />
-  //     </Stack.Navigator>
-  //   </NavigationContainer>
-  // );
 }
 
 const styles = StyleSheet.create({
