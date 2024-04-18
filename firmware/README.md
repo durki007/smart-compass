@@ -2,6 +2,23 @@
 ## About
 This is the firmware for the ESP32 microcontroller that is part of the **Smart Compass** project.
 > BLE configuration is based on the [ESP-IDF nimble/bleprph example](https://github.com/espressif/esp-idf/tree/5a40bb8746633477c07ff9a3e90016c37fa0dc0c/examples/bluetooth/nimble/bleprph)
+
+## Project structure
+The project is organized as follows:
+```
+firmware/ 
+│   main/ -- Application code entry point
+│   components/
+│   ├── sc_ble      -- BLE configuration and services
+│   ├── sc_compass  -- Compass sensor driver
+│   ├── sc_display  -- Display driver
+│   ├── sc_gps      -- GPS sensor driver
+```
+The `main` folder contains the entry point of the application. All tasks are created and initialized here.
+
+The `components` folder contains the drivers for the sensors and the BLE configuration.
+Each component defines a set of functions to initialize, read, and write data to the sensor.
+
 ## Build
 #### Prerequisites
 - [ESP-IDF v.5.2.1](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html#manual-installation)
@@ -46,4 +63,4 @@ Where `PORT` is the serial port where the ESP32 is connected. For example, on Wi
 
 ## References
 - [ESP-IDF v5.2.1](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html#manual-installation)
-- [ESP-IDF Build System](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/build-system.html)
+- [ESP-IDF Build System](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/build-system.html) -- Building the project, configuring the device, defining components etc.
