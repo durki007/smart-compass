@@ -1,0 +1,6 @@
+# Created by idf.py
+build
+sdkconfig.old
+# Windows CLion
+.idea
+cmake-build-debug
