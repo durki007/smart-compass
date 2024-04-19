@@ -1,0 +1,6 @@
+[submodule "firmware/components/lvgl"]
+	path = firmware/components/lvgl
+	url = https://github.com/lvgl/lvgl.git
+[submodule "firmware/components/lvgl_esp32_drivers"]
+	path = firmware/components/lvgl_esp32_drivers
+	url = https://github.com/lvgl/lvgl_esp32_drivers.git
