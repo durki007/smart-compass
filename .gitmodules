@@ -1,0 +1,8 @@
+[submodule "firmware/components/lvgl_esp32_drivers"]
+	path = firmware/components/lvgl_esp32_drivers
+	url = https://github.com/hiruna/lvgl_esp32_drivers.git
+	branch = develop/lvgl_8.3.7_idf_5.2
+[submodule "firmware/components/lvgl"]
+	path = firmware/components/lvgl
+	url = https://github.com/lvgl/lvgl.git
+	branch = release/v8.3
