@@ -1,6 +1,8 @@
 # Created by idf.py
 build
+sdkconfig
 sdkconfig.old
+dependencies.lock
 # Windows CLion
 .idea
 cmake-build-debug
