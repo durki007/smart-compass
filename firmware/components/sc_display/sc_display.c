@@ -1,9 +1,6 @@
 #include "sc_display.h"
 
-#include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <esp_timer.h>
 #include "esp_log.h"
 
@@ -11,10 +8,6 @@
 #include "freertos/task.h"
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
-#include "esp_system.h"
-#include "driver/gpio.h"
-
-/* Littlevgl specific */
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
 
 #include "lvgl.h"
@@ -38,7 +31,6 @@ static void lv_tick_task(void *arg);
 
 static void guiTask(void *pvParameter);
 
-static void create_demo_application(void);
 static void lv_example_get_started_1(void);
 
 /**********************
@@ -118,11 +110,7 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
-    /* Create the demo application */
-    ESP_LOGI(TAG, "Demo app creating");
-//    create_demo_application();
     lv_example_get_started_1();
-    ESP_LOGI(TAG, "Demo app created");
 
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
@@ -130,7 +118,6 @@ static void guiTask(void *pvParameter) {
 
         /* Try to take the semaphore, call lvgl related function on success */
         if (pdTRUE == xSemaphoreTake(xGuiSemaphore, portMAX_DELAY)) {
-//            ESP_LOGI(TAG, "lv_task_handler started");
             lv_task_handler();
             lv_timer_handler();
             xSemaphoreGive(xGuiSemaphore);
@@ -154,25 +141,6 @@ static void lv_example_get_started_1(void)
     lv_label_set_text(label, "Hello world");
     lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
-}
-
-static void create_demo_application(void) {
-    /* use a pretty small demo for monochrome displays */
-    /* Get the current screen  */
-    lv_obj_t *scr = lv_disp_get_scr_act(NULL);
-    lv_obj_set_style_bg_color(scr, lv_color_make(255, 0,0 ), LV_STATE_ANY );
-
-    /*Create a Label on the currently active screen*/
-    lv_obj_t *label1 = lv_label_create(scr);
-
-    /*Modify the Label's text*/
-    lv_label_set_text(label1, "Hello\nworld");
-    lv_obj_set_style_pad_all(label1,10 , LV_STATE_ANY);
-
-    /* Align the Label to the center
-     * NULL means align on parent (which is the screen now)
-     * 0, 0 at the end means an x, y offset after alignment*/
-    lv_obj_align(label1, LV_ALIGN_CENTER, 0, 0);
 }
 
 static void lv_tick_task(void *arg) {
