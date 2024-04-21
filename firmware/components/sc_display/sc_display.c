@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <esp_timer.h>
+#include "esp_log.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -15,7 +16,9 @@
 
 /* Littlevgl specific */
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
+
 #include "lvgl.h"
+
 #else
 #include "lvgl/lvgl.h"
 #endif
@@ -25,25 +28,29 @@
 /*********************
  *      DEFINES
  *********************/
-#define TAG "demo"
+#define TAG "sc_display"
 #define LV_TICK_PERIOD_MS 1
 
 /**********************
  *  STATIC PROTOTYPES
  **********************/
 static void lv_tick_task(void *arg);
+
 static void guiTask(void *pvParameter);
+
 static void create_demo_application(void);
+static void lv_example_get_started_1(void);
 
 /**********************
  *   APPLICATION MAIN
  **********************/
 void sc_display_init() {
+    ESP_LOGI(TAG, "Init");
 
     /* If you want to use a task to create the graphic, you NEED to create a Pinned task
      * Otherwise there can be problem such as memory corruption and so on.
      * NOTE: When not using Wi-Fi nor Bluetooth you can pin the guiTask to core 0 */
-    xTaskCreatePinnedToCore(guiTask, "gui", 4096*2, NULL, 0, NULL, 1);
+    xTaskCreatePinnedToCore(guiTask, "gui", 4096 * 2, NULL, 0, NULL, 1);
 }
 
 /* Creates a semaphore to handle concurrent call to lvgl stuff
@@ -61,12 +68,12 @@ static void guiTask(void *pvParameter) {
     /* Initialize SPI or I2C bus used by the drivers */
     lvgl_driver_init();
 
-    lv_color_t* buf1 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
+    lv_color_t *buf1 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf1 != NULL);
 
     /* Use double buffered when not working with monochrome displays */
 #ifndef CONFIG_LV_TFT_DISPLAY_MONOCHROME
-    lv_color_t* buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
+    lv_color_t *buf2 = heap_caps_malloc(DISP_BUF_SIZE * sizeof(lv_color_t), MALLOC_CAP_DMA);
     assert(buf2 != NULL);
 #else
     static lv_color_t *buf2 = NULL;
@@ -98,6 +105,8 @@ static void guiTask(void *pvParameter) {
 #endif
 
     disp_drv.draw_buf = &disp_buf;
+    disp_drv.hor_res = CONFIG_LV_HOR_RES_MAX;
+    disp_drv.ver_res = CONFIG_LV_VER_RES_MAX;
     lv_disp_drv_register(&disp_drv);
 
     /* Create and start a periodic timer interrupt to call lv_tick_inc */
@@ -110,7 +119,10 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
     /* Create the demo application */
-    create_demo_application();
+    ESP_LOGI(TAG, "Demo app creating");
+//    create_demo_application();
+    lv_example_get_started_1();
+    ESP_LOGI(TAG, "Demo app created");
 
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
@@ -118,7 +130,9 @@ static void guiTask(void *pvParameter) {
 
         /* Try to take the semaphore, call lvgl related function on success */
         if (pdTRUE == xSemaphoreTake(xGuiSemaphore, portMAX_DELAY)) {
+//            ESP_LOGI(TAG, "lv_task_handler started");
             lv_task_handler();
+            lv_timer_handler();
             xSemaphoreGive(xGuiSemaphore);
         }
     }
@@ -130,18 +144,30 @@ static void guiTask(void *pvParameter) {
 #endif
     vTaskDelete(NULL);
 }
-
-static void create_demo_application(void)
+static void lv_example_get_started_1(void)
 {
+    /*Change the active screen's background color*/
+    lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
+
+    /*Create a white label, set its text and align it to the center*/
+    lv_obj_t * label = lv_label_create(lv_scr_act());
+    lv_label_set_text(label, "Hello world");
+    lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+}
+
+static void create_demo_application(void) {
     /* use a pretty small demo for monochrome displays */
     /* Get the current screen  */
-    lv_obj_t * scr = lv_disp_get_scr_act(NULL);
+    lv_obj_t *scr = lv_disp_get_scr_act(NULL);
+    lv_obj_set_style_bg_color(scr, lv_color_make(255, 0,0 ), LV_STATE_ANY );
 
     /*Create a Label on the currently active screen*/
-    lv_obj_t * label1 =  lv_label_create(scr);
+    lv_obj_t *label1 = lv_label_create(scr);
 
     /*Modify the Label's text*/
     lv_label_set_text(label1, "Hello\nworld");
+    lv_obj_set_style_pad_all(label1,10 , LV_STATE_ANY);
 
     /* Align the Label to the center
      * NULL means align on parent (which is the screen now)
