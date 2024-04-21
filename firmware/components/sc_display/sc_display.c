@@ -9,14 +9,14 @@
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
-
 #include "lvgl.h"
-
 #else
 #include "lvgl/lvgl.h"
 #endif
 
 #include "lvgl_helpers.h"
+#include "widgets/lv_img.h"
+#include "arrow.h"
 
 /*********************
  *      DEFINES
@@ -133,13 +133,22 @@ static void guiTask(void *pvParameter) {
 }
 static void lv_example_get_started_1(void)
 {
+    LV_IMG_DECLARE(arrow);
     /*Change the active screen's background color*/
-    lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0x003a57), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_obj_set_layout(lv_scr_act(), LV_LAYOUT_FLEX);
+    lv_obj_set_flex_flow(lv_scr_act(), LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(lv_scr_act(), LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+
+    lv_obj_t * img = lv_img_create(lv_scr_act());
+    lv_img_set_src(img, &arrow);
+    lv_img_set_angle(img, 200);
+    lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
 
     /*Create a white label, set its text and align it to the center*/
     lv_obj_t * label = lv_label_create(lv_scr_act());
-    lv_label_set_text(label, "Hello world");
-    lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0xffffff), LV_PART_MAIN);
+    lv_label_set_text(label, "1000m");
+    lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
 }
 
