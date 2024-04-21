@@ -32,6 +32,7 @@ static void lv_tick_task(void *arg);
 static void guiTask(void *pvParameter);
 
 static void lv_example_get_started_1(void);
+static void angle_refresh_task();
 
 /**********************
  *   APPLICATION MAIN
@@ -111,6 +112,7 @@ static void guiTask(void *pvParameter) {
     ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, LV_TICK_PERIOD_MS * 1000));
 
     lv_example_get_started_1();
+    lv_timer_create(angle_refresh_task, 100, NULL);
 
     while (1) {
         /* Delay 1 tick (assumes FreeRTOS tick is 10ms */
@@ -131,6 +133,18 @@ static void guiTask(void *pvParameter) {
 #endif
     vTaskDelete(NULL);
 }
+
+static lv_obj_t *img;
+
+static void angle_refresh_task() {
+    uint16_t angle = lv_img_get_angle(img);
+    angle += 10;
+    if (angle >= 3600) {
+        angle = 0;
+    }
+    lv_img_set_angle(img, angle);
+}
+
 static void lv_example_get_started_1(void)
 {
     LV_IMG_DECLARE(arrow);
@@ -140,7 +154,7 @@ static void lv_example_get_started_1(void)
     lv_obj_set_flex_flow(lv_scr_act(), LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(lv_scr_act(), LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-    lv_obj_t * img = lv_img_create(lv_scr_act());
+    img = lv_img_create(lv_scr_act());
     lv_img_set_src(img, &arrow);
     lv_img_set_angle(img, 200);
     lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
