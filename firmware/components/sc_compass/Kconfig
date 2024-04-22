@@ -1,0 +1,16 @@
+menu "HMC5883L I2C Compass"
+
+    config I2C_SDA
+        int "SDA pin"
+        default 33
+    config I2C_SCL
+        int "SCL pin"
+        default 32
+    config COMPASS_ADDR
+        hex "Compass I2C address"
+        default 0x1E
+    config I2C_SCL_SPEED_HZ
+        int "I2C SCL speed (Hz)"
+        default 400000
+
+endmenu
