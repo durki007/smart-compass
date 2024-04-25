@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const FileComponent = ({ name, date, num }) => {
   const [showButtons, setShowButtons] = useState(false);
@@ -25,6 +27,7 @@ const FileComponent = ({ name, date, num }) => {
     setShowButtons(!showButtons);
   };
 
+  
 
   
 

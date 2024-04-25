@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, Alert, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Alert, View, Image, TouchableOpacity, Button } from 'react-native';
 import { useFonts } from 'expo-font'
 
 
 
 
-const MapHeader = () => {
+const MapHeader = ({saveCourse}) => {
 
     const [loaded] = useFonts({
         RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
@@ -16,7 +16,7 @@ const MapHeader = () => {
       if (!loaded) {
         return null;
       }
-    
+  
 
     return (
         <View style ={styles.headerBox}>
@@ -25,8 +25,7 @@ const MapHeader = () => {
            
           </View>
           <View style={styles.headerRightInnerBox}>
-            {/* <Image source={require('../../assets/bluetooth.png')} style={styles.headerImage} /> */}
-            
+            <Button title='Save' onPress={() => saveCourse()}/>         
           </View>
         </View>
     );

@@ -4,22 +4,7 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 
 
 
-const MapComponent = () => {
-
-  const [markersList, setMarkersList] = useState([
-    {
-      id:1,
-      latitude: 37.78825,
-      longitude: -122.4324,
-      title: 'Marker 1'
-    },
-    {
-      id:2,
-      latitude: 37.68825,
-      longitude: -122.3324,
-      title: 'Marker 2'
-    },
-  ])
+const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleMarkerDrag }) => {
 
   const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
@@ -28,27 +13,6 @@ const MapComponent = () => {
     longitude: marker.longitude
   }));
 
-  const handleMarkerDrag = (index, newCoordinate) => {
-    const updatedMarkersList = [...markersList];
-    updatedMarkersList[index] = {
-      ...updatedMarkersList[index],
-      latitude: newCoordinate.latitude, 
-      longitude: newCoordinate.longitude
-    };
-    setMarkersList(updatedMarkersList);
-  };
-
-
-  const handleMarkerAdding = (newPointCoordinate) => {
-    const updatedMarkersList = [...markersList];
-    const lastMarker = updatedMarkersList.slice(-1)[0];  
-    updatedMarkersList.push({ 
-        id: lastMarker.id + 1,
-        latitude: newPointCoordinate.latitude, 
-        longitude: newPointCoordinate.longitude 
-    });
-    setMarkersList(updatedMarkersList);
-  }
 
   const handleMarkerSelected = (id) => {
     setSelectedMarkerId(id);
