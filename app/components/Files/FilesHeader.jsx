@@ -60,18 +60,6 @@ const styles = StyleSheet.create({
         fontSize: 32,
       },
     
-      headerConnected: {
-        fontFamily: 'RobotoBlack',
-        fontSize: 24,
-        color: '#009933', // Kolor dla "connected"
-      },
-    
-      headerDisconnected: {
-        fontFamily: 'RobotoBlack',
-        fontSize: 24,
-        color: '#F00', // Kolor dla "disconnected"
-      },
-    
       headerRightInnerBox: {
         marginTop:10,
         width: 110,

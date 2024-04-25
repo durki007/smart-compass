@@ -30,12 +30,31 @@ const MapComponent = () => {
     const updatedMarkersList = [...markersList];
     updatedMarkersList[index] = {
       ...updatedMarkersList[index],
-      latitude: newCoordinate.latitude,
+      latitude: newCoordinate.latitude, 
       longitude: newCoordinate.longitude
     };
     setMarkersList(updatedMarkersList);
   };
 
+
+  const handleMarkerAdding = (newPointCoordinate) => {
+    const updatedMarkersList = [...markersList];
+    const lastMarker = updatedMarkersList.slice(-1)[0];  
+    updatedMarkersList.push({ 
+        id: lastMarker.id + 1,
+        latitude: newPointCoordinate.latitude, 
+        longitude: newPointCoordinate.longitude 
+    });
+    setMarkersList(updatedMarkersList);
+  }
+
+  const handleMarkerSelected = () => {
+    pass
+  }
+
+  const handleMarkerDeselected = () => {
+    pass
+  }
 
     return (
         <View style={styles.container}>
@@ -46,7 +65,17 @@ const MapComponent = () => {
                 longitude: -122.4324,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-                }}>
+
+                }}
+                mapType='terrain'
+                showsBuildings = {true}       //not working???
+                showsMyLocationButton = {true} //not working???
+                showsCompass = {true}
+                onLongPress={(e) => handleMarkerAdding(e.nativeEvent.coordinate)}
+                onMarkerSelect={() => console.log('marker selected')}
+                onMarkerDeselect={() => console.log('marker deselected')}
+
+                >
 
               
               {markersList.map(marker => {
@@ -62,11 +91,11 @@ const MapComponent = () => {
                     onDragEnd={(e) => {
                       handleMarkerDrag(markersList.findIndex(item => item.id === marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);
-                    }}  
+                    }}
+
                   />
                 )
-              })
-              }
+              })}
 
               <Polyline
                   coordinates={coordinates}
