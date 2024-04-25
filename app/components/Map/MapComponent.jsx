@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import MapView, {Marker, Polyline} from 'react-native-maps';
-import { StyleSheet, View } from 'react-native';
+import MapView, {Callout, Marker, Polyline} from 'react-native-maps';
+import { StyleSheet, View, Text, Button } from 'react-native';
+
 
 
 const MapComponent = () => {
@@ -20,6 +21,7 @@ const MapComponent = () => {
     },
   ])
 
+  const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
   let coordinates = markersList.map(marker => ({
     latitude: marker.latitude,
@@ -48,12 +50,12 @@ const MapComponent = () => {
     setMarkersList(updatedMarkersList);
   }
 
-  const handleMarkerSelected = () => {
-    pass
+  const handleMarkerSelected = (id) => {
+    setSelectedMarkerId(id);
   }
 
   const handleMarkerDeselected = () => {
-    pass
+    setSelectedMarkerId(null);
   }
 
     return (
@@ -68,14 +70,14 @@ const MapComponent = () => {
 
                 }}
                 mapType='terrain'
-                showsBuildings = {true}       //not working???
-                showsMyLocationButton = {true} //not working???
-                showsCompass = {true}
+                showsBuildings
+                showsMyLocationButton
+                showsCompass 
                 onLongPress={(e) => handleMarkerAdding(e.nativeEvent.coordinate)}
-                onMarkerSelect={() => console.log('marker selected')}
-                onMarkerDeselect={() => console.log('marker deselected')}
+                // onMarkerSelect={(e) => handleMarkerSelected()}
+                // onMarkerDeselect={() => handleMarkerDeselected()}
 
-                >
+            >
 
               
               {markersList.map(marker => {
@@ -92,8 +94,22 @@ const MapComponent = () => {
                       handleMarkerDrag(markersList.findIndex(item => item.id === marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);
                     }}
+                    onPress={ (e) => handleMarkerSelected(marker.id)}
+                  >
+                    <Callout>
+                      <View style={styles.calloutContainer}>
+                        <Text>Informacje o położeniu markera:</Text>
+                        <Text>Latitude: {marker.latitude}</Text>
+                        <Text>Longitude: {marker.longitude}</Text>
+                        <Button
+                          title="Usuń"
+                          onPress={() => console.log('Buttone deleted')}
+                        />
+                      </View>
+                    </Callout>
+                    
 
-                  />
+                  </Marker>
                 )
               })}
 
