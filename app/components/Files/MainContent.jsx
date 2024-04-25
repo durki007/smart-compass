@@ -16,7 +16,6 @@ const MainContent = ({ savedRoutes }) => {
                 contentContainerStyle={styles.scrollViewContent}
                 showsVerticalScrollIndicator={false}
                 fadingEdgeLength={10}
-                centerContent={true}
             >
                 {savedRoutes.map((route, index) => (
                     <FileComponent key={index} name='X' date="2024-04-13" num={5} thisRoute={route} />
@@ -31,16 +30,14 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         flexDirection: 'column',
         alignSelf: 'center',
-        // justifyContent: 'center',
         width: '90%',
     },
 
     mainBox: {
-        flexDirection: 'column',
+        flex: 1,
         width: '90%',
         borderRadius: 20,
-        backgroundColor: 'rgba(238, 245, 219, 0.0)',
-        paddingTop: 20,
+        paddingTop: 30,
         paddingHorizontal: 0,
         paddingBottom: 20,
     },
