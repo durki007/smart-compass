@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import FileComponent from './FileComponent';
 
-const MainContent = () => {
+const MainContent = ({ savedRoutes }) => {
+    const [rerenderKey, setRerenderKey] = useState(0);
+
+    // Update rerenderKey whenever savedRoutes changes
+    useEffect(() => {
+        setRerenderKey(prevKey => prevKey + 1);
+    }, [savedRoutes]);
+
     return (
-      <View style={styles.mainBox}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}
-        showsVerticalScrollIndicator={false}
-        fadingEdgeLength={10}
-        centerContent={true}
-        >
-                <FileComponent name="John Doe" date="2024-04-13" num={5} />
-                <FileComponent name="AAA" date="2123-04-13" num={778} />
-                <FileComponent name="BB" date="2123-04-13" num={778} />
-                <FileComponent name="CCC" date="2123-04-13" num={778} />
-                <FileComponent name="DDD" date="2123-04-13" num={778} />
-        </ScrollView>
-      </View>
+        <View key={rerenderKey} style={styles.mainBox}>
+            <ScrollView
+                contentContainerStyle={styles.scrollViewContent}
+                showsVerticalScrollIndicator={false}
+                fadingEdgeLength={10}
+                centerContent={true}
+            >
+                {savedRoutes.map((route, index) => (
+                    <FileComponent key={index} name='X' date="2024-04-13" num={5} thisRoute={route} />
+                ))}
+            </ScrollView>
+        </View>
     );
 }
 
@@ -25,7 +31,8 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         flexDirection: 'column',
         alignSelf: 'center',
-        width: '90%', 
+        // justifyContent: 'center',
+        width: '90%',
     },
 
     mainBox: {

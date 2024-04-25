@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, Alert, View, Image, TouchableOpacity, Button } from 'react-native';
 import { useFonts } from 'expo-font'
 

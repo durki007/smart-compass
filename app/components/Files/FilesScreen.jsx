@@ -48,7 +48,10 @@ const FilesScreen = () => {
             retrieveRoutes={retrieveRoutes}
             clearAllData={clearAllData}
             />
-            <MainContent/>
+            <MainContent 
+            savedRoutes={savedRoutes}
+            setSavedRoutes={setSavedRoutes}
+            />
             {/* <FooterNavg/> */}
         </View>
     );
