@@ -1,24 +1,10 @@
 import React, { useState } from 'react';
-import MapView, {Marker, Polyline} from 'react-native-maps';
-import { StyleSheet, View } from 'react-native';
+import MapView, {Callout, Marker, Polyline} from 'react-native-maps';
+import { StyleSheet, View, Text, Button } from 'react-native';
 
 
-const MapComponent = () => {
 
-  const [markersList, setMarkersList] = useState([
-    {
-      id:1,
-      latitude: 37.78825,
-      longitude: -122.4324,
-      title: 'Marker 1'
-    },
-    {
-      id:2,
-      latitude: 37.68825,
-      longitude: -122.3324,
-      title: 'Marker 2'
-    },
-  ])
+const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleMarkerDrag, setSelectedMarker }) => {
 
 
   let coordinates = markersList.map(marker => ({
@@ -26,16 +12,19 @@ const MapComponent = () => {
     longitude: marker.longitude
   }));
 
-  const handleMarkerDrag = (index, newCoordinate) => {
-    const updatedMarkersList = [...markersList];
-    updatedMarkersList[index] = {
-      ...updatedMarkersList[index],
-      latitude: newCoordinate.latitude,
-      longitude: newCoordinate.longitude
-    };
-    setMarkersList(updatedMarkersList);
-  };
 
+  const handleMarkerSelected = (marker) => {
+    // console.
+    markersList.map(el => {if(el.id == marker.id){
+                          setSelectedMarker(el);
+                          }});
+    
+  }
+
+  const handleMarkerDeselected = () => {
+    console.log('unnn')
+    setSelectedMarker(null);
+  }
 
     return (
         <View style={styles.container}>
@@ -46,7 +35,17 @@ const MapComponent = () => {
                 longitude: -122.4324,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
-                }}>
+
+                }}
+                mapType='terrain'
+                showsBuildings
+                showsMyLocationButton
+                showsCompass 
+                onLongPress={(e) => handleMarkerAdding(e.nativeEvent.coordinate)}
+                onMarkerSelect={(e) => handleMarkerSelected(e.nativeEvent)}
+                onMarkerDeselect={() => handleMarkerDeselected()}
+
+            >
 
               
               {markersList.map(marker => {
@@ -58,15 +57,30 @@ const MapComponent = () => {
                       latitude: marker.latitude,
                       longitude: marker.longitude,
                     }}
+                    identifier={String(marker.id)}
                     title={marker.title} 
                     onDragEnd={(e) => {
-                      handleMarkerDrag(markersList.findIndex(item => item.id === marker.id), e.nativeEvent.coordinate);
+                      handleMarkerDrag(markersList.findIndex(item => item.id == marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);
-                    }}  
-                  />
+                    }}
+                    // onPress={ (e) => handleMarkerSelected(marker)}
+                  >
+                    {/* <Callout>
+                      <View style={styles.calloutContainer}>
+                        <Text>Informacje o położeniu markera:</Text>
+                        <Text>Latitude: {marker.latitude}</Text>
+                        <Text>Longitude: {marker.longitude}</Text>
+                        <Button
+                          title="Usuń"
+                          onPress={() => console.log('Buttone deleted')}
+                        />
+                      </View>
+                    </Callout>  */}
+                    
+
+                  </Marker>
                 )
-              })
-              }
+              })}
 
               <Polyline
                   coordinates={coordinates}

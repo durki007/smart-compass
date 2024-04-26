@@ -1,11 +1,11 @@
-import React from 'react';
-import { StyleSheet, Text, Alert, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, Alert, View, Image, TouchableOpacity, Button } from 'react-native';
 import { useFonts } from 'expo-font'
 
 
 
 
-const FilesHeader = () => {
+const FilesHeader = ({retrieveRoutes, clearAllData}) => {
 
     const [loaded] = useFonts({
         RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
@@ -22,6 +22,10 @@ const FilesHeader = () => {
         <View style ={styles.headerBox}>
             <View style={styles.headerLeftInnerBox}>
                 <Text style={styles.headerText}>Saved tracks</Text>
+            </View>
+            <View style={styles.headerRightInnerBox}>
+              <Button title='GET ROUTES' onPress={() => retrieveRoutes()}/>
+              <Button title='CLEAR' onPress={() => clearAllData()}/>
             </View>          
         </View>
     );
@@ -58,18 +62,6 @@ const styles = StyleSheet.create({
       headerText: {
         fontFamily: 'RobotoBlack',
         fontSize: 32,
-      },
-    
-      headerConnected: {
-        fontFamily: 'RobotoBlack',
-        fontSize: 24,
-        color: '#009933', // Kolor dla "connected"
-      },
-    
-      headerDisconnected: {
-        fontFamily: 'RobotoBlack',
-        fontSize: 24,
-        color: '#F00', // Kolor dla "disconnected"
       },
     
       headerRightInnerBox: {
