@@ -1,61 +1,65 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+
+/*
+KNOWN BUGS:
+  - dragging unselected marker causes details box to appear but taping somewhere else on the screen does not hide it
 
 
 
-const PointComponent = () => {
+
+*/
 
 
+const PointComponent = ({selectedMarker}) => {
 
-    return(
-        <View style ={styles.detailsBox}>
-            
-        </View>
+  const [showPointDetails, setShowPointDetails] = useState(false);
 
-    );
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const animatedHeight = showPointDetails ? withTiming(120) : withTiming(0);
+    return {
+      height: animatedHeight,
+    }
+  })
+
+  const closeDetailsBox = () => {
+    setShowPointDetails(false);
+  }
+
+  useEffect(() => {
+    selectedMarker !== null ? console.log(selectedMarker) : console.log('dupa');
+    setShowPointDetails(selectedMarker !== null ? true : false);
+  }, [selectedMarker]);
+
+  return(
+      <Animated.View style ={[styles.detailsBox, animatedStyle]}>
+          <Text>Latitude: {selectedMarker !== null ? selectedMarker.latitude : 'none'}</Text>
+          <Text>Longitude: {selectedMarker !== null ? selectedMarker.longitude : 'none'}</Text>
+          <Button title='Close' onPress={() => {closeDetailsBox()}}/>
+      </Animated.View>
+
+  );
 }
 
 const styles = StyleSheet.create({
 
     detailsBox: {
-        // flex: 1,
-        flexDirection: 'column',
-        alignContent: 'center',
-        justifyContent: 'center',
-        backgroundColor:'#B8D8D8',
-        width:'100%',
-        height: '15%',
-        paddingTop: 30,
-        paddingLeft: 10,
-        paddingBottom: 10,
-        paddingRight: 10,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-      },
-    
-      headerLeftInnerBox: {
+      
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         flex: 1,
         flexDirection: 'column',
-        height: 110,
-        marginLeft:12,
-        marginTop:10,
-        marginBottom: 5,
+        justifyContent: 'space-around',
+        backgroundColor: '#729294',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        zIndex: 1, 
       },
     
-      headerText: {
-        fontFamily: 'RobotoBlack',
-        fontSize: 32,
-      },
-    
-      headerRightInnerBox: {
-        marginTop:10,
-        width: 110,
-      },
-    
-      headerImage: {
-        height: 70,
-        resizeMode: 'contain',
-      },
-
 })
 
 export default PointComponent;

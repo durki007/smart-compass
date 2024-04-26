@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native';
 
 const FileComponent = ({ name, date, num, thisRoute }) => {
   const [showButtons, setShowButtons] = useState(false);
+
+  const navigation = useNavigation();
 
   const handlePress = () => {
     setShowButtons(!showButtons);
@@ -33,8 +35,8 @@ const FileComponent = ({ name, date, num, thisRoute }) => {
         <TouchableOpacity onPress={() => {console.log('',thisRoute)}} style={[styles.button, { backgroundColor: 'blue' }]}>
           <Text style={styles.buttonText}>CLog route</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { backgroundColor: 'green' }]}>
-          <Text style={styles.buttonText}>Button 2</Text>
+        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute }); }} style={[styles.button, { backgroundColor: 'green' }]}> 
+          <Text style={styles.buttonText}>Show on map</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
           <Text style={styles.buttonText}>Button 3</Text>

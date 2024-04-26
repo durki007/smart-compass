@@ -16,7 +16,7 @@ const FilesScreen = () => {
     const retrieveRoutes = async () => {
         try {
             const routeKeys = JSON.parse(await AsyncStorage.getItem('routeKeys')) || [];
-            console.log('routeKeys: ',routeKeys);
+            console.log('routeKeys: ', routeKeys);
             
             const routes = await Promise.all(routeKeys.map(async (key) => {
                 const routeJson = await AsyncStorage.getItem(key);

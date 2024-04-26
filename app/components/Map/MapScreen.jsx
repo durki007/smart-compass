@@ -1,14 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, Alert, View, Image, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MapHeader from './MapHeader';
 import MapComponent from './MapComponent';
 import PointComponent from './PointComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const MapScreen = () => {
+
+
+    // TODO: ARGUMENTS ARE NOT RECIEVED!
+    const navigation = useNavigation();
+    const route = useRoute();
+    
+    const [selectedMarker, setSelectedMarker] = useState(null);
+
+
+    useEffect(() => {
+        const routeToDisplay = route.params?.thatRoute;
+        if (routeToDisplay != null) {
+            setMarkersList(routeToDisplay);
+        }
+        console.log(markersList);
+    }, [route.params?.thatRoute]);
 
     const [markersList, setMarkersList] = useState([
         {
@@ -25,7 +41,6 @@ const MapScreen = () => {
         },
     ])
 
-    
 
 
     const handleMarkerDrag = (index, newCoordinate) => {
@@ -36,6 +51,7 @@ const MapScreen = () => {
             longitude: newCoordinate.longitude
         };
         setMarkersList(updatedMarkersList);
+        setSelectedMarker(updatedMarkersList[index]);
     };
     
     
@@ -95,8 +111,11 @@ const MapScreen = () => {
                 setMarkersList={setMarkersList}
                 handleMarkerAdding={handleMarkerAdding}
                 handleMarkerDrag={handleMarkerDrag}
+                setSelectedMarker={setSelectedMarker}
             />
-            {/* <PointComponent/> */}
+            <PointComponent
+                selectedMarker={selectedMarker}
+            />
         </View>
     );
 };

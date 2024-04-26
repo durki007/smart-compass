@@ -4,9 +4,8 @@ import { StyleSheet, View, Text, Button } from 'react-native';
 
 
 
-const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleMarkerDrag }) => {
+const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleMarkerDrag, setSelectedMarker }) => {
 
-  const [selectedMarkerId, setSelectedMarkerId] = useState(null);
 
   let coordinates = markersList.map(marker => ({
     latitude: marker.latitude,
@@ -14,12 +13,17 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
   }));
 
 
-  const handleMarkerSelected = (id) => {
-    setSelectedMarkerId(id);
+  const handleMarkerSelected = (marker) => {
+    // console.
+    markersList.map(el => {if(el.id == marker.id){
+                          setSelectedMarker(el);
+                          }});
+    
   }
 
   const handleMarkerDeselected = () => {
-    setSelectedMarkerId(null);
+    console.log('unnn')
+    setSelectedMarker(null);
   }
 
     return (
@@ -38,8 +42,8 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                 showsMyLocationButton
                 showsCompass 
                 onLongPress={(e) => handleMarkerAdding(e.nativeEvent.coordinate)}
-                // onMarkerSelect={(e) => handleMarkerSelected()}
-                // onMarkerDeselect={() => handleMarkerDeselected()}
+                onMarkerSelect={(e) => handleMarkerSelected(e.nativeEvent)}
+                onMarkerDeselect={() => handleMarkerDeselected()}
 
             >
 
@@ -53,14 +57,15 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                       latitude: marker.latitude,
                       longitude: marker.longitude,
                     }}
+                    identifier={String(marker.id)}
                     title={marker.title} 
                     onDragEnd={(e) => {
-                      handleMarkerDrag(markersList.findIndex(item => item.id === marker.id), e.nativeEvent.coordinate);
+                      handleMarkerDrag(markersList.findIndex(item => item.id == marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);
                     }}
-                    onPress={ (e) => handleMarkerSelected(marker.id)}
+                    // onPress={ (e) => handleMarkerSelected(marker)}
                   >
-                    <Callout>
+                    {/* <Callout>
                       <View style={styles.calloutContainer}>
                         <Text>Informacje o położeniu markera:</Text>
                         <Text>Latitude: {marker.latitude}</Text>
@@ -70,7 +75,7 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                           onPress={() => console.log('Buttone deleted')}
                         />
                       </View>
-                    </Callout>
+                    </Callout>  */}
                     
 
                   </Marker>
