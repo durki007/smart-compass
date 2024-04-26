@@ -66,6 +66,18 @@ const MapScreen = () => {
         setMarkersList(updatedMarkersList);
     }
 
+    const handleDeletePoint = (markerToDeleteId) => {
+        const markerIndex = markersList.findIndex(item => item.id === markerToDeleteId);
+        if (markerIndex !== -1) { // Check if markerIndex is found
+            const updatedMarkersList = [...markersList]; // Create a copy of the markers list
+            updatedMarkersList.splice(markerIndex, 1); // Remove the marker at markerIndex
+            setMarkersList(updatedMarkersList); // Update the state with the new list
+        } else {
+            console.error(`Marker with ID ${markerToDeleteId} not found.`);
+        }
+    };
+    
+
 
     const saveCourse = async () => {
         console.log(markersList);
@@ -115,6 +127,8 @@ const MapScreen = () => {
             />
             <PointComponent
                 selectedMarker={selectedMarker}
+                handleDeletePoint = {handleDeletePoint}
+                setSelectedMarker = {setSelectedMarker}
             />
         </View>
     );

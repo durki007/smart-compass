@@ -12,7 +12,7 @@ KNOWN BUGS:
 */
 
 
-const PointComponent = ({selectedMarker}) => {
+const PointComponent = ({selectedMarker, handleDeletePoint, setSelectedMarker}) => {
 
   const [showPointDetails, setShowPointDetails] = useState(false);
 
@@ -28,8 +28,14 @@ const PointComponent = ({selectedMarker}) => {
     setShowPointDetails(false);
   }
 
+  const handleDeletePress = () => {
+    handleDeletePoint(selectedMarker.id);
+    closeDetailsBox();
+    setSelectedMarker(null);
+  }
+
   useEffect(() => {
-    selectedMarker !== null ? console.log(selectedMarker) : console.log('dupa');
+    // selectedMarker !== null ? console.log(selectedMarker) : console.log('dupa');
     setShowPointDetails(selectedMarker !== null ? true : false);
   }, [selectedMarker]);
 
@@ -38,6 +44,7 @@ const PointComponent = ({selectedMarker}) => {
           <Text>Latitude: {selectedMarker !== null ? selectedMarker.latitude : 'none'}</Text>
           <Text>Longitude: {selectedMarker !== null ? selectedMarker.longitude : 'none'}</Text>
           <Button title='Close' onPress={() => {closeDetailsBox()}}/>
+          <Button title='Delete' onPress={() => {handleDeletePress()}} />
       </Animated.View>
 
   );
