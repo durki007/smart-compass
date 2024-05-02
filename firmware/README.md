@@ -19,6 +19,14 @@ The `main` folder contains the entry point of the application. All tasks are cre
 The `components` folder contains the drivers for the sensors and the BLE configuration.
 Each component defines a set of functions to initialize, read, and write data to the sensor.
 
+### Third party components
+Refer to `.gitmodules` for exact information. 
+>To avoid dependency issues, use the correct versions of components.
+
+Components used:
+- [lvgl v8.3](https://github.com/lvgl/lvgl.git)
+- [lvgl_esp32_drivers](https://github.com/hiruna/lvgl_esp32_drivers.git)
+Fork by [hiruna](https://github.com/hiruna) with some modifications to work with the latest version of `lvgl` and `esp-idf v.5.2`.
 ## Build
 #### Prerequisites
 - [ESP-IDF v.5.2.1](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html#manual-installation)
