@@ -1,6 +1,6 @@
 # Created by idf.py
 build
-sdkconfig
+#sdkconfig
 sdkconfig.old
 dependencies.lock
 # Windows CLion
