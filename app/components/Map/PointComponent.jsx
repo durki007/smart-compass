@@ -35,7 +35,6 @@ const PointComponent = ({selectedMarker, handleDeletePoint, setSelectedMarker}) 
   }
 
   useEffect(() => {
-    // selectedMarker !== null ? console.log(selectedMarker) : console.log('dupa');
     setShowPointDetails(selectedMarker !== null ? true : false);
   }, [selectedMarker]);
 

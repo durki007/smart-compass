@@ -54,7 +54,7 @@ const MainContent = (props) => {
     hideModal();
     if (connectedDevice) {
       props.changeConnectionStatus(true);
-      console.log('Połączono z urządzeniemmmmmm: ', connectedDevice.name);
+      console.log('Połączono z urządzeniem: ', connectedDevice.name);
     }
   };
 

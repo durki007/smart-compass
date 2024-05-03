@@ -30,8 +30,8 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
             <MapView
                 style={styles.map}
                 initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
+                latitude: 51.10895471374126,
+                longitude: 17.060079514398662,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
 
@@ -62,21 +62,8 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                       handleMarkerDrag(markersList.findIndex(item => item.id == marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);
                     }}
-                    // onPress={ (e) => handleMarkerSelected(marker)}
                   >
-                    {/* <Callout>
-                      <View style={styles.calloutContainer}>
-                        <Text>Informacje o położeniu markera:</Text>
-                        <Text>Latitude: {marker.latitude}</Text>
-                        <Text>Longitude: {marker.longitude}</Text>
-                        <Button
-                          title="Usuń"
-                          onPress={() => console.log('Buttone deleted')}
-                        />
-                      </View>
-                    </Callout>  */}
-                    
-
+               
                   </Marker>
                 )
               })}
