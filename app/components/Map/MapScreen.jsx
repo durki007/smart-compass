@@ -11,7 +11,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 const MapScreen = () => {
 
 
-    // TODO: ARGUMENTS ARE NOT RECIEVED!
     const navigation = useNavigation();
     const route = useRoute();
     
@@ -29,14 +28,14 @@ const MapScreen = () => {
     const [markersList, setMarkersList] = useState([
         {
           id:1,
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: 51.10895471374126,
+          longitude: 17.060079514398662,
           title: 'Marker 1'
         },
         {
           id:2,
-          latitude: 37.68825,
-          longitude: -122.3324,
+          latitude: 51.10744078549627,
+          longitude: 17.06103398066831,
           title: 'Marker 2'
         },
     ])
@@ -59,7 +58,7 @@ const MapScreen = () => {
         const updatedMarkersList = [...markersList];
         const lastMarker = updatedMarkersList.slice(-1)[0];  
         updatedMarkersList.push({ 
-            id: lastMarker.id + 1,
+            id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
             latitude: newPointCoordinate.latitude, 
             longitude: newPointCoordinate.longitude 
         });

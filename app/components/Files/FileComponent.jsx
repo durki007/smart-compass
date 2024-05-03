@@ -3,9 +3,24 @@ import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import useBLE from '../Bluetooth/useBLE';
+
+
 
 const FileComponent = ({ name, date, num, thisRoute }) => {
   const [showButtons, setShowButtons] = useState(false);
+
+  const {
+    requestPermissions,
+    scanForPeripherals,
+    allDevices,
+    connectToDevice,
+    connectedDevice,
+    disconnectFromDevice,
+    sendMessage,
+    checkConnection,
+    serviceId,
+  } = useBLE();
 
   const navigation = useNavigation();
 
@@ -19,6 +34,20 @@ const FileComponent = ({ name, date, num, thisRoute }) => {
       height: animatedHeight,
     }
   })
+
+  const handleSendFile = (file) => {
+    if(checkConnection()) {
+      console.log(serviceId);
+      if (sendMessage(file)){
+        console.log('Data sent successfuly');
+      } else {
+        console.log('error sending data.');
+      }
+
+    } else {
+      console.log('No device connected!');
+    }
+  }
 
   
 
@@ -39,7 +68,7 @@ const FileComponent = ({ name, date, num, thisRoute }) => {
           <Text style={styles.buttonText}>Show on map</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
-          <Text style={styles.buttonText}>Button 3</Text>
+          <Text style={styles.buttonText} onPress={ () => handleSendFile(thisRoute)}>Send to device</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>

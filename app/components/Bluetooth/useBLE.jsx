@@ -1,5 +1,5 @@
 
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {PermissionsAndroid, Platform} from 'react-native';
 import {
   BleError,
@@ -10,17 +10,28 @@ import {
 import { Buffer } from 'buffer';
 import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
+import {BLEContext} from '../BLEProvider';
 
 const bleManager = new BleManager();
 
-let serviceid="d0611e78-bbb4-4591-a5f8-487910ae4366";
-let caracid="8667556c-9a37-4c91-84ed-54ee27d90049";
-const dataToSend = 'Hello, BLE!';
+
 
 function useBLE() {
-  const [allDevices, setAllDevices] = useState([]);
-  const [connectedDevice, setConnectedDevice] = useState(null);
-  const [heartRate, setHeartRate] = useState(0);
+  const {
+    serviceId,
+    setServiceId,
+    caracId,
+    setCaradId,
+    allDevices,
+    setAllDevices,
+    connectedDevice,
+    setConnectedDevice
+  } = useContext(BLEContext);
+
+  // const [serviceId, setServiceId] = useState("d0611e78-bbb4-4591-a5f8-487910ae4366");
+  // const [caracId, setCaradId] = useState("8667556c-9a37-4c91-84ed-54ee27d90049");
+  // const [allDevices, setAllDevices] = useState([]);
+  // const [connectedDevice, setConnectedDevice] = useState(null);
 
   const requestPermissions = async (cb) => {
     if (Platform.OS === 'android') {
@@ -83,6 +94,8 @@ function useBLE() {
   const connectToDevice = async (device) => {
 
     try {
+      let foundCharacteristic = null;
+
       console.log('Trying to connect to dev: ', device.name);
 
       await bleManager.connectToDevice(device.id);
@@ -98,6 +111,33 @@ function useBLE() {
         const characteristics = await service.characteristics();
         console.log('Characteristics for service', service.uuid, ':', characteristics);
       });
+
+      
+      for (const service of services) {
+        const characteristics = await service.characteristics();
+        console.log('Characteristics for service', service.uuid, ':', characteristics);
+        
+        // Find the first writable characteristic
+        const writableCharacteristic = characteristics.find(characteristic => {
+          return characteristic.isWritableWithResponse;
+        });
+        
+        if (writableCharacteristic) {
+          foundCharacteristic = writableCharacteristic;
+          break; // Exit the loop if a writable characteristic is found
+        }
+      }
+      
+      if (foundCharacteristic) {
+        // Set the UUIDs of the found characteristic in the state variables
+        setServiceId(foundCharacteristic.serviceUUID);
+        setCaradId(foundCharacteristic.uuid);
+        
+        console.log('Writable characteristic found:', foundCharacteristic);
+      } else {
+        console.log('No writable characteristic found');
+      }
+
       
       bleManager.stopDeviceScan();
       console.log('connected to device!: ', device.name)
@@ -134,25 +174,33 @@ function useBLE() {
             result['android.permission.BLUETOOTH_CONNECT'] &&
             result['android.permission.ACCESS_FINE_LOCATION'] === 'never_ask_again')
           ) {
-            console.log('User accepted');
+            // console.log('User accepted');
           } else {
-            console.log('User refused');        
+            // console.log('User refused');        
             }
         });
     }
 
   })
 
-  const sendMessage = () => {
+  const sendMessage = (message) => {
         try {
-            const base64Value = Buffer.from("Ala ma kota").toString('base64');
-            connectedDevice.writeCharacteristicWithResponseForService(serviceid, caracid, base64Value);
-            console.log('Message sent');
+          const base64Value = Buffer.from(message).toString('base64');
+          let response = connectedDevice.writeCharacteristicWithResponseForService(serviceId, caracId, base64Value);
+          console.log('Message sent. Response: ', response);
+          return true;
         } catch (error){
-            console.error('Error sending message:', error);
+          console.error('Error sending message:', error);
+          return false;
         }
+  }
 
-      
+  const checkConnection = async () => {
+    if (connectedDevice && await connectedDevice.isConnected()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -164,6 +212,8 @@ function useBLE() {
     connectedDevice,
     disconnectFromDevice,
     sendMessage,
+    checkConnection,
+    serviceId,
   };
 }
 
