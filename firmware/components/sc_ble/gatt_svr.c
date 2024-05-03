@@ -1,22 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -35,7 +16,8 @@ static const ble_uuid128_t gatt_svr_svc_uuid =
                      0x99, 0x99, 0x43, 0x95, 0x12, 0x2f, 0x46, 0x59);
 
 /* A characteristic that can be subscribed to */
-static uint8_t gatt_svr_chr_val;
+//static uint8_t gatt_svr_chr_val;
+static uint8_t gatt_svr_chr_val[256];
 static uint16_t gatt_svr_chr_val_handle;
 static const ble_uuid128_t gatt_svr_chr_uuid =
     BLE_UUID128_INIT(0x00, 0x00, 0x00, 0x00, 0x11, 0x11, 0x11, 0x11,
@@ -103,6 +85,8 @@ gatt_svr_write(struct os_mbuf *om, uint16_t min_len, uint16_t max_len,
 
     om_len = OS_MBUF_PKTLEN(om);
     if (om_len < min_len || om_len > max_len) {
+        ESP_LOGE("GATT_SVR_WRITE", "Invalid length; om_len=%d min_len=%d max_len=%d",
+                 om_len, min_len, max_len);
         return BLE_ATT_ERR_INVALID_ATTR_VALUE_LEN;
     }
 
@@ -161,7 +145,7 @@ gatt_svc_access(uint16_t conn_handle, uint16_t attr_handle,
         uuid = ctxt->chr->uuid;
         if (attr_handle == gatt_svr_chr_val_handle) {
             rc = gatt_svr_write(ctxt->om,
-                                sizeof(gatt_svr_chr_val),
+                                1,
                                 sizeof(gatt_svr_chr_val),
                                 &gatt_svr_chr_val, NULL);
             ble_gatts_chr_updated(attr_handle);
