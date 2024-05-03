@@ -14,7 +14,6 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
 
 
   const handleMarkerSelected = (marker) => {
-    // console.
     markersList.map(el => {if(el.id == marker.id){
                           setSelectedMarker(el);
                           }});

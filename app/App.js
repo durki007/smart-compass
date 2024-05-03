@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons, Feather, Octicons } from '@expo/vector-icons';
 import SettingsScreen from './components/Settings/SettingsScreen';
 import MapScreen from './components/Map/MapScreen';
+import { BLEProvider } from './components/BLEProvider';
 
 // const Stack = createNativeStackNavigator();
 
@@ -79,12 +80,12 @@ function BottomTabNavg() {
 export default function App() {
 
   return(
-
-    <NavigationContainer>
-      <BottomTabNavg/>
-      <StatusBar style="auto" />
-    </NavigationContainer>
-
+    <BLEProvider>
+      <NavigationContainer>
+        <BottomTabNavg/>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </BLEProvider>
   )
 }
 

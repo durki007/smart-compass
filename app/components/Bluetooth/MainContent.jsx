@@ -86,9 +86,9 @@ const MainContent = (props) => {
   }
   
 
- const handelSendFile = () => {
+ const handelSendFile = (file) => {
 
-  sendMessage();
+  sendMessage(file);
  }
 
   return (
@@ -107,7 +107,7 @@ const MainContent = (props) => {
         ))}
       </View>
       <Button styles={styles.utilButtons} title='SCAN' onPress={()=>scanForDevices()}/>
-      <Button title='SEND' onPress={()=>handelSendFile()}/>
+      <Button title='SEND' onPress={()=>handelSendFile('Ala ma kota')}/>
       <Button title='CHECK CONNECTION' onPress={()=>handleCheckConnection()}/>
       <Button title='DISCONNECT' onPress={()=>handleDisconnect()}/>
 
