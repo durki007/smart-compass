@@ -24,10 +24,7 @@ void uart_read_task(void *arg) {
     ESP_ERROR_CHECK(uart_param_config(uart_num, &uart_config));
     ESP_ERROR_CHECK(uart_set_pin(uart_num, 17, 16, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
 
-    ESP_LOGI(TAG, "UART init done");
-    uart_flush(uart_num);
-
-    uint8_t *data = (uint8_t *) malloc(BUF_SIZE);
+    uint8_t *data = (uint8_t *)malloc(BUF_SIZE);
     int char_in_line_count = 0;
 
     while (1) {
