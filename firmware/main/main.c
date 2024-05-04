@@ -8,6 +8,11 @@
 
 compass_data_t compass_data;
 
+void log_compass_data() {
+    ESP_LOGI("compass_data", "Position: %f, %f", compass_data.position.lat, compass_data.position.lon);
+    ESP_LOGI("compass_data", "Path length: %lu", compass_data.path.length);
+}
+
 void
 app_main(void)
 {
