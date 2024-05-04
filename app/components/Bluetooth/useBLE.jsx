@@ -180,7 +180,6 @@ function useBLE() {
         }
       });
     }
-
   })
 
   const sendMessage = (message) => {
