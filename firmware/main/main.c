@@ -4,6 +4,7 @@
 
 #include "sc_ble.h"
 #include "sc_display.h"
+#include "sc_gps.h"
 #include "compass_data.h"
 
 compass_data_t compass_data;
