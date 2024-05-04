@@ -28,10 +28,6 @@ function useBLE() {
     setConnectedDevice
   } = useContext(BLEContext);
 
-  // const [serviceId, setServiceId] = useState("d0611e78-bbb4-4591-a5f8-487910ae4366");
-  // const [caracId, setCaradId] = useState("8667556c-9a37-4c91-84ed-54ee27d90049");
-  // const [allDevices, setAllDevices] = useState([]);
-  // const [connectedDevice, setConnectedDevice] = useState(null);
 
   const requestPermissions = async (cb) => {
     if (Platform.OS === 'android') {
@@ -80,7 +76,6 @@ function useBLE() {
         console.log(error);
       }
       if (device && device.name) {
-        console.log('Detected new device:', device.name);
 
         setAllDevices((prevState) => {
           if (!isDuplicteDevice(prevState, device)) {
@@ -96,26 +91,24 @@ function useBLE() {
     try {
       let foundCharacteristic = null;
 
-      console.log('Trying to connect to dev: ', device.name);
-
       await bleManager.connectToDevice(device.id);
 
       await device.discoverAllServicesAndCharacteristics();
 
       // RETRIEVE SERVICES
       const services = await device.services();
-      console.log('services: ', services);
+      // console.log('services: ', services);
 
-      // PRINT AVALIABLE CHARACTERISTICS
-      services.forEach(async (service) => {
-        const characteristics = await service.characteristics();
-        console.log('Characteristics for service', service.uuid, ':', characteristics);
-      });
+      // // PRINT AVALIABLE CHARACTERISTICS
+      // services.forEach(async (service) => {
+      //   const characteristics = await service.characteristics();
+      //   console.log('Characteristics for service', service.uuid, ':', characteristics);
+      // });
 
 
       for (const service of services) {
         const characteristics = await service.characteristics();
-        console.log('Characteristics for service', service.uuid, ':', characteristics);
+        // console.log('Characteristics for service', service.uuid, ':', characteristics);
 
         // Find the first writable characteristic
         const pathCharacteristic = characteristics.find(characteristic => {
@@ -140,9 +133,9 @@ function useBLE() {
 
 
       bleManager.stopDeviceScan();
-      console.log('connected to device!: ', device.name)
+      // console.log('connected to device!: ', device.name)
 
-      setConnectedDevice(device);
+      setConnectedDevice(device); // TODO: fix
 
     } catch (e) {
       console.log('FAILED TO CONNECT', e);
@@ -150,7 +143,6 @@ function useBLE() {
   };
 
   const disconnectFromDevice = () => {
-    console.log(connectedDevice);
     if (connectedDevice) {
       bleManager.cancelDeviceConnection(connectedDevice.id);
       setConnectedDevice(null);
