@@ -18,7 +18,7 @@ const MainContent = ({ savedRoutes }) => {
                 fadingEdgeLength={10}
             >
                 {savedRoutes.map((route, index) => (
-                    <FileComponent key={index} name='X' date="2024-04-13" num={5} thisRoute={route} />
+                    <FileComponent key={index} name={route.size} date={index} num={5} thisRoute={route} />  // might be wrong
                 ))}
             </ScrollView>
         </View>
