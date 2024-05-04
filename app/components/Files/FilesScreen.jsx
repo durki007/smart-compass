@@ -1,17 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, Alert, View, Image, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font'
-import React, { useState } from 'react';
-import MainContent from './MainContent';
+import React, { useState, useEffect } from 'react';
+import FilesListComponent from './FilesListComponent';
 import FooterNavg from '../FooterNavg';
 import FilesHeader from './FilesHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native'; // Import useIsFocused hook
 
 
 const FilesScreen = () => {
 
     const [savedRoutes, setSavedRoutes] = useState([]);
-
+    const isFocused = useIsFocused(); // Track whether the screen is focused
 
     const retrieveRoutes = async () => {
         try {
@@ -34,25 +35,30 @@ const FilesScreen = () => {
         try {
             await AsyncStorage.clear();
             console.log('AsyncStorage cleared successfully.');
+            await retrieveRoutes();
         } catch (error) {
             console.error('Error clearing AsyncStorage:', error);
         }
     };
 
+    useEffect(() => {
+        if (isFocused) {
+            console.log("Component is focused, fetching routes");
+            retrieveRoutes(); // Fetch routes when the screen is focused
+        }
+    }, [isFocused]); // Run the effect whenever isFocused changes
 
 
 
     return(
         <View style={styles.container}>
             <FilesHeader 
-            retrieveRoutes={retrieveRoutes}
-            clearAllData={clearAllData}
+                clearAllData={clearAllData}
             />
-            <MainContent 
-            savedRoutes={savedRoutes}
-            setSavedRoutes={setSavedRoutes}
+            <FilesListComponent 
+                savedRoutes={savedRoutes}
+                setSavedRoutes={setSavedRoutes}
             />
-            {/* <FooterNavg/> */}
         </View>
     );
 

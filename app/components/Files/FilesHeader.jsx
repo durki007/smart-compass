@@ -24,7 +24,6 @@ const FilesHeader = ({retrieveRoutes, clearAllData}) => {
                 <Text style={styles.headerText}>Saved tracks</Text>
             </View>
             <View style={styles.headerRightInnerBox}>
-              <Button title='GET ROUTES' onPress={() => retrieveRoutes()}/>
               <Button title='CLEAR' onPress={() => clearAllData()}/>
             </View>          
         </View>
