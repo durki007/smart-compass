@@ -63,6 +63,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
       floatArray[offset + 1] = marker[1];
       offset += 2; // Move to the next marker
     });
+    console.log("Float Array: ", floatArray);
 
     const outputBufferSize = 4 + (totalFloats * 4); // 4 bytes for the marker count, 4 bytes for each float (latitude and longitude)
     const littleEndian = true;
@@ -80,7 +81,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
     for (let i = 0; i < outputBufferSize; i++) {
       hexString += outputDataView.getUint8(i).toString(16) + ' ';
     }
-    console.log(hexString);
+    console.log("HEX String: ", hexString);
 
     return outputBuffer;
   };
