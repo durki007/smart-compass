@@ -83,10 +83,12 @@ static const struct ble_gatt_svc_def gatt_svr_svcs[] = {
 
 
 void log_characteristic_value() {
-    char buf[256];
+    char buf[MAX_CHAR_LEN];
     memcpy(buf, gatt_svr_chr_val, sizeof(gatt_svr_chr_val));
     buf[sizeof(gatt_svr_chr_val) - 1] = '\0';
-    ESP_LOGI("GATT_CHR_VALUE", "Value: %s", gatt_svr_chr_val);
+    ESP_LOGI("GATT_CHR_VALUE", "%s", gatt_svr_chr_val);
+    // Log value in hex
+    ESP_LOG_BUFFER_HEX("GATT_CHR_VALUE_HEX", gatt_svr_chr_val, sizeof(gatt_svr_chr_val));
 }
 
 void update_shared_variable() {
