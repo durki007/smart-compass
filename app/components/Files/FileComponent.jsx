@@ -83,10 +83,10 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
         </View>
       </TouchableOpacity>
       <Animated.View style={[styles.buttonContainer, animatedStyle]}>
-        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data)} style={[styles.button, { backgroundColor: 'blue' }]}>
+        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data.markers)} style={[styles.button, { backgroundColor: 'blue' }]}>
           <Text style={styles.buttonText}>Send to device</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute.data }); }} style={[styles.button, { backgroundColor: 'green' }]}> 
+        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute.data.markers }); }} style={[styles.button, { backgroundColor: 'green' }]}> 
           <Text style={styles.buttonText}>Show on map</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
