@@ -7,9 +7,11 @@
 #include "services/gatt/ble_svc_gatt.h"
 #include "bleprph.h"
 #include "services/ans/ble_svc_ans.h"
+#include "compass_data.h"
 
 /*** Maximum number of characteristics with the notify flag ***/
 #define MAX_NOTIFY 5
+#define MAX_CHAR_LEN 1024
 
 static const ble_uuid128_t gatt_svr_svc_uuid =
         BLE_UUID128_INIT(0x2d, 0x71, 0xa2, 0x59, 0xb4, 0x58, 0xc8, 0x12,
@@ -17,7 +19,7 @@ static const ble_uuid128_t gatt_svr_svc_uuid =
 
 /* A characteristic that can be subscribed to */
 //static uint8_t gatt_svr_chr_val;
-static uint8_t gatt_svr_chr_val[256];
+static uint8_t gatt_svr_chr_val[MAX_CHAR_LEN];
 static uint16_t gatt_svr_chr_val_handle;
 static const ble_uuid128_t gatt_svr_chr_uuid =
         BLE_UUID128_INIT(0x00, 0x00, 0x00, 0x00, 0x11, 0x11, 0x11, 0x11,
@@ -87,6 +89,15 @@ void log_characteristic_value() {
     ESP_LOGI("GATT_CHR_VALUE", "Value: %s", gatt_svr_chr_val);
 }
 
+void update_shared_variable() {
+    compass_data_t *compass_data_ptr = &compass_data;
+    compass_path_t *path = &compass_data_ptr->path;
+    if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
+        memcpy(path, gatt_svr_chr_val, sizeof(compass_path_t));
+        xSemaphoreGive(compass_data_ptr->mutex);
+    }
+}
+
 static int
 gatt_svr_write(struct os_mbuf *om, uint16_t min_len, uint16_t max_len,
                void *dst, uint16_t *len) {
@@ -106,6 +117,8 @@ gatt_svr_write(struct os_mbuf *om, uint16_t min_len, uint16_t max_len,
     }
 
     log_characteristic_value();
+    update_shared_variable();
+    log_compass_data();
     return 0;
 }
 
