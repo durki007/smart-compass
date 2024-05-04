@@ -79,7 +79,7 @@ const MapScreen = () => {
 
 
     const saveCourse = async () => {
-        console.log(markersList);
+
         const routeJson = JSON.stringify(markersList);
     
         try {

@@ -7,7 +7,7 @@ import useBLE from '../Bluetooth/useBLE';
 
 
 
-const FileComponent = ({ name, date, num, thisRoute }) => {
+const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
   const [showButtons, setShowButtons] = useState(false);
 
   const {
@@ -83,14 +83,14 @@ const FileComponent = ({ name, date, num, thisRoute }) => {
         </View>
       </TouchableOpacity>
       <Animated.View style={[styles.buttonContainer, animatedStyle]}>
-        <TouchableOpacity onPress={() => {console.log('',thisRoute)}} style={[styles.button, { backgroundColor: 'blue' }]}>
-          <Text style={styles.buttonText}>CLog route</Text>
+        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data)} style={[styles.button, { backgroundColor: 'blue' }]}>
+          <Text style={styles.buttonText}>Send to device</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute }); }} style={[styles.button, { backgroundColor: 'green' }]}> 
+        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute.data }); }} style={[styles.button, { backgroundColor: 'green' }]}> 
           <Text style={styles.buttonText}>Show on map</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
-          <Text style={styles.buttonText} onPress={ () => handleSendFile(thisRoute)}>Send to device</Text>
+          <Text style={styles.buttonText} onPress={ () => deleteRoute(thisRoute.id)}>Delete</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
