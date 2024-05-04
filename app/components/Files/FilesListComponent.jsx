@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import FileComponent from './FileComponent';
 
-const MainContent = ({ savedRoutes }) => {
+const MainContent = ({ savedRoutes, deleteRoute }) => {
     const [rerenderKey, setRerenderKey] = useState(0);
 
     // Update rerenderKey whenever savedRoutes changes
@@ -18,7 +18,14 @@ const MainContent = ({ savedRoutes }) => {
                 fadingEdgeLength={10}
             >
                 {savedRoutes.map((route, index) => (
-                    <FileComponent key={index} name='X' date="2024-04-13" num={5} thisRoute={route} />
+                    <FileComponent
+                    key={route.id} 
+                    name={route.data.name} //TODO: include this data
+                    date={route.data.date} //TODO: include this data
+                    num={route.data.length} // TODO: count markers
+                    thisRoute={route}
+                    deleteRoute={deleteRoute}
+                />
                 ))}
             </ScrollView>
         </View>
