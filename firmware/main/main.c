@@ -27,8 +27,10 @@ app_main(void)
                     .length = 0
             }
     };
-    ESP_LOGI("main", "BLE init");
-    sc_ble_init();
-    ESP_LOGI("main", "Display init");
-    sc_display_init();
+//    ESP_LOGI("main", "BLE init");
+//    sc_ble_init();
+//    ESP_LOGI("main", "Display init");
+//    sc_display_init();
+    ESP_LOGI("main", "GPS init");
+    sc_gps_init();
 }
