@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -36,9 +36,9 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
   })
 
   const handleSendFile = (file) => {
-    if(checkConnection()) {
+    if (checkConnection()) {
       // console.log(serviceId);
-      if (sendMessage(prepareFile(file))){
+      if (sendMessage(prepareFile(file))) {
         console.log('Data sent successfuly');
       } else {
         console.log('error sending data.');
@@ -54,21 +54,35 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
     const markers = file.map(marker => [marker.latitude, marker.longitude]);
     const markerCount = markers.length;
 
-    // Prepare for sending
-    const totalFloats = markerCount * 2; 
-    const dataToSend = new Float32Array(1 + totalFloats); 
-
-    dataToSend[0] = markerCount;
-    
-    let offset = 1; // Start after the marker count
+    // Prepare flot array 
+    const totalFloats = markerCount * 2;
+    let floatArray = new Float32Array(totalFloats);
+    let offset = 0;
     markers.forEach(marker => {
-        
-        dataToSend[offset] = marker[0]; 
-        dataToSend[offset + 1] = marker[1];
-        offset += 2; // Move to the next marker
+      floatArray[offset] = marker[0];
+      floatArray[offset + 1] = marker[1];
+      offset += 2; // Move to the next marker
     });
 
-    return dataToSend;
+    const outputBufferSize = 4 + (totalFloats * 4); // 4 bytes for the marker count, 4 bytes for each float (latitude and longitude)
+    const littleEndian = true;
+    let outputBuffer = new ArrayBuffer(outputBufferSize);
+    let outputDataView = new DataView(outputBuffer);
+    // Set the marker count
+    outputDataView.setInt32(0, markerCount, littleEndian);
+    // Set the marker data
+    for (let i = 0; i < totalFloats; i++) {
+      outputDataView.setFloat32(4 + (i * 4), floatArray[i], littleEndian);
+    }
+
+    // Print data in hex
+    let hexString = '';
+    for (let i = 0; i < outputBufferSize; i++) {
+      hexString += outputDataView.getUint8(i).toString(16) + ' ';
+    }
+    console.log(hexString);
+
+    return outputBuffer;
   };
 
 
@@ -86,11 +100,11 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
         <TouchableOpacity onPress={() => handleSendFile(thisRoute.data.markers)} style={[styles.button, { backgroundColor: 'blue' }]}>
           <Text style={styles.buttonText}>Send to device</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute.data.markers }); }} style={[styles.button, { backgroundColor: 'green' }]}> 
+        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute.data.markers }); }} style={[styles.button, { backgroundColor: 'green' }]}>
           <Text style={styles.buttonText}>Show on map</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
-          <Text style={styles.buttonText} onPress={ () => deleteRoute(thisRoute.id)}>Delete</Text>
+          <Text style={styles.buttonText} onPress={() => deleteRoute(thisRoute.id)}>Delete</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
