@@ -37,8 +37,8 @@ const FileComponent = ({ name, date, num, thisRoute }) => {
 
   const handleSendFile = (file) => {
     if(checkConnection()) {
-      console.log(serviceId);
-      if (sendMessage(file)){
+      // console.log(serviceId);
+      if (sendMessage(prepareFile(file))){
         console.log('Data sent successfuly');
       } else {
         console.log('error sending data.');
@@ -49,7 +49,29 @@ const FileComponent = ({ name, date, num, thisRoute }) => {
     }
   }
 
-  
+  const prepareFile = (file) => {
+    // Extract data
+    const markers = file.map(marker => [marker.latitude, marker.longitude]);
+    const markerCount = markers.length;
+
+    // Prepare for sending
+    const totalFloats = markerCount * 2; 
+    const dataToSend = new Float32Array(1 + totalFloats); 
+
+    dataToSend[0] = markerCount;
+    
+    let offset = 1; // Start after the marker count
+    markers.forEach(marker => {
+        
+        dataToSend[offset] = marker[0]; 
+        dataToSend[offset + 1] = marker[1];
+        offset += 2; // Move to the next marker
+    });
+
+    return dataToSend;
+  };
+
+
 
   return (
     <View style={styles.container}>
