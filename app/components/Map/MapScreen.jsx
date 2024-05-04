@@ -78,12 +78,23 @@ const MapScreen = () => {
     
 
 
-    const saveCourse = async () => {
+    const saveCourse = async (name) => {
+        
+        // creating DD-MM-YYYY format of date
+        const currentDate = new Date();
+        const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getFullYear().toString()} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}`;
 
-        const routeJson = JSON.stringify(markersList);
-    
+        const routeData = {
+            name: name,
+            date: formattedDate,
+            markers: markersList,
+            length: markersList.length
+        };
+
         try {
+            const routeJson = JSON.stringify(routeData);
             const uniqueId = Date.now().toString(); // Generate a unique ID for the route
+
             try {
                 await AsyncStorage.setItem(uniqueId, routeJson);                
             } catch (error) {

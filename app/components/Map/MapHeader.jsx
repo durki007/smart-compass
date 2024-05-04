@@ -25,7 +25,7 @@ const MapHeader = ({saveCourse}) => {
            
           </View>
           <View style={styles.headerRightInnerBox}>
-            <Button title='Save' onPress={() => saveCourse()}/>         
+            <Button title='Save' onPress={() => saveCourse('example name')}/>         
           </View>
         </View>
     );
