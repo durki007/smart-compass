@@ -16,7 +16,7 @@ void sc_log_compass_data() {
     compass_path_t *path = &compass_data_ptr->path;
     if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
         ESP_LOGI("COMPASS_DATA", "Position: %f, %f", compass_data_ptr->position.lat, compass_data_ptr->position.lon);
-        ESP_LOGI("COMPASS_DATA", "Bearing: %f", compass_data_ptr->bearing);
+        ESP_LOGI("COMPASS_DATA", "Bearing: %d", compass_data_ptr->bearing);
         ESP_LOGI("COMPASS_DATA", "Path length: %lu", path->length);
         for (uint32_t i = 0; i < path->length; ++i) {
             ESP_LOGI("COMPASS_DATA", "Node %lu: %f, %f", i, path->nodes[i].lat, path->nodes[i].lon);
@@ -38,7 +38,7 @@ app_main(void) {
     ESP_LOGI("main", "Initializing shared data structures");
     compass_data = (compass_data_t) {
             .mutex = (SemaphoreHandle_t) xSemaphoreCreateMutex(),
-            .bearing = 0.0f,
+            .bearing = 100,
             .position = (compass_position_t) {
                     .lat = 0.0f,
                     .lon = 0.0f
@@ -52,5 +52,6 @@ app_main(void) {
     ESP_LOGI("main", "Display init");
 //    sc_display_init();
     ESP_LOGI("main", "Compass init");
-    sc_compass_init();
+//    sc_compass_init();
+    xTaskCreatePinnedToCore(sc_compass_init, "compass", 4096 * 2, NULL, 0, NULL, 1);
 }

@@ -1,9 +1,10 @@
 #include <sys/cdefs.h>
+#include <freertos/FreeRTOS.h>
 #include "sc_compass.h"
 
 // Includes
 #include "esp_log.h"
-#include "driver/i2c.h"
+//#include "driver/i2c.h"
 #include "driver/i2c_master.h"
 #include "compass_data.h"
 
@@ -78,7 +79,8 @@ _Noreturn static void sc_compass_task(void *args) {
 
 void sc_compass_init() {
     ESP_LOGI(TAG, "Initializing I2C bus and device...");
-    i2c_master_bus_config_t i2c_mst_conf = {
+    // Empty bus (?)
+    i2c_master_bus_config_t i2c_mst_mock_conf = {
             .clk_source = I2C_CLK_SRC_DEFAULT,
             .i2c_port = I2C_NUM_0,
             .scl_io_num = CONFIG_I2C_SCL,
@@ -86,8 +88,20 @@ void sc_compass_init() {
             .glitch_ignore_cnt = 7,
             .flags.enable_internal_pullup = false,
     };
+    i2c_master_bus_handle_t mock_handle;
+    ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_mst_mock_conf, &mock_handle));
+    i2c_master_bus_config_t i2c_mst_conf = {
+            .clk_source = I2C_CLK_SRC_DEFAULT,
+            .i2c_port = I2C_NUM_1,
+            .scl_io_num = 22,
+            .sda_io_num = 21,
+            .glitch_ignore_cnt = 7,
+            .flags.enable_internal_pullup = false,
+    };
     ESP_LOGI(TAG, "I2C bus configuration set");
+    vTaskDelay(pdMS_TO_TICKS(1000));
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_mst_conf, &bus_handle));
+    vTaskDelay(pdMS_TO_TICKS(1000));
     ESP_LOGI(TAG, "I2C bus initialized");
     // Add device
 #ifdef CONFIG_COMPASS_AUTODETECT_ADDR
@@ -95,6 +109,7 @@ void sc_compass_init() {
 #else
     compass_address = CONFIG_COMPASS_ADDR;
 #endif
+//    compass_address = 0x0d;
     i2c_device_config_t dev_cfg = {
             .dev_addr_length = I2C_ADDR_BIT_LEN_7,
             .device_address = compass_address,
@@ -109,5 +124,6 @@ void sc_compass_init() {
     ESP_LOGI(TAG, "Compass initialized");
     // Start task
 //    xTaskCreate(sc_compass_task, "sc_compass_task", 4096, NULL, 1, NULL);
+    xTaskCreatePinnedToCore(sc_compass_task, "sc_compass_task", 4096, NULL, 1, NULL, 0);
     ESP_LOGI(TAG, "Task started");
 };

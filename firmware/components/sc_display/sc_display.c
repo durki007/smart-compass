@@ -9,12 +9,16 @@
 #include "freertos/task.h"
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
+#include "compass_data.h"
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
+
 #include "lvgl.h"
+
 #else
 #include "lvgl/lvgl.h"
 #endif
+
 #include "lvgl_helpers.h"
 #include "widgets/lv_img.h"
 #include "arrow.h"
@@ -23,8 +27,11 @@
 #define LV_TICK_PERIOD_MS 1
 
 _Noreturn static void guiTask(void *pvParameter);
+
 static void lv_tick_task(void *arg);
+
 static void create_ui(void);
+
 static void ui_refresh_task();
 
 void sc_display_init() {
@@ -95,6 +102,14 @@ static lv_obj_t *img;
 static lv_obj_t *label;
 
 static void ui_refresh_task() {
+    compass_data_t *compass_data_ptr = &compass_data;
+    char buf[10];
+    if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
+        snprintf(buf, 10, "%d", compass_data_ptr->bearing);
+        lv_label_set_text(label, buf);
+        xSemaphoreGive(compass_data_ptr->mutex);
+    }
+
     uint16_t angle = lv_img_get_angle(img);
     angle += 10;
     if (angle >= 3600) {
@@ -102,13 +117,12 @@ static void ui_refresh_task() {
     }
     lv_img_set_angle(img, (int16_t) angle);
     // Format the angle to a string
-    char buf[10];
-    snprintf(buf, 10, "%d", angle / 10);
-    lv_label_set_text(label, buf);
+//    char buf[10];
+//    snprintf(buf, 10, "%d", angle / 10);
+//    lv_label_set_text(label, buf);
 }
 
-static void create_ui(void)
-{
+static void create_ui(void) {
     LV_IMG_DECLARE(arrow);
     lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_set_layout(lv_scr_act(), LV_LAYOUT_FLEX);

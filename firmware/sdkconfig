@@ -746,7 +746,7 @@ CONFIG_DAC_DMA_AUTO_16BIT_ALIGN=y
 #
 # I2C Configuration
 #
-# CONFIG_I2C_ISR_IRAM_SAFE is not set
+CONFIG_I2C_ISR_IRAM_SAFE=y
 # CONFIG_I2C_ENABLE_DEBUG_LOG is not set
 # end of I2C Configuration
 # end of Driver Configurations
@@ -2307,7 +2307,7 @@ CONFIG_COMPASS_REFRESH_PERIOD_MS=10
 # end of HMC5883L I2C Compass
 # end of Component config
 
-# CONFIG_IDF_EXPERIMENTAL_FEATURES is not set
+CONFIG_IDF_EXPERIMENTAL_FEATURES=y
 
 # Deprecated options for backward compatibility
 # CONFIG_APP_BUILD_TYPE_ELF_RAM is not set

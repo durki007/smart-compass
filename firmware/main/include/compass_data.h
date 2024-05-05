@@ -18,7 +18,7 @@ typedef struct {
     compass_path_node_t nodes[COMPASS_PATH_MAX_LENGTH];
 } compass_path_t;
 
-typedef float compass_bearing_t;
+typedef int16_t compass_bearing_t;
 
 typedef compass_path_node_t compass_position_t;
 
