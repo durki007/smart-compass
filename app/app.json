@@ -5,7 +5,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "plugins": ["react-native-ble-plx"],
+    "plugins": [
+      "react-native-ble-plx"
+    ],
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -26,13 +28,23 @@
       },
       "config": {
         "googleMaps": {
-           "apiKey": "AIzaSyAlJaNtiH2CUqcAT8w0v1A_8oksWoe5PjE"
+          "apiKey": "AIzaSyAlJaNtiH2CUqcAT8w0v1A_8oksWoe5PjE"
         }
       },
-      "package": "com.anonymous.testapp"
+      "package": "com.anonymous.testapp",
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d0f5a5bc-996d-497f-bc4d-dbbd40614b00"
+      }
     }
   }
 }
