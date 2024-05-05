@@ -44,16 +44,6 @@ const MapScreen = () => {
     }, [route.params?.thatRoute]);
 
 
-    // useEffect(() => {
-    //     if(markersList !== null){
-    //         setMarkersList([]);
-    //     }
-    // }, [markersList]);
-
-
-
-
-
     const handleMarkerDrag = (index, newCoordinate) => {
         const updatedMarkersList = [...markersList];
         updatedMarkersList[index] = {
@@ -68,13 +58,18 @@ const MapScreen = () => {
     
     const handleMarkerAdding = (newPointCoordinate) => {
         const updatedMarkersList = [...markersList];
-        const lastMarker = updatedMarkersList.slice(-1)[0];  
-        updatedMarkersList.push({ 
-            id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
-            latitude: newPointCoordinate.latitude, 
-            longitude: newPointCoordinate.longitude 
-        });
-        setMarkersList(updatedMarkersList);
+        if(updatedMarkersList.length !== 10){
+            const lastMarker = updatedMarkersList.slice(-1)[0];  
+            updatedMarkersList.push({ 
+                id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
+                latitude: newPointCoordinate.latitude, 
+                longitude: newPointCoordinate.longitude 
+            });
+            setMarkersList(updatedMarkersList);
+        } else {
+            console.log('Osiagnieto limit punktow dla trasy!');
+        }
+
     }
 
     const handleDeletePoint = (markerToDeleteId) => {
@@ -108,12 +103,14 @@ const MapScreen = () => {
 
         const routeJson = JSON.stringify(routeData);
 
-        if (editedRoute !== null) {
+
+        // checking if user is editing existing route, and if this route exists in storage.
+        // in some cases route can be still drawn on the map but already erased from storage
+    
+        if (editedRoute !== null && await AsyncStorage.getItem(editedRoute.id) !== null) {  
 
             try {
-
-
-                    
+                
                 await AsyncStorage.setItem(editedRoute.id, routeJson);
                 let temp = editedRoute;
                 temp.data = routeData;
