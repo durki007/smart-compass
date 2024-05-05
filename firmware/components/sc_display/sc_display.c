@@ -3,9 +3,10 @@
 
 #include <stdlib.h>
 #include <esp_timer.h>
+#include <freertos/FreeRTOS.h>
 #include "esp_log.h"
+#include "compass_data.h"
 
-#include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
@@ -93,6 +94,7 @@ _Noreturn static void guiTask(void *pvParameter) {
 
 static lv_obj_t *img;
 static lv_obj_t *label;
+static lv_obj_t *pos_label;
 
 static void ui_refresh_task() {
     uint16_t angle = lv_img_get_angle(img);
@@ -125,6 +127,11 @@ static void create_ui(void)
     lv_label_set_text(label, "1000m");
     lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+
+    // Create a label for position
+    pos_label = lv_label_create(lv_scr_act());
+    lv_label_set_text(pos_label, "Position: 0, 0");
+    lv_obj_align(pos_label, LV_ALIGN_CENTER, 0, 0);
 }
 
 static void lv_tick_task(void *arg) {
