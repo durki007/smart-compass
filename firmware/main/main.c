@@ -11,6 +11,6 @@ app_main(void)
 {
 //    ESP_LOGI("main", "BLE init");
 //    sc_ble_init();
-    sc_display_init();
+//    sc_display_init();
     sc_compass_init();
 }

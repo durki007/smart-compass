@@ -1,3 +1,4 @@
+#include <sys/cdefs.h>
 #include "sc_compass.h"
 
 // Includes
@@ -8,27 +9,100 @@
 // Defines
 #define TAG "sc_compass"
 
+// Bus variables
+uint16_t compass_address;
+i2c_master_bus_handle_t bus_handle;
+i2c_master_dev_handle_t dev_handle;
+
+
+static uint16_t autodetect_address() {
+    for (uint16_t i = 0; i < 127; ++i) {
+        int ret = i2c_master_probe(bus_handle, i, -1);
+        if (ret == ESP_OK) {
+            ESP_LOGI(TAG, "Detected device %2x", i);
+            return i;
+        } else {
+            ESP_LOGI(TAG, "No device at %2x", i);
+        }
+    }
+    ESP_ERROR_CHECK(ESP_ERR_NOT_FOUND);
+    return 0;
+}
+
+static uint8_t compass_read_register(uint8_t reg) {
+    uint8_t send_buf[8] = {0};
+    uint8_t read_buf[8] = {0};
+    // Set pointer to register
+    send_buf[0] = 0x3C; // Write mode
+    send_buf[1] = reg; //  Location
+    i2c_master_transmit(dev_handle, send_buf, 2, -1);
+    // Delay
+//    vTaskDelay(pdMS_TO_TICKS(5));
+    // Read data
+    send_buf[0] = 0x3D; // Read mode
+    i2c_master_transmit_receive(dev_handle, send_buf, 1, read_buf, 1, -1);
+    // Return data
+    return read_buf[0];
+}
+
+static void compass_read_registers(uint8_t *buf, uint8_t len) {
+    for (uint8_t i = 0; i < len; ++i) {
+        buf[i] = compass_read_register(i);
+    }
+}
+
+static void configure_device() {
+    ESP_LOGI(TAG, "Configuring device...");
+    // Read all registers
+    uint8_t reg_buf[12] = {0};
+    compass_read_registers(reg_buf, 12);
+    ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
+}
+
+_Noreturn static void sc_compass_task(void *args) {
+    uint16_t x, y, z;
+    uint8_t data[6] = {1, 2, 3, 4, 5, 6};
+    uint8_t reg_buf[12] = {0};
+    while (1) {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+        // Read all registers
+//        compass_read_registers(reg_buf, 12);
+//        ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
+    }
+}
+
 void sc_compass_init() {
     ESP_LOGI(TAG, "Initializing I2C bus and device...");
     i2c_master_bus_config_t i2c_mst_conf = {
-        .clk_source = I2C_CLK_SRC_APB,
-        .i2c_port = I2C_NUM_1,
-        .scl_io_num = CONFIG_I2C_SCL,
-        .sda_io_num = CONFIG_I2C_SDA,
-        .glitch_ignore_cnt = 7,
-        .flags.enable_internal_pullup = false,
+            .clk_source = I2C_CLK_SRC_DEFAULT,
+            .i2c_port = I2C_NUM_1,
+            .scl_io_num = CONFIG_I2C_SCL,
+            .sda_io_num = CONFIG_I2C_SDA,
+            .glitch_ignore_cnt = 7,
+            .flags.enable_internal_pullup = false,
     };
-    i2c_master_bus_handle_t bus_handle;
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_mst_conf, &bus_handle));
+    ESP_LOGI(TAG, "I2C bus initialized");
+    // Add device
+    vTaskDelay(pdMS_TO_TICKS(500)); // Wait for device to boot
+#ifdef CONFIG_COMPASS_AUTODETECT_ADDR
+    compass_address = autodetect_address();
+#else
+    compass_address = CONFIG_COMPASS_ADDR;
+#endif
     i2c_device_config_t dev_cfg = {
-        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
-        .device_address = CONFIG_COMPASS_ADDR,
-        .scl_speed_hz = CONFIG_I2C_SCL_SPEED_HZ,
+            .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+            .device_address = compass_address,
+            .scl_speed_hz = CONFIG_I2C_SCL_SPEED_HZ,
     };
-    i2c_master_dev_handle_t dev_handle;
     ESP_ERROR_CHECK(i2c_master_bus_add_device(bus_handle, &dev_cfg, &dev_handle));
     // Check if device is connected
-    vTaskDelay(pdMS_TO_TICKS(500));
-    ESP_ERROR_CHECK(i2c_master_probe(bus_handle, 0x1e, -1));
-    ESP_LOGI(TAG, "Device %2x connected", CONFIG_COMPASS_ADDR);
+    ESP_ERROR_CHECK(i2c_master_probe(bus_handle, compass_address, -1));
+    ESP_LOGI(TAG, "Compass connected at address %2x", compass_address);
+    // Configure device
+    configure_device();
+    ESP_LOGI(TAG, "Compass initialized");
+    // Start task
+//    xTaskCreate(sc_compass_task, "sc_compass_task", 4096, NULL, 1, NULL);
+    ESP_LOGI(TAG, "Task started");
 };

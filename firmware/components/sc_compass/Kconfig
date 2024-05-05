@@ -6,6 +6,9 @@ menu "HMC5883L I2C Compass"
     config I2C_SCL
         int "SCL pin"
         default 32
+    config COMPASS_AUTODETECT_ADDR
+        bool "Autodetect compass address"
+        default y
     config COMPASS_ADDR
         hex "Compass I2C address"
         default 0x1E
