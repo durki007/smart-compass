@@ -60,7 +60,7 @@ void uart_read_task(void *arg)
              &satelites_amount);
       // ESP_LOGI(TAG, "Parsed: %f,%f\nSatelites:%d\n", latitude, longitude, satelites_amount);
       if (satelites_amount != 0) {
-        decode_gnss(&latitude, %longlongitude, north_south, west_east);
+        decode_gnss(&latitude, &longitude, north_south, east_west);
       }
       update_position(latitude, longitude, satelites_amount);
       char_in_line_count = 0;
@@ -90,7 +90,6 @@ void update_position(float latitude, float longitude, int satelites_amount)
   compass_data_t *compass_data_ptr = &compass_data;
   if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
     ESP_LOGI(TAG, "Updated: %f, %f", latitude, longitude);
-    decode_gnss(&latitude, &longitude);
     if (satelites_amount == 0) {
       compass_data_ptr->position_updated = false;
     }
