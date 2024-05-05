@@ -58,7 +58,7 @@ const MapScreen = () => {
     
     const handleMarkerAdding = (newPointCoordinate) => {
         const updatedMarkersList = [...markersList];
-        if(updatedMarkersList.length !== 10){
+        if(updatedMarkersList.length !== 5){
             const lastMarker = updatedMarkersList.slice(-1)[0];  
             updatedMarkersList.push({ 
                 id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
@@ -67,7 +67,7 @@ const MapScreen = () => {
             });
             setMarkersList(updatedMarkersList);
         } else {
-            console.log('Osiagnieto limit punktow dla trasy!');
+            displayPrompt("Warning!", "Limit of points has been reached. Cannot add new point!");
         }
 
     }
@@ -116,7 +116,7 @@ const MapScreen = () => {
                 temp.data = routeData;
                 setEditedRoute(temp);    
 
-                displaySuccessPrompt();
+                displayPrompt('Success', 'Course saved, old version overwritten.');
 
             } catch (error) {
                 console.error('Error overwritting existing route', error);
@@ -148,9 +148,8 @@ const MapScreen = () => {
                 const updatedKeys = [...existingKeys, uniqueId];
                 await AsyncStorage.setItem('routeKeys', JSON.stringify(updatedKeys));
         
-                displaySuccessPrompt();
+                displayPrompt('Success', 'Course saved.');
         
-                console.log('Route saved successfully.');
             } catch (error) {
                 console.error('Error saving route:', error);
             }
@@ -159,11 +158,11 @@ const MapScreen = () => {
         
     };
 
-    const displaySuccessPrompt = () => {
+    const displayPrompt = (promptTitle, promptText) => {
         Alert.alert(
-            'Success',
-            'Markers list saved successfully!',
-            [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+            promptTitle,
+            promptText,
+            [{ text: 'OK'}]
         );
     };
 
