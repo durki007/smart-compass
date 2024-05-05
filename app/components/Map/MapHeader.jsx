@@ -5,7 +5,7 @@ import { useFonts } from 'expo-font'
 
 
 
-const MapHeader = ({saveCourse}) => {
+const MapHeader = ({saveCourse, newCourse}) => {
 
     const [loaded] = useFonts({
         RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
@@ -26,6 +26,7 @@ const MapHeader = ({saveCourse}) => {
           </View>
           <View style={styles.headerRightInnerBox}>
             <Button title='Save' onPress={() => saveCourse('example name')}/>         
+            <Button title='New' onPress={() => newCourse()}/>         
           </View>
         </View>
     );

@@ -7,23 +7,17 @@ import MapComponent from './MapComponent';
 import PointComponent from './PointComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { SequencedTransition } from 'react-native-reanimated';
 
 const MapScreen = () => {
 
 
     const navigation = useNavigation();
     const route = useRoute();
+
+    const [editedRoute, setEditedRoute] = useState(null); // stores passed course from files
     
     const [selectedMarker, setSelectedMarker] = useState(null);
-
-
-    useEffect(() => {
-        const routeToDisplay = route.params?.thatRoute;
-        if (routeToDisplay != null) {
-            setMarkersList(routeToDisplay);
-        }
-        console.log(markersList);
-    }, [route.params?.thatRoute]);
 
     const [markersList, setMarkersList] = useState([
         {
@@ -40,6 +34,14 @@ const MapScreen = () => {
         },
     ])
 
+    useEffect(() => {
+        const routeToDisplay = route.params?.thatRoute.data.markers;
+        if (routeToDisplay != null) {
+            setMarkersList(routeToDisplay);
+            setEditedRoute(route.params.thatRoute);
+            console.log(routeToDisplay);
+        }
+    }, [route.params?.thatRoute]);
 
 
     const handleMarkerDrag = (index, newCoordinate) => {
@@ -56,13 +58,18 @@ const MapScreen = () => {
     
     const handleMarkerAdding = (newPointCoordinate) => {
         const updatedMarkersList = [...markersList];
-        const lastMarker = updatedMarkersList.slice(-1)[0];  
-        updatedMarkersList.push({ 
-            id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
-            latitude: newPointCoordinate.latitude, 
-            longitude: newPointCoordinate.longitude 
-        });
-        setMarkersList(updatedMarkersList);
+        if(updatedMarkersList.length !== 5){
+            const lastMarker = updatedMarkersList.slice(-1)[0];  
+            updatedMarkersList.push({ 
+                id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
+                latitude: newPointCoordinate.latitude, 
+                longitude: newPointCoordinate.longitude 
+            });
+            setMarkersList(updatedMarkersList);
+        } else {
+            displayPrompt("Warning!", "Limit of points has been reached. Cannot add new point!");
+        }
+
     }
 
     const handleDeletePoint = (markerToDeleteId) => {
@@ -76,11 +83,14 @@ const MapScreen = () => {
         }
     };
     
-
+    const newCourse = () => {
+        setEditedRoute(null);
+        setMarkersList([]);
+        setSelectedMarker(null);
+    }
 
     const saveCourse = async (name) => {
-        
-        // creating DD-MM-YYYY format of date
+
         const currentDate = new Date();
         const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getFullYear().toString()} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}`;
 
@@ -91,43 +101,74 @@ const MapScreen = () => {
             length: markersList.length
         };
 
-        try {
-            const routeJson = JSON.stringify(routeData);
-            const uniqueId = Date.now().toString(); // Generate a unique ID for the route
+        const routeJson = JSON.stringify(routeData);
+
+
+        // checking if user is editing existing route, and if this route exists in storage.
+        // in some cases route can be still drawn on the map but already erased from storage
+    
+        if (editedRoute !== null && await AsyncStorage.getItem(editedRoute.id) !== null) {  
 
             try {
-                await AsyncStorage.setItem(uniqueId, routeJson);                
+                
+                await AsyncStorage.setItem(editedRoute.id, routeJson);
+                let temp = editedRoute;
+                temp.data = routeData;
+                setEditedRoute(temp);    
+
+                displayPrompt('Success', 'Course saved, old version overwritten.');
+
             } catch (error) {
-                console.error('Error saving inner route:', error);
+                console.error('Error overwritting existing route', error);
             }
-    
-            // Retrieve current routeKeys and parse it from JSON
-            const existingKeysJson = await AsyncStorage.getItem('routeKeys');
-            const existingKeys = JSON.parse(existingKeysJson) || [];
-    
-            // Update routeKeys with the new uniqueId and save it back to AsyncStorage
-            const updatedKeys = [...existingKeys, uniqueId];
-            await AsyncStorage.setItem('routeKeys', JSON.stringify(updatedKeys));
-    
-            displaySuccessPrompt();
-    
-            console.log('Route saved successfully.');
-        } catch (error) {
-            console.error('Error saving route:', error);
+
+            
+
+        } else {
+            
+
+            try {
+                const uniqueId = Date.now().toString(); // Generate a unique ID for the route
+
+                try {
+                    await AsyncStorage.setItem(uniqueId, routeJson);                
+                } catch (error) {
+                    console.error('Error saving inner route:', error);
+                }
+
+                // saving this route in editedRoute for further editing
+                temp = {id: uniqueId, data: routeData};
+                setEditedRoute(temp);
+        
+                // Retrieve current routeKeys and parse it from JSON
+                const existingKeysJson = await AsyncStorage.getItem('routeKeys');
+                const existingKeys = JSON.parse(existingKeysJson) || [];
+        
+                // Update routeKeys with the new uniqueId and save it back to AsyncStorage
+                const updatedKeys = [...existingKeys, uniqueId];
+                await AsyncStorage.setItem('routeKeys', JSON.stringify(updatedKeys));
+        
+                displayPrompt('Success', 'Course saved.');
+        
+            } catch (error) {
+                console.error('Error saving route:', error);
+            }
         }
+        
+        
     };
 
-    const displaySuccessPrompt = () => {
+    const displayPrompt = (promptTitle, promptText) => {
         Alert.alert(
-            'Success',
-            'Markers list saved successfully!',
-            [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+            promptTitle,
+            promptText,
+            [{ text: 'OK'}]
         );
     };
 
     return(
         <View style={styles.container}>
-            <MapHeader saveCourse={saveCourse} />
+            <MapHeader saveCourse={saveCourse} newCourse={newCourse} />
             <MapComponent
                 markersList={markersList}
                 setMarkersList={setMarkersList}
