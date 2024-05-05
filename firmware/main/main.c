@@ -25,7 +25,8 @@ app_main(void)
             },
             .path = (compass_path_t) {
                     .length = 0
-            }
+            },
+            .position_updated = false
     };
 //    ESP_LOGI("main", "BLE init");
 //    sc_ble_init();
@@ -33,4 +34,8 @@ app_main(void)
 //    sc_display_init();
     ESP_LOGI("main", "GPS init");
     sc_gps_init();
+    while(1) {
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+      log_compass_data();
+    }
 }
