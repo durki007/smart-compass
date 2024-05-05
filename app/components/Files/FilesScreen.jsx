@@ -42,8 +42,9 @@ const FilesScreen = () => {
         }
     };
 
-    const deleteRoute = async (routeId) => {
+    const deleteRoute = async (route) => {
         try{
+            const routeId = route.id;
             await AsyncStorage.removeItem(routeId);
         
             // Retrieve current routeKeys from AsyncStorage and parse it from JSON
