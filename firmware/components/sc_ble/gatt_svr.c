@@ -120,7 +120,7 @@ gatt_svr_write(struct os_mbuf *om, uint16_t min_len, uint16_t max_len,
 
     log_characteristic_value();
     update_shared_variable();
-    log_compass_data();
+    sc_log_compass_data();
     return 0;
 }
 

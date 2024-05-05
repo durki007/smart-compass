@@ -31,7 +31,8 @@ typedef struct {
 
 // Global variable, defined in main.c
 extern compass_data_t compass_data;
-
-void log_compass_data();
+// Function prototypes
+void sc_log_compass_data();
+void sc_update_bearing(int16_t bearing);
 
 #endif //SMART_COMPASS_COMPASS_DATA_H

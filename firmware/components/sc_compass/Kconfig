@@ -11,9 +11,21 @@ menu "HMC5883L I2C Compass"
         default y
     config COMPASS_ADDR
         hex "Compass I2C address"
-        default 0x1E
+        default 0x0D
     config I2C_SCL_SPEED_HZ
         int "I2C SCL speed (Hz)"
         default 400000
+    config COMPASS_AXIS_INDEX
+        int "Compass axis index"
+        help
+            The index of the axis in the compass data. The default is 0, which
+            means the compass data is in the X axis. If the compass data is in
+            the Y axis, set this to 1. If the compass data is in the Z axis, set
+            this to 2.
+        default 0
+    config COMPASS_REFRESH_PERIOD_MS
+        int "Compass refresh period (ms)"
+        default 10
+
 
 endmenu
