@@ -17,3 +17,12 @@
 - ``npx expo run:android -> press 'a' open Android``	za każdym razem żeby odpalić serwer expo -> apliakcję na telefonie 
 
 3. Jeśli wszystko jest poprawnie skonfigurowane aplikacja odpali się teraz sama na telefonie
+
+### Build .APK 
+https://dev.to/chinmaymhatre/how-to-generate-apk-using-react-native-expo-kae
+
+NIE INSTALUJCIE ``npm install --global expo-cli eas-cli``.
+Expo-cli jest deprecated. Cała funkcjonalność jest w npx.
+Komandy wywołujecie jako ``npx expo <command>``
+np. ``npx expo login``
+Do budowania wybieracie tylko Android. Potrwa to ponad 10min.
