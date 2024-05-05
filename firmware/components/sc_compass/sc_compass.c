@@ -33,15 +33,9 @@ static uint8_t compass_read_register(uint8_t reg) {
     uint8_t send_buf[8] = {0};
     uint8_t read_buf[8] = {0};
     // Set pointer to register
-    send_buf[0] = 0x3C; // Write mode
+    send_buf[0] = reg; // Write mode
     send_buf[1] = reg; //  Location
-    i2c_master_transmit(dev_handle, send_buf, 2, -1);
-    // Delay
-//    vTaskDelay(pdMS_TO_TICKS(5));
-    // Read data
-    send_buf[0] = 0x3D; // Read mode
     i2c_master_transmit_receive(dev_handle, send_buf, 1, read_buf, 1, -1);
-    // Return data
     return read_buf[0];
 }
 
@@ -51,8 +45,18 @@ static void compass_read_registers(uint8_t *buf, uint8_t len) {
     }
 }
 
+static void compass_read_data_registers(uint8_t *buf) {
+    uint8_t send_buf[1] = {0x00}; // First compass data register
+    i2c_master_transmit_receive(dev_handle, send_buf, 1, buf, 6, -1);
+}
+
 static void configure_device() {
     ESP_LOGI(TAG, "Configuring device...");
+    // Write to mode register
+    uint8_t send_buf[8] = {0};
+    send_buf[0] = 0x09; // Mode register
+    send_buf[1] = 0x01; // Continuous mode
+    i2c_master_transmit(dev_handle, send_buf, 2, -1);
     // Read all registers
     uint8_t reg_buf[12] = {0};
     compass_read_registers(reg_buf, 12);
@@ -60,14 +64,13 @@ static void configure_device() {
 }
 
 _Noreturn static void sc_compass_task(void *args) {
-    uint16_t x, y, z;
+    int16_t x, y, z;
+    int16_t output[3];
     uint8_t data[6] = {1, 2, 3, 4, 5, 6};
-    uint8_t reg_buf[12] = {0};
     while (1) {
-        vTaskDelay(pdMS_TO_TICKS(1000));
-        // Read all registers
-//        compass_read_registers(reg_buf, 12);
-//        ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        compass_read_data_registers((uint8_t *) output);
+        ESP_LOGI(TAG, "X: %d, Y: %d, Z: %d", output[0], output[1], output[2]);
     }
 }
 
@@ -103,6 +106,6 @@ void sc_compass_init() {
     configure_device();
     ESP_LOGI(TAG, "Compass initialized");
     // Start task
-//    xTaskCreate(sc_compass_task, "sc_compass_task", 4096, NULL, 1, NULL);
+    xTaskCreate(sc_compass_task, "sc_compass_task", 4096, NULL, 1, NULL);
     ESP_LOGI(TAG, "Task started");
 };
