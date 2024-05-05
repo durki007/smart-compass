@@ -58,7 +58,7 @@ const MapScreen = () => {
     
     const handleMarkerAdding = (newPointCoordinate) => {
         const updatedMarkersList = [...markersList];
-        if(updatedMarkersList.length !== 5){
+        if(updatedMarkersList.length !== 100){
             const lastMarker = updatedMarkersList.slice(-1)[0];  
             updatedMarkersList.push({ 
                 id: lastMarker !== undefined ? lastMarker.id + 1 : 1,
