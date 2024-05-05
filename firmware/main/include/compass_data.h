@@ -24,6 +24,7 @@ typedef struct {
     SemaphoreHandle_t mutex;
     compass_position_t position;
     compass_path_t path;
+    bool position_updated;
 } compass_data_t;
 
 // Global variable, defined in main.c
