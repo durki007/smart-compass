@@ -26,8 +26,10 @@ void log_compass_data() {
 
 void
 app_main(void) {
+    ESP_LOGI("main", "Initializing shared data structures");
     compass_data = (compass_data_t) {
             .mutex = (SemaphoreHandle_t) xSemaphoreCreateMutex(),
+            .bearing = 0.0,
             .position = (compass_position_t) {
                     .lat = 0.0,
                     .lon = 0.0
@@ -40,5 +42,6 @@ app_main(void) {
     sc_ble_init();
     ESP_LOGI("main", "Display init");
     sc_display_init();
+    ESP_LOGI("main", "Compass init");
     sc_compass_init();
 }
