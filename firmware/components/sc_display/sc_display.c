@@ -3,18 +3,22 @@
 
 #include <stdlib.h>
 #include <esp_timer.h>
+#include <freertos/FreeRTOS.h>
 #include "esp_log.h"
+#include "compass_data.h"
 
-#include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_freertos_hooks.h"
 #include "freertos/semphr.h"
 
 #ifdef LV_LVGL_H_INCLUDE_SIMPLE
+
 #include "lvgl.h"
+
 #else
 #include "lvgl/lvgl.h"
 #endif
+
 #include "lvgl_helpers.h"
 #include "widgets/lv_img.h"
 #include "arrow.h"
@@ -23,8 +27,11 @@
 #define LV_TICK_PERIOD_MS 1
 
 _Noreturn static void guiTask(void *pvParameter);
+
 static void lv_tick_task(void *arg);
+
 static void create_ui(void);
+
 static void ui_refresh_task();
 
 void sc_display_init() {
@@ -93,6 +100,8 @@ _Noreturn static void guiTask(void *pvParameter) {
 
 static lv_obj_t *img;
 static lv_obj_t *label;
+static lv_obj_t *pos_lat_label;
+static lv_obj_t *pos_lon_label;
 
 static void ui_refresh_task() {
     uint16_t angle = lv_img_get_angle(img);
@@ -102,13 +111,34 @@ static void ui_refresh_task() {
     }
     lv_img_set_angle(img, (int16_t) angle);
     // Format the angle to a string
-    char buf[10];
-    snprintf(buf, 10, "%d", angle / 10);
-    lv_label_set_text(label, buf);
+//    char buf[10];
+//    snprintf(buf, 10, "%d", angle / 10);
+//    lv_label_set_text(label, buf);
+
+    // Format the position to a string
+    compass_data_t *compass_data_ptr = &compass_data;
+    if (xSemaphoreTake(compass_data_ptr->mutex, pdMS_TO_TICKS(5)) == pdTRUE) {
+        // Update the position labels
+        if (compass_data_ptr->position_updated) {
+            char pos_lat_buf[20];
+            snprintf(pos_lat_buf, 20, "N %f", compass_data_ptr->position.lat);
+            lv_label_set_text(pos_lat_label, pos_lat_buf);
+            char pos_lon_buf[20];
+            snprintf(pos_lon_buf, 20, "E %f", compass_data_ptr->position.lon);
+            lv_label_set_text(pos_lon_label, pos_lon_buf);
+        } else {
+            lv_label_set_text(pos_lat_label, "Position: N/A");
+            lv_label_set_text(pos_lon_label, "Position: N/A");
+        }
+        // Update main label with path length
+        char path_length_buf[20];
+        snprintf(path_length_buf, 20, "Path len: %lu", compass_data_ptr->path.length);
+        lv_label_set_text(label, path_length_buf);
+        xSemaphoreGive(compass_data_ptr->mutex);
+    }
 }
 
-static void create_ui(void)
-{
+static void create_ui(void) {
     LV_IMG_DECLARE(arrow);
     lv_obj_set_style_bg_color(lv_scr_act(), lv_color_hex(0xffffff), LV_PART_MAIN);
     lv_obj_set_layout(lv_scr_act(), LV_LAYOUT_FLEX);
@@ -125,6 +155,14 @@ static void create_ui(void)
     lv_label_set_text(label, "1000m");
     lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
     lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+
+    // Create a label for position
+    pos_lat_label = lv_label_create(lv_scr_act());
+    lv_label_set_text(pos_lat_label, "Position: 0, 0");
+    lv_obj_align(pos_lat_label, LV_ALIGN_CENTER, 0, 0);
+    pos_lon_label = lv_label_create(lv_scr_act());
+    lv_label_set_text(pos_lon_label, "Position: 0, 0");
+    lv_obj_align(pos_lon_label, LV_ALIGN_CENTER, 0, 0);
 }
 
 static void lv_tick_task(void *arg) {
