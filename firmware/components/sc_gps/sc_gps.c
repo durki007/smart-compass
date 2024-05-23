@@ -89,7 +89,7 @@ void update_position(float latitude, float longitude, int satelites_amount)
 {
   compass_data_t *compass_data_ptr = &compass_data;
   if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
-    ESP_LOGI(TAG, "Updated: %f, %f", latitude, longitude);
+    ESP_LOGI(TAG, "Updated (%d): %f, %f", satelites_amount,latitude, longitude);
     if (satelites_amount == 0) {
       compass_data_ptr->position_updated = false;
     }
