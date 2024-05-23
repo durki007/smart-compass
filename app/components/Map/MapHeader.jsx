@@ -1,35 +1,58 @@
 import React from 'react';
 import { StyleSheet, Text, Alert, View, Image, TouchableOpacity, Button } from 'react-native';
-import { useFonts } from 'expo-font'
-
+import { useFonts} from 'expo-font'
+import prompt from 'react-native-prompt-android';
 
 
 
 const MapHeader = ({saveCourse, newCourse}) => {
 
-    const [loaded] = useFonts({
-        RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
-        RobotoMedium: require('../../assets/fonts/Roboto-Medium.ttf'),
-      });
-    
-    
-      if (!loaded) {
-        return null;
-      }
-  
 
-    return (
-        <View style ={styles.headerBox}>
-          <View style={styles.headerLeftInnerBox}>
-            <Text style={styles.headerText}>Map</Text>            
-           
-          </View>
-          <View style={styles.headerRightInnerBox}>
-            <Button title='Save' onPress={() => saveCourse('example name')}/>         
-            <Button title='New' onPress={() => newCourse()}/>         
-          </View>
-        </View>
+  const showPrompt = () => {
+    prompt(
+      'Enter Course Name',
+      'Please enter the name of the course',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed') , style: 'cancel' },
+        { text: 'OK', onPress: (text) => saveCourse(text) },
+      ],
+      {
+        type: 'plain-text',
+        cancelable: false,
+        defaultValue: '',
+        placeholder: 'Course Name'
+      }
     );
+  };
+
+  const handleSavePress = () => {
+    console.log('perssed');
+    showPrompt();
+  }
+
+  const [loaded] = useFonts({
+      RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
+      RobotoMedium: require('../../assets/fonts/Roboto-Medium.ttf'),
+    });
+  
+  
+    if (!loaded) {
+      return null;
+    }
+
+
+  return (
+      <View style ={styles.headerBox}>
+        <View style={styles.headerLeftInnerBox}>
+          <Text style={styles.headerText}>Map</Text>            
+        
+        </View>
+        <View style={styles.headerRightInnerBox}>
+          <Button title='Save' onPress={() => handleSavePress() }/>         
+          <Button title='New' onPress={() => newCourse()}/>         
+        </View>
+      </View>
+  );
 }
 
 
