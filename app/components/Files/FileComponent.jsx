@@ -4,10 +4,12 @@ import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import useBLE from '../Bluetooth/useBLE';
+import prompt from 'react-native-prompt-android';
 
 
 
-const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
+
+const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute }) => {
   const [showButtons, setShowButtons] = useState(false);
 
   const {
@@ -24,12 +26,29 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
 
   const navigation = useNavigation();
 
+  const showPrompt = (route) => {
+    prompt(
+      'Enter Course Name',
+      'Please enter the name of the course',
+      [
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed') , style: 'cancel' },
+        { text: 'OK', onPress: (text) => renameRoute(route, text) },
+      ],
+      {
+        type: 'plain-text',
+        cancelable: false,
+        defaultValue: '',
+        placeholder: 'Course Name'
+      }
+    );
+  };
+
   const handlePress = () => {
     setShowButtons(!showButtons);
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const animatedHeight = showButtons ? withTiming(120) : withTiming(0);
+    const animatedHeight = showButtons ? withTiming(150) : withTiming(0);
     return {
       height: animatedHeight,
     }
@@ -86,6 +105,9 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
     return outputBuffer;
   };
 
+  const handleRenameFile = (thisRoute) => {
+    showPrompt(thisRoute);
+  }
 
 
   return (
@@ -106,6 +128,9 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute }) => {
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
           <Text style={styles.buttonText} onPress={() => deleteRoute(thisRoute)}>Delete</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.button, { backgroundColor: 'yellow' }]}>
+          <Text style={styles.buttonText} onPress={() => handleRenameFile(thisRoute)}>Rename</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
