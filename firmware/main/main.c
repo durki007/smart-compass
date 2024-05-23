@@ -2,11 +2,12 @@
 #include <freertos/semphr.h>
 #include "esp_log.h"
 
+#include "compass_data.h"
 #include "sc_ble.h"
 #include "sc_display.h"
 #include "sc_gps.h"
-#include "compass_data.h"
 #include "sc_compass.h"
+#include "sc_logic.h"
 
 compass_data_t compass_data;
 display_data_t display_data;
@@ -44,6 +45,8 @@ app_main(void) {
     sc_gps_init();
     ESP_LOGI("main", "Compass init");
     sc_compass_init();
+    ESP_LOGI("main", "Logic init");
+    sc_logic_init();
     while (1) {
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         log_compass_data();
