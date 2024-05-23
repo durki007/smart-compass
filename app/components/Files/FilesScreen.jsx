@@ -31,6 +31,36 @@ const FilesScreen = () => {
         }
     };
     
+    const renameRoute = async (route, newName) => {
+        try {
+          // Retrieve the existing route from AsyncStorage
+          const routeJson = await AsyncStorage.getItem(route.id);
+          
+          // Check if the routeJson is valid
+          if (routeJson !== null) {
+            // Parse the existing route data
+            const existingRoute = JSON.parse(routeJson);
+            // Update the name property of the existing route
+            existingRoute.name = newName;
+      
+            // Stringify the updated route
+            const updatedRouteJson = JSON.stringify(existingRoute);
+      
+            // Store the updated route back to AsyncStorage
+            await AsyncStorage.setItem(route.id, updatedRouteJson);
+            
+            // Notify the user of the successful update
+            Alert.alert('Success', 'Course name updated successfully.');
+            
+            // Refresh the list of routes
+            await retrieveRoutes();
+          } else {
+            console.error('Error: Route not found in AsyncStorage');
+          }
+        } catch (error) {
+          console.error('Error updating route:', error);
+        }
+      };
 
     const clearAllData = async () => {
         try {
@@ -82,6 +112,7 @@ const FilesScreen = () => {
                 savedRoutes={savedRoutes}
                 setSavedRoutes={setSavedRoutes}
                 deleteRoute={deleteRoute}
+                renameRoute={renameRoute}
             />
         </View>
     );

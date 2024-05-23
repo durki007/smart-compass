@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import FileComponent from './FileComponent';
 
-const MainContent = ({ savedRoutes, deleteRoute }) => {
+
+const MainContent = ({ savedRoutes, deleteRoute, renameRoute }) => {
     const [rerenderKey, setRerenderKey] = useState(0);
 
     // Update rerenderKey whenever savedRoutes changes
@@ -25,6 +26,7 @@ const MainContent = ({ savedRoutes, deleteRoute }) => {
                     num={route.data.length} // TODO: count markers
                     thisRoute={route}
                     deleteRoute={deleteRoute}
+                    renameRoute={renameRoute}
                 />
                 ))}
             </ScrollView>
