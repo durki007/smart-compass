@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import MapView, {Callout, Marker, Polyline} from 'react-native-maps';
 import { StyleSheet, View, Text, Button } from 'react-native';
-
+import markerPng from './../../assets/marker.png'
 
 
 const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleMarkerDrag, setSelectedMarker }) => {
@@ -18,6 +18,16 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                           setSelectedMarker(el);
                           }});
     
+  }
+
+  const generateMarkerDesc = (index) => {
+    if(index === 0) {
+      return 'START'
+    }
+    if(index === markersList.length - 1) {
+      return 'META'
+    }
+    return index + 1;
   }
 
   const handleMarkerDeselected = () => {
@@ -47,7 +57,7 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
             >
 
               
-              {markersList.map(marker => {
+              {markersList.map((marker, index) => {
                 return(
                   <Marker
                     draggable
@@ -57,13 +67,20 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                       longitude: marker.longitude,
                     }}
                     identifier={String(marker.id)}
-                    title={marker.title} 
+                    title={marker.title}
+                    // image={markerPng}  each marker should have its own png assigned base on its index
                     onDragEnd={(e) => {
                       handleMarkerDrag(markersList.findIndex(item => item.id == marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);
                     }}
                   >
-               
+                    
+                    <Callout >
+                      <View style = {{ display:'flex' , justifyContent: 'center'}}>
+                        <Text numberOfLines={1} ellipsizeMode="tail">{generateMarkerDesc(index)}</Text>
+                      </View>
+                    </Callout>
+
                   </Marker>
                 )
               })}
