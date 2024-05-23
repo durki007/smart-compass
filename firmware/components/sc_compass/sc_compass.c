@@ -15,17 +15,6 @@ uint16_t compass_address;
 
 static uint16_t autodetect_address() {
     return 0x0D; // Default address QMC5883L
-//    for (uint16_t i = 0; i < 127; ++i) {
-//        int ret = i2c_master_probe(bus_handle, i, -1);
-//        if (ret == ESP_OK) {
-//            ESP_LOGI(TAG, "Detected device %2x", i);
-//            return i;
-//        } else {
-//            ESP_LOGI(TAG, "No device at %2x", i);
-//        }
-//    }
-//    ESP_ERROR_CHECK(ESP_ERR_NOT_FOUND);
-    return 0;
 }
 
 static uint8_t compass_read_register(uint8_t reg) {
