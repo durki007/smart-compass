@@ -30,6 +30,7 @@ typedef struct {
 } compass_data_t;
 
 typedef struct {
+    SemaphoreHandle_t mutex;
     // Angle in 0.1 degrees - between 0 and 3600
     int16_t angle;
     // Next waypoint id

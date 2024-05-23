@@ -33,6 +33,7 @@ app_main(void) {
             .position_updated = false
     };
     display_data = (display_data_t) {
+            .mutex = (SemaphoreHandle_t) xSemaphoreCreateMutex(),
             .angle = 0,
             .next_wp = 0,
             .distance = 0
