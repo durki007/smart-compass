@@ -2,6 +2,9 @@
 #include "sc_compass.h"
 
 // Includes
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "compass_data.h"
 #include "esp_log.h"
 #include "driver/i2c.h"
 
@@ -57,6 +60,7 @@ static void configure_device() {
 static void update_shared_data(int16_t *output) {
     assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
     uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
+    compass_data_t *compass_data_ptr = &compass_data;
 }
 
 _Noreturn static void sc_compass_task(void *args) {
