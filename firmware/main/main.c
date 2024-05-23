@@ -6,6 +6,7 @@
 #include "sc_display.h"
 #include "sc_gps.h"
 #include "compass_data.h"
+#include "sc_compass.h"
 
 compass_data_t compass_data;
 
@@ -15,8 +16,7 @@ void log_compass_data() {
 }
 
 void
-app_main(void)
-{
+app_main(void) {
     compass_data = (compass_data_t) {
             .mutex = (SemaphoreHandle_t) xSemaphoreCreateMutex(),
             .position = (compass_position_t) {
@@ -34,8 +34,10 @@ app_main(void)
     sc_display_init();
     ESP_LOGI("main", "GPS init");
     sc_gps_init();
-    while(1) {
-      vTaskDelay(1000 / portTICK_PERIOD_MS);
-      log_compass_data();
+    ESP_LOGI("main", "Compass init");
+    sc_compass_init();
+    while (1) {
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        log_compass_data();
     }
 }
