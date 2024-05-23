@@ -61,6 +61,10 @@ static void update_shared_data(int16_t *output) {
     assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
     uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
     compass_data_t *compass_data_ptr = &compass_data;
+    if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
+        compass_data_ptr->bearing = bearing;
+        xSemaphoreGive(compass_data_ptr->mutex);
+    }
 }
 
 _Noreturn static void sc_compass_task(void *args) {
