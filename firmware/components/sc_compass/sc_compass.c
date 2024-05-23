@@ -82,7 +82,7 @@ void sc_compass_init() {
             .scl_io_num = CONFIG_I2C_SCL,
             .sda_io_num = CONFIG_I2C_SDA,
             .glitch_ignore_cnt = 7,
-            .flags.enable_internal_pullup = false,
+            .flags.enable_internal_pullup = true,
     };
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_mst_conf, &bus_handle));
     ESP_LOGI(TAG, "I2C bus initialized");
