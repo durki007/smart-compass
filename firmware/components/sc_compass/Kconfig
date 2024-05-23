@@ -9,6 +9,9 @@ menu "HMC5883L I2C Compass"
     config COMPASS_AUTODETECT_ADDR
         bool "Autodetect compass address"
         default y
+    config COMPASS_LOGGING
+        bool "Enable compass logging"
+        default n
     config COMPASS_ADDR
         hex "Compass I2C address"
         default 0x1E
