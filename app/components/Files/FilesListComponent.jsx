@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import FileComponent from './FileComponent';
 
+
 const MainContent = ({ savedRoutes, deleteRoute, renameRoute }) => {
     const [rerenderKey, setRerenderKey] = useState(0);
 

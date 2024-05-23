@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import useBLE from '../Bluetooth/useBLE';
 import prompt from 'react-native-prompt-android';
+import { MaterialCommunityIcons, Feather, Octicons } from '@expo/vector-icons';
+
 
 
 
@@ -48,7 +50,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
   };
 
   const animatedStyle = useAnimatedStyle(() => {
-    const animatedHeight = showButtons ? withTiming(150) : withTiming(0);
+    const animatedHeight = showButtons ? withTiming(100) : withTiming(0);
     return {
       height: animatedHeight,
     }
@@ -120,17 +122,21 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
         </View>
       </TouchableOpacity>
       <Animated.View style={[styles.buttonContainer, animatedStyle]}>
-        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data.markers)} style={[styles.button, { backgroundColor: 'blue' }]}>
-          <Text style={styles.buttonText}>Send to device</Text>
+        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data.markers)} style={[styles.button]}>
+          <Feather name="bluetooth" color={'black'} size={35} />
+          <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute }); }} style={[styles.button, { backgroundColor: 'green' }]}>
-          <Text style={styles.buttonText}>Show on map</Text>
+        <TouchableOpacity onPress={() => { navigation.navigate('MapScreen', { thatRoute: thisRoute }); }} style={[styles.button]}>
+          <Feather name="map" color={'black'} size={35} />
+          <Text style={styles.buttonText}>Show</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { backgroundColor: 'red' }]}>
-          <Text style={styles.buttonText} onPress={() => deleteRoute(thisRoute)}>Delete</Text>
+        <TouchableOpacity style={[styles.button]} onPress={() => deleteRoute(thisRoute)}>
+          <Feather name="trash-2" color={'black'} size={35} />
+          <Text style={styles.buttonText} >Delete</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, { backgroundColor: 'yellow' }]}>
-          <Text style={styles.buttonText} onPress={() => handleRenameFile(thisRoute)}>Rename</Text>
+        <TouchableOpacity style={[styles.button]} onPress={() => handleRenameFile(thisRoute)}>
+          <Feather name="edit" color={'black'} size={35} />
+          <Text style={styles.buttonText} >Rename</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>
@@ -153,13 +159,22 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'row',
   },
   button: {
+    backgroundColor: '#729294', 
+    display: 'flex', 
+    justifyContent: 'space-around', 
+    alignItems: 'center', 
+    margin: 5,
     padding: 10,
     borderRadius: 5,
+    width: '22%',
   },
   buttonText: {
     color: 'white',
+    fontSize: 12
   },
 });
 

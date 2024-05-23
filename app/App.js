@@ -12,7 +12,6 @@ import SettingsScreen from './components/Settings/SettingsScreen';
 import MapScreen from './components/Map/MapScreen';
 import { BLEProvider } from './components/BLEProvider';
 
-// const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 
