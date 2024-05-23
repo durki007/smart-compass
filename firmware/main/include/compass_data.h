@@ -34,7 +34,7 @@ typedef struct {
     // Angle in 0.1 degrees - between 0 and 3600
     int16_t angle;
     // Next waypoint id
-    uint8_t next_wp;
+    uint16_t next_wp;
     // Distance to next waypoint in meters
     uint16_t distance;
 } display_data_t;
