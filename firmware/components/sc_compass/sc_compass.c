@@ -55,7 +55,8 @@ static void configure_device() {
 }
 
 static void update_shared_data(int16_t *output) {
-
+    assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
+    uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
 }
 
 _Noreturn static void sc_compass_task(void *args) {

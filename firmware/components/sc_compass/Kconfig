@@ -18,5 +18,8 @@ menu "HMC5883L I2C Compass"
     config I2C_SCL_SPEED_HZ
         int "I2C SCL speed (Hz)"
         default 400000
+    config COMPASS_AXIS_ROTATION
+        int "Compass axis rotation"
+        default 0
 
 endmenu
