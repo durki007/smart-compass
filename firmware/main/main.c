@@ -23,6 +23,7 @@ app_main(void) {
                     .lat = 0.0,
                     .lon = 0.0
             },
+            .bearing = 0,
             .path = (compass_path_t) {
                     .length = 0
             },
