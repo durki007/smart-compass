@@ -29,8 +29,18 @@ typedef struct {
     bool position_updated;
 } compass_data_t;
 
+typedef struct {
+    // Angle in 0.1 degrees - between 0 and 3600
+    int16_t angle;
+    // Next waypoint id
+    uint8_t next_wp;
+    // Distance to next waypoint in meters
+    uint16_t distance;
+} display_data_t;
+
 // Global variable, initialized in main.c
 extern compass_data_t compass_data;
+extern display_data_t display_data;
 
 void log_compass_data();
 

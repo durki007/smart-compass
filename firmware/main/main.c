@@ -9,6 +9,7 @@
 #include "sc_compass.h"
 
 compass_data_t compass_data;
+display_data_t display_data;
 
 void log_compass_data() {
     ESP_LOGI("compass_data", "Position: %f, %f", compass_data.position.lat, compass_data.position.lon);
@@ -29,6 +30,11 @@ app_main(void) {
                     .length = 0
             },
             .position_updated = false
+    };
+    display_data = (display_data_t) {
+            .angle = 0,
+            .next_wp = 0,
+            .distance = 0
     };
     ESP_LOGI("main", "BLE init");
     sc_ble_init();
