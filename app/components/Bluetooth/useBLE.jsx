@@ -132,13 +132,15 @@ function useBLE() {
 
       bleManager.stopDeviceScan();
       
-      // bleManager.onDeviceDisconnected(device.id, (error, device) => {
-      //   if (error) {
-      //     console.log(error);
-      //   }
-      //   console.log('Device is disconnected');
-      //   setConnectedDevice('null');
-      // });
+      bleManager.onDeviceDisconnected(device.id, (error, device) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log('Device is disconnected');
+        setConnectedDevice(null);
+        console.log('connectedDev after disconnetion:', connectedDevice);
+      });
+
       console.log('Dev', device, 'id: ', device.id);
       
       return [device, device.id];

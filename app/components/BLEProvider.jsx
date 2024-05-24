@@ -9,9 +9,11 @@ export const BLEProvider = ({ children }) => {
   const [connectedDevice, setConnectedDevice] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
 
-  // useEffect(() => {
-  //   console.log('Connected device:', connectedDevice);
-  // }, [connectedDevice]); // Log connectedDevice whenever it changes
+  useEffect(() => {
+    if(connectedDevice === null) {
+      console.log('Connected device changed to null');
+  }
+  }, [connectedDevice]); // Log connectedDevice whenever it changes
 
 
   return (

@@ -39,6 +39,15 @@ const MainContent = (props) => {
   } = useBLE();
 
 
+  useEffect(() => {
+    if(connectedDevice === null || connectedDevice === undefined) {
+      props.changeConnectionStatus(false);
+    } else {
+      props.changeConnectionStatus(true);
+    }
+  
+  }, [connectedDevice]); 
+
   const scanForDevices = () => {
     requestPermissions(isGranted => {
       console.log('permison granted');
