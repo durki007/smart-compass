@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 
 export const BLEContext = createContext();
 
@@ -7,6 +7,12 @@ export const BLEProvider = ({ children }) => {
   const [caracId, setCaradId] = useState("8667556c-9a37-4c91-84ed-54ee27d90049");
   const [allDevices, setAllDevices] = useState([]);
   const [connectedDevice, setConnectedDevice] = useState(null);
+  const [deviceId, setDeviceId] = useState(null);
+
+  // useEffect(() => {
+  //   console.log('Connected device:', connectedDevice);
+  // }, [connectedDevice]); // Log connectedDevice whenever it changes
+
 
   return (
     <BLEContext.Provider
@@ -19,6 +25,8 @@ export const BLEProvider = ({ children }) => {
         setAllDevices,
         connectedDevice,
         setConnectedDevice,
+        deviceId,
+        setDeviceId,
       }}
     >
       {children}
