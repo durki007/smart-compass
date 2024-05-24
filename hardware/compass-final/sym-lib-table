@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "Compass")(type "KiCad")(uri "G:/smart-compass.git/hardware/ki-cad/Compass.kicad_sym")(options "")(descr ""))
+)
