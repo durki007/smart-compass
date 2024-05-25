@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, Alert, View, Image, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font'
+import { Feather } from '@expo/vector-icons';
 
 
 
@@ -28,7 +29,8 @@ const BluetoothHeader = ({ connectionStatus }) => {
 
           </View>
           <View style={styles.headerRightInnerBox}>
-            <Image source={require('../../assets/bluetooth.png')} style={styles.headerImage} />
+            <Feather name="bluetooth" color={'white'} size={55} />
+            {/* <Image source={require('../../assets/bluetooth.png')} style={styles.headerImage} /> */}
           </View>
         </View>
     );
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-        backgroundColor:'#B8D8D8',
+        backgroundColor:'#2D2D2D',
         width:'100%',
         height: '15%',
         paddingTop: 20,
@@ -58,28 +60,32 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: 110,
         marginLeft:12,
-        marginTop:5,
+        marginTop:10,
         marginBottom: 5,
       },
     
       headerText: {
         fontFamily: 'RobotoBlack',
         fontSize: 32,
+        color:"#6200EE"
       },
     
       headerConnected: {
         fontFamily: 'RobotoBlack',
         fontSize: 24,
-        color: '#009933', //  "connected" colour
+        color: '#018786', //  "connected" colour
       },
     
       headerDisconnected: {
         fontFamily: 'RobotoBlack',
         fontSize: 24,
-        color: '#F00', // "disconnected" colour
+        color: '#B00020', // "disconnected" colour
       },
     
       headerRightInnerBox: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         marginTop:10,
         width: 110,
       },
@@ -87,6 +93,7 @@ const styles = StyleSheet.create({
       headerImage: {
         height: 70,
         resizeMode: 'contain',
+        // color: "#BB86FC"
       },
 
 })

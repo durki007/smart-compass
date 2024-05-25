@@ -21,9 +21,9 @@ const MainContent = ({ savedRoutes, deleteRoute, renameRoute }) => {
                 {savedRoutes.map((route, index) => (
                     <FileComponent
                     key={route.id} 
-                    name={route.data.name} //TODO: include this data
-                    date={route.data.date} //TODO: include this data
-                    num={route.data.length} // TODO: count markers
+                    name={route.data.name} 
+                    date={route.data.date} 
+                    num={route.data.length}
                     thisRoute={route}
                     deleteRoute={deleteRoute}
                     renameRoute={renameRoute}

@@ -175,6 +175,7 @@ const MapScreen = () => {
                 handleMarkerAdding={handleMarkerAdding}
                 handleMarkerDrag={handleMarkerDrag}
                 setSelectedMarker={setSelectedMarker}
+                
             />
             <PointComponent
                 selectedMarker={selectedMarker}
@@ -188,7 +189,7 @@ const MapScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#4B4B4B',
+        backgroundColor: '#121212',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',

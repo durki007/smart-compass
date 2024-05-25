@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     borderRadius: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#2E2E2E',
     marginBottom: 10,
   },
   infoContainer: {
@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginBottom: 5,
+    color: "#EEF5DB" 
   },
   buttonContainer: {
     overflow: 'hidden',
@@ -186,7 +187,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    backgroundColor: '#729294', 
+    backgroundColor: '#BB86FC', 
     display: 'flex', 
     justifyContent: 'space-around', 
     alignItems: 'center', 
