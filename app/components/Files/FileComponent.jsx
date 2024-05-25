@@ -98,7 +98,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
     const markers = file.map(marker => [marker.latitude, marker.longitude]);
     const markerCount = markers.length;
 
-    // Prepare flot array 
+    // Prepare float array 
     const totalFloats = markerCount * 2;
     let floatArray = new Float32Array(totalFloats);
     let offset = 0;

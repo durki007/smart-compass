@@ -83,17 +83,6 @@ const MainContent = (props) => {
         props.changeConnectionStatus(true);
         
       })
-      // .then((isConnected) => {
-      //   props.changeConnectionStatus(isConnected);
-      //   // console.log('Połączono z urządzeniem: ', connectedDevice.name);
-      // })
-      // .catch((error) => {
-      //   console.error('Error checking connection', error);
-      //   console.log(error.reason);
-      // })
-      // .finally(() => {
-      //   console.log('Why', connectedDevice, deviceId);
-      // });
   };
   
   
@@ -110,7 +99,6 @@ const MainContent = (props) => {
       }
     } catch (error) {
       console.error('Error checking connection', error);
-      // console.log("Reason:", error.reason); // Accessing the reason property
     }
   };
   
@@ -159,10 +147,10 @@ const MainContent = (props) => {
       {isModalVisible && (
         <Modal>
           <View style={styles.modalBox}>
-            <Text>Czy na pewno chcesz połączyć się z urzadzeniem? {tempDevice.id}</Text> 
+            <Text>Do you want to connect to this device?{tempDevice.id}</Text> 
             <View style={styles.buttonsBox}>
-              <Button style={styles.modalButton} title="TAK" onPress={handleConnect} />
-              <Button style={styles.modalButton} title="NIE" onPress={hideModal} />
+              <Button style={styles.modalButton} title="YES" onPress={handleConnect} />
+              <Button style={styles.modalButton} title="NO" onPress={hideModal} />
             </View>
             
           </View>

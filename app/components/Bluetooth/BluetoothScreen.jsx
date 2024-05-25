@@ -16,9 +16,6 @@ const BluetoothScreen = () => {
         <View style={styles.container}>
             <BluetoothHeader connectionStatus={isConnected} />
             <MainContent changeConnectionStatus = {isConnected => setIsConnected(isConnected)}/>
-            {/* <FooterNavg/> */}
-
-
         </View>
     );
 
