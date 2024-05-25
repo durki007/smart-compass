@@ -2,6 +2,9 @@
 #include "sc_compass.h"
 
 // Includes
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "compass_data.h"
 #include "esp_log.h"
 #include "driver/i2c.h"
 
@@ -15,17 +18,6 @@ uint16_t compass_address;
 
 static uint16_t autodetect_address() {
     return 0x0D; // Default address QMC5883L
-//    for (uint16_t i = 0; i < 127; ++i) {
-//        int ret = i2c_master_probe(bus_handle, i, -1);
-//        if (ret == ESP_OK) {
-//            ESP_LOGI(TAG, "Detected device %2x", i);
-//            return i;
-//        } else {
-//            ESP_LOGI(TAG, "No device at %2x", i);
-//        }
-//    }
-//    ESP_ERROR_CHECK(ESP_ERR_NOT_FOUND);
-    return 0;
 }
 
 static uint8_t compass_read_register(uint8_t reg) {
@@ -65,12 +57,25 @@ static void configure_device() {
     ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
 }
 
+static void update_shared_data(int16_t *output) {
+    assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
+    uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
+    compass_data_t *compass_data_ptr = &compass_data;
+    if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
+        compass_data_ptr->bearing = bearing;
+        xSemaphoreGive(compass_data_ptr->mutex);
+    }
+}
+
 _Noreturn static void sc_compass_task(void *args) {
     int16_t output[3];
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(100));
         compass_read_data_registers((uint8_t *) output);
+#ifdef CONFIG_COMPASS_LOGGING
         ESP_LOGI(TAG, "X: %d, Y: %d, Z: %d", output[0], output[1], output[2]);
+#endif
+        update_shared_data(output);
     }
 }
 

@@ -19,15 +19,17 @@ typedef struct {
 } compass_path_t;
 
 typedef compass_path_node_t compass_position_t;
+typedef uint16_t compass_bearing_t;
 
 typedef struct {
     SemaphoreHandle_t mutex;
     compass_position_t position;
+    compass_bearing_t bearing;
     compass_path_t path;
     bool position_updated;
 } compass_data_t;
 
-// Global variable, defined in main.c
+// Global variable, initialized in main.c
 extern compass_data_t compass_data;
 
 void log_compass_data();
