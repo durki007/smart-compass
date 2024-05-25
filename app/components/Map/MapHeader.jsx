@@ -49,8 +49,20 @@ const MapHeader = ({saveCourse, newCourse}) => {
         
         </View>
         <View style={styles.headerRightInnerBox}>
-          <Button title='Save' onPress={() => handleSavePress() }/>         
-          <Button title='New' onPress={() => newCourse()}/>         
+        <TouchableOpacity 
+          style={[styles.utilButtons, { backgroundColor: '#018786' }]} 
+          onPress={() => handleSavePress()}
+        >
+          <Text style={[{fontSize: 16, color: "#EEF5DB"}]}>Save</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[styles.utilButtons, { backgroundColor: '#BB86FC' }]} 
+          onPress={() => newCourse()}
+        >
+          <Text style={[{fontSize: 16, color: "#EEF5DB"}]}>New</Text>
+        </TouchableOpacity>
+        
         </View>
       </View>
   );
@@ -64,15 +76,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor:'#B8D8D8',
+    backgroundColor:'#2D2D2D',
     width:'100%',
     height: '15%',
     paddingTop: 30,
     paddingLeft: 10,
     paddingBottom: 10,
     paddingRight: 10,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    // borderBottomLeftRadius: 20,
+    // borderBottomRightRadius: 20,
   },
 
   headerLeftInnerBox: {
@@ -87,9 +99,13 @@ const styles = StyleSheet.create({
   headerText: {
     fontFamily: 'RobotoBlack',
     fontSize: 32,
+    color: "#6200EE"
   },
 
   headerRightInnerBox: {
+    flexDirection: 'column',
+    justifyContent:'space-around',
+    // alignItems:'center',
     marginTop:10,
     width: 110,
   },
@@ -98,6 +114,14 @@ const styles = StyleSheet.create({
     height: 70,
     resizeMode: 'contain',
   },
+
+  utilButtons: {
+    flexDirection: 'column',
+    justifyContent:'center',
+    alignItems:'center',
+    padding: 5,
+    borderRadius: 10,
+  }
 
 })
 
