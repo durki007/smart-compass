@@ -99,42 +99,24 @@ _Noreturn static void guiTask(void *pvParameter) {
 }
 
 static lv_obj_t *img;
-static lv_obj_t *label;
-static lv_obj_t *pos_lat_label;
-static lv_obj_t *pos_lon_label;
+static lv_obj_t *distance_label;
+static lv_obj_t *next_waypoint_label;
 
 static void ui_refresh_task() {
-    uint16_t angle = lv_img_get_angle(img);
-    angle += 10;
-    if (angle >= 3600) {
-        angle = 0;
-    }
-    lv_img_set_angle(img, (int16_t) angle);
-    // Format the angle to a string
-//    char buf[10];
-//    snprintf(buf, 10, "%d", angle / 10);
-//    lv_label_set_text(label, buf);
-
-    // Format the position to a string
-    compass_data_t *compass_data_ptr = &compass_data;
-    if (xSemaphoreTake(compass_data_ptr->mutex, pdMS_TO_TICKS(5)) == pdTRUE) {
-        // Update the position labels
-        if (compass_data_ptr->position_updated) {
-            char pos_lat_buf[20];
-            snprintf(pos_lat_buf, 20, "N %f", compass_data_ptr->position.lat);
-            lv_label_set_text(pos_lat_label, pos_lat_buf);
-            char pos_lon_buf[20];
-            snprintf(pos_lon_buf, 20, "E %f", compass_data_ptr->position.lon);
-            lv_label_set_text(pos_lon_label, pos_lon_buf);
-        } else {
-            lv_label_set_text(pos_lat_label, "Position: N/A");
-            lv_label_set_text(pos_lon_label, "Position: N/A");
-        }
-        // Update main label with path length
-        char path_length_buf[20];
-        snprintf(path_length_buf, 20, "Path len: %lu", compass_data_ptr->path.length);
-        lv_label_set_text(label, path_length_buf);
-        xSemaphoreGive(compass_data_ptr->mutex);
+    display_data_t *display_data_ptr = &display_data;
+    if (xSemaphoreTake(display_data_ptr->mutex, pdMS_TO_TICKS(5)) == pdTRUE) {
+        // Update the angle
+        lv_img_set_angle(img, (int16_t) display_data_ptr->angle);
+        // Update main label with distance to next waypoint
+        char dist_buf[20];
+        snprintf(dist_buf, 20, "%d m", display_data_ptr->distance);
+        lv_label_set_text(distance_label, dist_buf);
+        // Update label with next waypoint
+        char next_waypoint_buf[20];
+        snprintf(next_waypoint_buf, 20, "Next: %d", display_data_ptr->next_wp);
+        lv_label_set_text(next_waypoint_label, next_waypoint_buf);
+        // Unlock the mutex
+        xSemaphoreGive(display_data_ptr->mutex);
     }
 }
 
@@ -150,19 +132,17 @@ static void create_ui(void) {
     lv_img_set_angle(img, 200);
     lv_obj_align(img, LV_ALIGN_CENTER, 0, 0);
 
-    /*Create a white label, set its text and align it to the center*/
-    label = lv_label_create(lv_scr_act());
-    lv_label_set_text(label, "1000m");
+    // Create a label for distance
+    distance_label = lv_label_create(lv_scr_act());
+    lv_label_set_text(distance_label, "1000m");
     lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
-    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_align(distance_label, LV_ALIGN_CENTER, 0, 0);
 
-    // Create a label for position
-    pos_lat_label = lv_label_create(lv_scr_act());
-    lv_label_set_text(pos_lat_label, "Position: 0, 0");
-    lv_obj_align(pos_lat_label, LV_ALIGN_CENTER, 0, 0);
-    pos_lon_label = lv_label_create(lv_scr_act());
-    lv_label_set_text(pos_lon_label, "Position: 0, 0");
-    lv_obj_align(pos_lon_label, LV_ALIGN_CENTER, 0, 0);
+    // Create a label for waypoint id
+    next_waypoint_label = lv_label_create(lv_scr_act());
+    lv_label_set_text(next_waypoint_label, "0");
+    lv_obj_set_style_text_color(lv_scr_act(), lv_color_hex(0x000000), LV_PART_MAIN);
+    lv_obj_align(next_waypoint_label, LV_ALIGN_CENTER, 0, 0);
 }
 
 static void lv_tick_task(void *arg) {
