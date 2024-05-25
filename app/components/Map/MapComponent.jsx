@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import MapView, {Callout, Marker, Polyline} from 'react-native-maps';
 import { StyleSheet, View, Text, Button } from 'react-native';
-import markerPng from './../../assets/marker.png'
 
 
 const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleMarkerDrag, setSelectedMarker }) => {
@@ -67,7 +66,6 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
                     }}
                     identifier={String(marker.id)}
                     title={marker.title}
-                    // image={markerPng}  each marker should have its own png assigned base on its index
                     onDragEnd={(e) => {
                       handleMarkerDrag(markersList.findIndex(item => item.id == marker.id), e.nativeEvent.coordinate);
                       console.log(markersList);

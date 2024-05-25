@@ -5,18 +5,18 @@ const FooterNavg = () => {
 
     
     return (
-        <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navBarButton} >
-          <Image source={require('../assets/setting.png')} style={styles.navBarImage} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navBarButton}>
-          <Image source={require('../assets/compass.png')} style={styles.navBarImage} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navBarButton}>
-          <Image source={require('../assets/files.png')} style={styles.navBarImage} />
-        </TouchableOpacity>
-      </View>
-    
+      //   <View style={styles.navBar}>
+      //   <TouchableOpacity style={styles.navBarButton} >
+      //     <Image source={require('../assets/setting.png')} style={styles.navBarImage} />
+      //   </TouchableOpacity>
+      //   <TouchableOpacity style={styles.navBarButton}>
+      //     <Image source={require('../assets/compass.png')} style={styles.navBarImage} />
+      //   </TouchableOpacity>
+      //   <TouchableOpacity style={styles.navBarButton}>
+      //     <Image source={require('../assets/files.png')} style={styles.navBarImage} />
+      //   </TouchableOpacity>
+      // </View>
+      <View></View>
     );
 
 }
