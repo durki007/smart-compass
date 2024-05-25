@@ -23,8 +23,14 @@ const FilesHeader = ({retrieveRoutes, clearAllData}) => {
             <View style={styles.headerLeftInnerBox}>
                 <Text style={styles.headerText}>Saved tracks</Text>
             </View>
-            <View style={styles.headerRightInnerBox}>
-              <Button title='DELETE ALL' onPress={() => clearAllData()}/>
+               <View style={styles.headerRightInnerBox}>
+                <TouchableOpacity 
+                  style={[styles.utilButtons, { backgroundColor: '#CF6679' }]} 
+                  onPress={() => clearAllData()}
+                >
+                  <Text style={[{fontSize: 16, color: "#EEF5DB"}]}>DELETE ALL</Text>
+                </TouchableOpacity>
+                
             </View>          
         </View>
     );
@@ -38,7 +44,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-        backgroundColor:'#B8D8D8',
+        backgroundColor:'#2D2D2D',
         width:'100%',
         height: '15%',
         paddingTop: 30,
@@ -54,17 +60,21 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: 110,
         marginLeft:12,
-        marginTop:10,
+        marginTop:15,
         marginBottom: 5,
       },
     
       headerText: {
         fontFamily: 'RobotoBlack',
         fontSize: 32,
+        color:'#6200EE',
       },
     
       headerRightInnerBox: {
-        marginTop:10,
+        flexDirection: 'column',
+        justifyContent:'center',
+        alignItems:'center',
+        // marginTop:10,
         width: 110,
       },
     
@@ -72,6 +82,14 @@ const styles = StyleSheet.create({
         height: 70,
         resizeMode: 'contain',
       },
+
+      utilButtons: {
+        flexDirection: 'column',
+        justifyContent:'center',
+        alignItems:'center',
+        padding: 10,
+        borderRadius: 10,
+      }
 
 })
 
