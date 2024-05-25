@@ -125,24 +125,41 @@ const MainContent = (props) => {
 
   return (
     <View style={styles.mainBox}>
-      <Text style={styles.mainBoxBigText}>Nearby devices:</Text>
-      <View style={styles.devicesList}>
-        {allDevices.map((device) => (
-          <TouchableOpacity
-            key={device.id}
-            style={styles.deviceBox}
-            onPress={() => handleConnectToDevice(device)} 
-          >
-            <Text style={styles.deviceText}>{device.name}</Text>
-            <MaterialIcons name="keyboard-arrow-right" size={30} />
-          </TouchableOpacity>
-        ))}
+      <View>
+        <Text style={styles.mainBoxBigText}>Nearby devices:</Text>
+        <View style={styles.devicesList}>
+          {allDevices.map((device) => (
+            <TouchableOpacity
+              key={device.id}
+              style={styles.deviceBox}
+              onPress={() => handleConnectToDevice(device)} 
+            >
+              <Text style={styles.deviceText}>{device.name}</Text>
+              <MaterialIcons name="keyboard-arrow-right" size={30} />
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-      <Button styles={styles.utilButtons} title='SCAN' onPress={()=>scanForDevices()}/>
-      <Button title='SEND' onPress={()=>handelSendFile('Ala ma kota')}/>
-      <Button title='CHECK CONNECTION' onPress={()=>handleCheckConnection()}/>
-      <Button title='DISCONNECT' onPress={()=>handleDisconnect()}/>
+      <View >
+        <TouchableOpacity 
+          style={[styles.utilButtons, { backgroundColor: '#018786' }]} 
+          onPress={() => scanForDevices()}
+        >
+          <Text style={styles.deviceText}>SCAN</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity 
+          style={[styles.utilButtons, { backgroundColor: '#CF6679' }]} 
+          onPress={() => handleDisconnect()}
+        >
+          <Text style={styles.deviceText}>DISCONNECT</Text>
+        </TouchableOpacity>
+
+      </View>
+
+      
+      {/* <Button title='SEND' onPress={()=>handelSendFile('Ala ma kota')}/> */}
+      {/* <Button title='CHECK CONNECTION' onPress={()=>handleCheckConnection()}/> */}
 
       {isModalVisible && (
         <Modal>
@@ -170,12 +187,13 @@ const styles = StyleSheet.create({
       flex:1,
       width: '90%',
       borderRadius: 20,
-      backgroundColor: '#EEF5DB',
+      backgroundColor: '#2E2E2E',
       paddingTop: 30,
       paddingHorizontal: 20,
       paddingBottom: 30,
       marginBottom:30,
-      marginTop:30
+      marginTop:30,
+      justifyContent: 'space-between'
     },
     
     mainBoxSmallText: {
@@ -183,7 +201,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
       paddingVertical: 10,
       paddingHorizontal: 5,
-      borderBottomColor: '#000',
+      borderBottomColor: '#EEF5DB',
       borderBottomWidth: 1,
     },
     
@@ -191,6 +209,7 @@ const styles = StyleSheet.create({
       fontFamily:'RobotoMedium',
       fontSize: 24,
       marginBottom: 20,
+      color:"#BB86FC"
     
     },
 
@@ -208,12 +227,13 @@ const styles = StyleSheet.create({
     },
 
     deviceText: {
+      color: 'white',
       fontFamily:'RobotoMedium',
       fontSize: 16,
     },
 
     modalBox: {
-      backgroundColor: '#729294',
+      backgroundColor: '#2E2E2E',
       padding: 30,
       flex: 1,
       flexDirection: 'column',
@@ -232,8 +252,12 @@ const styles = StyleSheet.create({
     },
 
     utilButtons: {
-      margin: 20,
+      margin: 10,
       borderRadius: 10,
+      padding: 10,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
 
 })

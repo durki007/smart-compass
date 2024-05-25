@@ -20,7 +20,11 @@ function BottomTabNavg() {
     <Tab.Navigator
     initialRouteName='BluetoothScreen'
     screenOptions={{
-      tabBarActiveTintColor: '#e91e63',
+      tabBarActiveTintColor: '#6200EE',
+      tabBarInactiveTintColor: 'white',
+      tabBarStyle: {
+        backgroundColor: '#383838', // Change this to your desired color
+      },
       headerShown: false
     }}
     >
@@ -78,53 +82,53 @@ export default function App() {
 
 const styles = StyleSheet.create({
 
-  container: {
-    flex: 1,
-    backgroundColor: '#4B4B4B',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+  // container: {
+  //   flex: 1,
+  //   backgroundColor: '#2D2D2D',
+  //   flexDirection: 'column',
+  //   alignItems: 'center',
+  //   justifyContent: 'space-between',
+  // },
 
-  headerBox: {
-    // flex: 1,
-    flexDirection: 'row',
-    backgroundColor:'#B8D8D8',
-    width:'100%',
-    height: 110,
-    paddingTop: 20,
-    paddingLeft: 10,
-    paddingBottom: 10,
-    paddingRight: 10,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
+  // headerBox: {
+  //   // flex: 1,
+  //   flexDirection: 'row',
+  //   backgroundColor:'#2D2D2D',
+  //   width:'100%',
+  //   height: 110,
+  //   paddingTop: 20,
+  //   paddingLeft: 10,
+  //   paddingBottom: 10,
+  //   paddingRight: 10,
+  //   borderBottomLeftRadius: 20,
+  //   borderBottomRightRadius: 20,
+  // },
 
-  headerLeftInnerBox: {
-    flex: 1,
-    flexDirection: 'column',
-    height: 110,
-    marginLeft:12,
-    marginTop:5,
-    marginBottom: 5,
-  },
+  // headerLeftInnerBox: {
+  //   flex: 1,
+  //   flexDirection: 'column',
+  //   height: 110,
+  //   marginLeft:12,
+  //   marginTop:5,
+  //   marginBottom: 5,
+  // },
 
-  headerText: {
-    fontFamily: 'RobotoBlack',
-    fontSize: 32,
-  },
+  // headerText: {
+  //   fontFamily: 'RobotoBlack',
+  //   fontSize: 32,
+  // },
 
-  headerConnected: {
-    fontFamily: 'RobotoBlack',
-    fontSize: 24,
-    color: '#009933', // Kolor dla "connected"
-  },
+  // headerConnected: {
+  //   fontFamily: 'RobotoBlack',
+  //   fontSize: 24,
+  //   color: '#018786', // Kolor dla "connected"
+  // },
 
-  headerDisconnected: {
-    fontFamily: 'RobotoBlack',
-    fontSize: 24,
-    color: '#F00', // Kolor dla "disconnected"
-  },
+  // headerDisconnected: {
+  //   fontFamily: 'RobotoBlack',
+  //   fontSize: 24,
+  //   color: '#B00020', // Kolor dla "disconnected"
+  // },
 
   headerRightInnerBox: {
     marginTop:10,

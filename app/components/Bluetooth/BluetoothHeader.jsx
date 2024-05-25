@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-        backgroundColor:'#B8D8D8',
+        backgroundColor:'#2D2D2D',
         width:'100%',
         height: '15%',
         paddingTop: 20,
@@ -65,18 +65,19 @@ const styles = StyleSheet.create({
       headerText: {
         fontFamily: 'RobotoBlack',
         fontSize: 32,
+        color:"#6200EE"
       },
     
       headerConnected: {
         fontFamily: 'RobotoBlack',
         fontSize: 24,
-        color: '#009933', //  "connected" colour
+        color: '#018786', //  "connected" colour
       },
     
       headerDisconnected: {
         fontFamily: 'RobotoBlack',
         fontSize: 24,
-        color: '#F00', // "disconnected" colour
+        color: '#B00020', // "disconnected" colour
       },
     
       headerRightInnerBox: {
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
       headerImage: {
         height: 70,
         resizeMode: 'contain',
+        // color: "#BB86FC"
       },
 
 })
