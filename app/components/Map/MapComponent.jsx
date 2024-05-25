@@ -31,7 +31,6 @@ const MapComponent = ({ markersList, setMarkersList, handleMarkerAdding, handleM
   }
 
   const handleMarkerDeselected = () => {
-    console.log('unnn')
     setSelectedMarker(null);
   }
 

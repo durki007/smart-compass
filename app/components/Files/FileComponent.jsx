@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Animated, {useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import useBLE from '../Bluetooth/useBLE';
 import prompt from 'react-native-prompt-android';
 import { MaterialCommunityIcons, Feather, Octicons } from '@expo/vector-icons';
+
 
 
 
@@ -45,6 +46,20 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
     );
   };
 
+  const showPromptSending = (text) => {
+    Alert.alert(
+      'Sending result',
+      text,
+      [
+        { text: 'OK' },
+      ],
+      {
+        cancelable: false,
+      }
+    );
+  };
+  
+
   const handlePress = () => {
     setShowButtons(!showButtons);
   };
@@ -56,17 +71,25 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
     }
   })
 
-  const handleSendFile = (file) => {
-    if (checkConnection()) {
-      // console.log(serviceId);
-      if (sendMessage(prepareFile(file))) {
-        console.log('Data sent successfuly');
-      } else {
-        console.log('error sending data.');
-      }
+  const handleSendFile = async (file) => {
+    let isConnected;
+    try {
+      isConnected = await checkConnection();
+    } catch (error) {
+      console.error('Error checking connection', error);
+      return false; 
+    }
 
+    if (isConnected) {
+      if (sendMessage(prepareFile(file))) {
+        console.log('Data sent successfully');
+      } else {
+        console.log('Error sending data.');
+        showPromptSending('Error sending data!');
+      }
     } else {
       console.log('No device connected!');
+      showPromptSending('No device connected!');
     }
   }
 
@@ -75,7 +98,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
     const markers = file.map(marker => [marker.latitude, marker.longitude]);
     const markerCount = markers.length;
 
-    // Prepare flot array 
+    // Prepare float array 
     const totalFloats = markerCount * 2;
     let floatArray = new Float32Array(totalFloats);
     let offset = 0;
@@ -122,7 +145,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
         </View>
       </TouchableOpacity>
       <Animated.View style={[styles.buttonContainer, animatedStyle]}>
-        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data.markers)} style={[styles.button]}>
+        <TouchableOpacity onPress={() =>  handleSendFile(thisRoute.data.markers)} style={[styles.button]}>
           <Feather name="bluetooth" color={'black'} size={35} />
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>

@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { PermissionsAndroid, Platform } from 'react-native';
 import {
   BleError,
@@ -25,7 +25,9 @@ function useBLE() {
     allDevices,
     setAllDevices,
     connectedDevice,
-    setConnectedDevice
+    setConnectedDevice,
+    deviceId,
+    setDeviceId,
   } = useContext(BLEContext);
 
 
@@ -93,22 +95,17 @@ function useBLE() {
 
       await bleManager.connectToDevice(device.id);
 
+      // setDeviceId(device.id);
+      // setConnectedDevice(device);
+
+
       await device.discoverAllServicesAndCharacteristics();
 
-      // RETRIEVE SERVICES
       const services = await device.services();
-      // console.log('services: ', services);
-
-      // // PRINT AVALIABLE CHARACTERISTICS
-      // services.forEach(async (service) => {
-      //   const characteristics = await service.characteristics();
-      //   console.log('Characteristics for service', service.uuid, ':', characteristics);
-      // });
 
 
       for (const service of services) {
         const characteristics = await service.characteristics();
-        // console.log('Characteristics for service', service.uuid, ':', characteristics);
 
         // Find the first writable characteristic
         const pathCharacteristic = characteristics.find(characteristic => {
@@ -121,8 +118,9 @@ function useBLE() {
         }
       }
 
+      
+
       if (foundCharacteristic) {
-        // Set the UUIDs of the found characteristic in the state variables
         setServiceId(foundCharacteristic.serviceUUID);
         setCaradId(foundCharacteristic.uuid);
 
@@ -133,10 +131,19 @@ function useBLE() {
 
 
       bleManager.stopDeviceScan();
-      // console.log('connected to device!: ', device.name)
+      
+      bleManager.onDeviceDisconnected(device.id, (error, device) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log('Device is disconnected');
+        setConnectedDevice(null);
+        console.log('connectedDev after disconnetion:', connectedDevice);
+      });
 
-      setConnectedDevice(device); // TODO: fix
-
+      console.log('Dev', device, 'id: ', device.id);
+      
+      return [device, device.id];
     } catch (e) {
       console.log('FAILED TO CONNECT', e);
     }
@@ -189,12 +196,15 @@ function useBLE() {
   }
 
   const checkConnection = async () => {
-    if (connectedDevice && await connectedDevice.isConnected()) {
-      return true;
-    } else {
+    console.log('device:', connectedDevice);
+    console.log('deviceID:', deviceId);
+    if( deviceId === null || connectedDevice === null){
       return false;
     }
+
+    return await bleManager.isDeviceConnected(deviceId);
   }
+  
 
 
   return {
@@ -202,11 +212,12 @@ function useBLE() {
     requestPermissions,
     connectToDevice,
     allDevices,
-    connectedDevice,
     disconnectFromDevice,
     sendMessage,
     checkConnection,
     serviceId,
+    deviceId,
+    connectedDevice
   };
 }
 

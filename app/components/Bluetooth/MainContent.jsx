@@ -1,18 +1,29 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import { Modal, StyleSheet, Text, Alert, View, Image, PermissionsAndroid, TouchableOpacity, Button } from 'react-native';
 import useBLE from './useBLE';
 import { useFonts } from 'expo-font'
 import SearchButton from './SearchButton';
+import { BLEContext } from '../BLEProvider';
 
 
 
 import { MaterialIcons } from '@expo/vector-icons';
 
 
-
-
-
 const MainContent = (props) => {
+
+  const {
+    serviceId,
+    setServiceId,
+    caracId,
+    setCaradId,
+    allDevices,
+    setAllDevices,
+    connectedDevice,
+    setConnectedDevice,
+    deviceId,
+    setDeviceId,
+  } = useContext(BLEContext);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -21,13 +32,21 @@ const MainContent = (props) => {
   const {
     requestPermissions,
     scanForPeripherals,
-    allDevices,
     connectToDevice,
-    connectedDevice,
     disconnectFromDevice,
-    sendMessage
+    sendMessage,
+    checkConnection,
   } = useBLE();
 
+
+  useEffect(() => {
+    if(connectedDevice === null || connectedDevice === undefined) {
+      props.changeConnectionStatus(false);
+    } else {
+      props.changeConnectionStatus(true);
+    }
+  
+  }, [connectedDevice]); 
 
   const scanForDevices = () => {
     requestPermissions(isGranted => {
@@ -48,42 +67,55 @@ const MainContent = (props) => {
     setIsModalVisible(false);
   };
 
-  const handleConnect = () => {
-    connectToDevice(tempDevice);
-    setTempDevice(null);
-    hideModal();
-    if (connectedDevice) {
-      props.changeConnectionStatus(true);
-      console.log('Połączono z urządzeniem: ', connectedDevice.name);
-    }
-  };
-
-  const handleDisconnect = () => {
-    disconnectFromDevice();
-
-    if (!connectedDevice) {
-      props.changeConnectionStatus(false);
-      console.log('Connection closed!!');
-    }
-  }
-
   const handleConnectToDevice = (device) => {
     openModal(device);
   };
 
-  const  handleCheckConnection = async () => {
-    if (connectedDevice) {
-      const isConnected = await connectedDevice.isConnected();
-      if (isConnected) {
-        console.log('Urządzenie jest nadal połączone.');
-        console.log(connectedDevice.id)
-      } else {
-        console.log('Urządzenie nie jest już połączone.');
+  const handleConnect = () => {
+    connectToDevice(tempDevice)
+      .then((result) => {
+        const [device, id] = result;
+        setConnectedDevice(device);
+        setDeviceId(id);
+        console.log('Dev', device, 'id: ', id);
+        hideModal();
+
+        props.changeConnectionStatus(true);
+        
+      })
+  };
+  
+  
+  
+  
+  const handleDisconnect = async () => {
+    disconnectFromDevice();
+  
+    try {
+      const isConnected = await handleCheckConnection();;
+      if (!isConnected) {
+        props.changeConnectionStatus(false);
+        console.log('Connection closed!');
       }
-    } else {
-      console.log('Nie ma połączonego urządzenia.');
+    } catch (error) {
+      console.error('Error checking connection', error);
     }
-  }
+  };
+  
+
+  
+  const handleCheckConnection = async () => {
+    try {
+      const isConnected = await checkConnection();
+      console.log('bool:', isConnected);
+      return isConnected;
+    } catch (error) {
+      console.error('Error checking connection', error);
+      return false; 
+    }
+  };
+  
+  
   
 
  const handelSendFile = (file) => {
@@ -115,10 +147,10 @@ const MainContent = (props) => {
       {isModalVisible && (
         <Modal>
           <View style={styles.modalBox}>
-            <Text>Czy na pewno chcesz połączyć się z {tempDevice.name}?</Text>
+            <Text>Do you want to connect to this device?{tempDevice.id}</Text> 
             <View style={styles.buttonsBox}>
-              <Button style={styles.modalButton} title="TAK" onPress={handleConnect} />
-              <Button style={styles.modalButton} title="NIE" onPress={hideModal} />
+              <Button style={styles.modalButton} title="YES" onPress={handleConnect} />
+              <Button style={styles.modalButton} title="NO" onPress={hideModal} />
             </View>
             
           </View>

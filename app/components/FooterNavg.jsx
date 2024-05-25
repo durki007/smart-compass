@@ -4,7 +4,6 @@ import { StyleSheet, Text, Alert, View, Image, TouchableOpacity } from 'react-na
 const FooterNavg = () => {
 
     
-// onPress={handleCompassClick}
     return (
         <View style={styles.navBar}>
         <TouchableOpacity style={styles.navBarButton} >

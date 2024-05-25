@@ -7,6 +7,15 @@ import prompt from 'react-native-prompt-android';
 
 const MapHeader = ({saveCourse, newCourse}) => {
 
+  const [loaded] = useFonts({
+    RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
+    RobotoMedium: require('../../assets/fonts/Roboto-Medium.ttf'),
+  });
+
+
+  if (!loaded) {
+    return null;
+  }
 
   const showPrompt = () => {
     prompt(
@@ -30,15 +39,7 @@ const MapHeader = ({saveCourse, newCourse}) => {
     showPrompt();
   }
 
-  const [loaded] = useFonts({
-      RobotoBlack: require('../../assets/fonts/Roboto-Black.ttf'),
-      RobotoMedium: require('../../assets/fonts/Roboto-Medium.ttf'),
-    });
-  
-  
-    if (!loaded) {
-      return null;
-    }
+
 
 
   return (

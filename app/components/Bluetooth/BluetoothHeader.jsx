@@ -70,13 +70,13 @@ const styles = StyleSheet.create({
       headerConnected: {
         fontFamily: 'RobotoBlack',
         fontSize: 24,
-        color: '#009933', // Kolor dla "connected"
+        color: '#009933', //  "connected" colour
       },
     
       headerDisconnected: {
         fontFamily: 'RobotoBlack',
         fontSize: 24,
-        color: '#F00', // Kolor dla "disconnected"
+        color: '#F00', // "disconnected" colour
       },
     
       headerRightInnerBox: {
