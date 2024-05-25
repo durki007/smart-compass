@@ -8,7 +8,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FilesScreen from './components/Files/FilesScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons, Feather, Octicons } from '@expo/vector-icons';
-import SettingsScreen from './components/Settings/SettingsScreen';
 import MapScreen from './components/Map/MapScreen';
 import { BLEProvider } from './components/BLEProvider';
 
@@ -44,17 +43,6 @@ function BottomTabNavg() {
           tabBarLabel: 'Files',
           tabBarIcon: ({ color, size }) => (
             <Feather name="file" color={color} size={size} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{
-          tabBarLabel: 'Settings',
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="settings" color={color} size={size} />
           ),
         }}
       />
