@@ -198,6 +198,10 @@ function useBLE() {
   const checkConnection = async () => {
     console.log('device:', connectedDevice);
     console.log('deviceID:', deviceId);
+    if( deviceId === null || connectedDevice === null){
+      return false;
+    }
+
     return await bleManager.isDeviceConnected(deviceId);
   }
   
