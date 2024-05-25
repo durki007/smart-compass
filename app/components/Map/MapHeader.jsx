@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: 110,
     marginLeft: 12,
-    marginTop: 20,
+    marginTop:15,
     marginBottom: 5,
   },
 
