@@ -1,4 +1,5 @@
 #include <sys/cdefs.h>
+#include <math.h>
 #include "sc_compass.h"
 
 // Includes
@@ -15,6 +16,7 @@
 
 #define X_OFFSET -1711
 #define Y_OFFSET 2895
+#define ROT_OFFSET_RAD 4.18879f
 
 // Bus variables
 uint16_t compass_address;
@@ -65,12 +67,27 @@ static void compass_calibrate(int16_t *output) {
     output[1] += Y_OFFSET;
 }
 
+static float calculate_bearing(int16_t *output) {
+    float x = output[0];
+    float y = output[1];
+    return atan2f(y, x) - ROT_OFFSET_RAD;
+}
+
+static float rad_to_deg(float rad) {
+    float deg = rad * 180 / M_PI;
+    while (deg < 0) {
+        deg += 360;
+    }
+    return deg;
+}
+
 static void update_shared_data(int16_t *output) {
-    assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
-    uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
+    float bearing = calculate_bearing(output);
+    float bearing_deg = rad_to_deg(bearing);
     compass_data_t *compass_data_ptr = &compass_data;
     if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
         compass_data_ptr->bearing = bearing;
+        compass_data_ptr->bearing_deg = bearing_deg;
         xSemaphoreGive(compass_data_ptr->mutex);
     }
 }
