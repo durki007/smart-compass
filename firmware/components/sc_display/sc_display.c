@@ -109,7 +109,7 @@ static void ui_refresh_task() {
         lv_img_set_angle(img, (int16_t) display_data_ptr->angle);
         // Update main label with distance to next waypoint
         char dist_buf[20];
-        snprintf(dist_buf, 20, "%d m", display_data_ptr->distance);
+        snprintf(dist_buf, 20, "%ld m", display_data_ptr->distance);
         lv_label_set_text(distance_label, dist_buf);
         // Update label with next waypoint
         char next_waypoint_buf[20];
