@@ -9,7 +9,7 @@
 // Defines
 #define TAG "SC_LOGIC"
 #define NODE_DETECTION_PRECISION_M 5
-#define BEARING_OFFSET 0
+#define BEARING_OFFSET_DEGREES 0
 
 compass_data_t *compass_data_ptr;
 display_data_t *display_data_ptr;
@@ -39,7 +39,7 @@ static int16_t calculate_angle(float lat_km, float lon_km) {
     int16_t angle = (bearing * 1800 / M_PI);
     angle = (angle + 3600) % 3600;
     int16_t bearing_angle = bearing / 65536 * 1800;
-    bearing_angle = (bearing_angle + BEARING_OFFSET * 10 + 3600) % 3600;
+    bearing_angle = (bearing_angle + BEARING_OFFSET_DEGREES * 10 + 3600) % 3600;
     return angle;
 }
 
