@@ -31,9 +31,9 @@ static int16_t calculate_angle() {
 
     int16_t angle = (bearing * 1800 / M_PI);
     angle = (angle + 3600) % 3600;
-    int16_t bearing_angle = compass_data_ptr->bearing / 65536 * 1800;
-    bearing_angle = (bearing_angle + BEARING_OFFSET_DEGREES * 10 + 3600) % 3600;
-    return (angle - bearing_angle + 3600) % 3600;
+    float bearing_angle = compass_data_ptr->bearing * (1800.0 / 65536.0);
+    int16_t bearing_angle_final = (int16_t)(bearing_angle + BEARING_OFFSET_DEGREES * 10 + 3600) % 3600;
+    return (angle - bearing_angle_final + 3600) % 3600;
 }
 
 static uint16_t calculate_next_wp() {
@@ -53,7 +53,7 @@ static uint16_t calculate_distance() {
     float lat_km = lat_diff * 110.574;
     float lon_km = lon_diff * 111.320*cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
     
-    return (uint32_t)sqrt(lat_km * lat_km + lon_km * lon_km) * 1000;
+    return (uint32_t) (sqrt(lat_km * lat_km + lon_km * lon_km) * 1000);
 }
 
 _Noreturn static void logic_task() {
