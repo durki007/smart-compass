@@ -13,6 +13,9 @@
 #define I2C_MASTER_NUM 1
 #define I2C_MASTER_TIMEOUT_MS 1000
 
+#define X_OFFSET 0
+#define Y_OFFSET 1
+
 // Bus variables
 uint16_t compass_address;
 
@@ -75,6 +78,7 @@ _Noreturn static void sc_compass_task(void *args) {
 #ifdef CONFIG_COMPASS_LOGGING
         ESP_LOG_BUFFER_HEX(TAG, output, 6);
         ESP_LOGI(TAG, "X: %d, Y: %d, Z: %d", output[0], output[1], output[2]);
+        ESP_LOGI("compass_calibration", "%d, %d, %d", output[0], output[1], output[2]);
 #endif
         update_shared_data(output);
     }
