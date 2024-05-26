@@ -26,7 +26,7 @@ void log_display_data() {
     if(xSemaphoreTake(display_data.mutex, portMAX_DELAY) == pdTRUE) {
         ESP_LOGI("display_data", "Angle: %d", display_data.angle);
         ESP_LOGI("display_data", "Next WP: %u", display_data.next_wp);
-        ESP_LOGI("display_data", "Distance: %lu", display_data.distance);
+        ESP_LOGI("display_data", "Distance: %u", display_data.distance);
         xSemaphoreGive(display_data.mutex);
         return;
     }
@@ -65,5 +65,6 @@ app_main(void) {
     while (1) {
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         log_compass_data();
+        log_display_data();
     }
 }
