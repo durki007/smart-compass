@@ -15,7 +15,7 @@ display_data_t display_data;
 void log_compass_data() {
     if(xSemaphoreTake(compass_data.mutex, portMAX_DELAY) == pdTRUE) {
         ESP_LOGI("compass_data", "Position: %f, %f", compass_data.position.lat, compass_data.position.lon);
-        ESP_LOGI("compass_data", "Bearing: %u", compass_data.bearing);
+        ESP_LOGI("compass_data", "Bearing: %d", compass_data.bearing);
         ESP_LOGI("compass_data", "Path length: %lu", compass_data.path.length);
         xSemaphoreGive(compass_data.mutex);
         return;
