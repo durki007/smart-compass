@@ -24,7 +24,8 @@ typedef uint16_t compass_bearing_t;
 typedef struct {
     SemaphoreHandle_t mutex;
     compass_position_t position;
-    compass_bearing_t bearing;
+    float bearing; // in radians
+    float bearing_deg; // in degrees
     compass_path_t path;
     bool position_updated;
 } compass_data_t;

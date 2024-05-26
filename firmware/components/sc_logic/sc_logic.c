@@ -13,7 +13,7 @@ display_data_t *display_data_ptr;
 
 static int16_t calculate_angle() {
     // TODO
-    return (int16_t) compass_data_ptr->bearing;
+    return 0;
 }
 
 static uint16_t calculate_next_wp() {
