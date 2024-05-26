@@ -61,9 +61,7 @@ static uint16_t calculate_distance() {
     float lat_km = lat_diff * 110.574;
     float lon_km = lon_diff * 111.320*cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
     
-    int16_t lat_m = lat_km * 1000;
-    int16_t lon_m = lon_km * 1000; 
-    return sqrt(lat_m * lat_m + lon_m * lon_m);
+    return (uint16_t)sqrt(lat_km * lat_km + lon_km * lon_km) * 1000;
 }
 
 _Noreturn static void logic_task() {
