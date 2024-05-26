@@ -73,6 +73,7 @@ _Noreturn static void sc_compass_task(void *args) {
         vTaskDelay(pdMS_TO_TICKS(100));
         compass_read_data_registers((uint8_t *) output);
 #ifdef CONFIG_COMPASS_LOGGING
+        ESP_LOG_BUFFER_HEX(TAG, output, 6);
         ESP_LOGI(TAG, "X: %d, Y: %d, Z: %d", output[0], output[1], output[2]);
 #endif
         update_shared_data(output);
