@@ -13,8 +13,8 @@
 #define I2C_MASTER_NUM 1
 #define I2C_MASTER_TIMEOUT_MS 1000
 
-#define X_OFFSET 0
-#define Y_OFFSET 1
+#define X_OFFSET -1711
+#define Y_OFFSET 2895
 
 // Bus variables
 uint16_t compass_address;
@@ -60,6 +60,11 @@ static void configure_device() {
     ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
 }
 
+static void compass_calibrate(int16_t *output) {
+    output[0] += X_OFFSET;
+    output[1] += Y_OFFSET;
+}
+
 static void update_shared_data(int16_t *output) {
     assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
     uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
@@ -75,6 +80,7 @@ _Noreturn static void sc_compass_task(void *args) {
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(100));
         compass_read_data_registers((uint8_t *) output);
+        compass_calibrate(output);
 #ifdef CONFIG_COMPASS_LOGGING
         ESP_LOG_BUFFER_HEX(TAG, output, 6);
         ESP_LOGI(TAG, "X: %d, Y: %d, Z: %d", output[0], output[1], output[2]);
