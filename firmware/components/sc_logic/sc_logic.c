@@ -91,7 +91,7 @@ _Noreturn static void logic_task() {
             // Release semaphore 1
             xSemaphoreGive(compass_data_ptr->mutex);
         }
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }
 
