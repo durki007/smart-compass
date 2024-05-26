@@ -13,9 +13,23 @@ compass_data_t compass_data;
 display_data_t display_data;
 
 void log_compass_data() {
-    ESP_LOGI("compass_data", "Position: %f, %f", compass_data.position.lat, compass_data.position.lon);
-    ESP_LOGI("compass_data", "Bearing: %u", compass_data.bearing);
-    ESP_LOGI("compass_data", "Path length: %lu", compass_data.path.length);
+    if(xSemaphoreTake(compass_data.mutex, portMAX_DELAY) == pdTRUE) {
+        ESP_LOGI("compass_data", "Position: %f, %f", compass_data.position.lat, compass_data.position.lon);
+        ESP_LOGI("compass_data", "Bearing: %u", compass_data.bearing);
+        ESP_LOGI("compass_data", "Path length: %lu", compass_data.path.length);
+        xSemaphoreGive(compass_data.mutex);
+        return;
+    }
+}
+
+void log_display_data() {
+    if(xSemaphoreTake(display_data.mutex, portMAX_DELAY) == pdTRUE) {
+        ESP_LOGI("display_data", "Angle: %d", display_data.angle);
+        ESP_LOGI("display_data", "Next WP: %u", display_data.next_wp);
+        ESP_LOGI("display_data", "Distance: %u", display_data.distance);
+        xSemaphoreGive(display_data.mutex);
+        return;
+    }
 }
 
 void
@@ -51,5 +65,6 @@ app_main(void) {
     while (1) {
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         log_compass_data();
+        log_display_data();
     }
 }
