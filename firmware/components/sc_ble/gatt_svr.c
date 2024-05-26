@@ -93,10 +93,16 @@ void log_characteristic_value() {
 
 void update_shared_variable() {
     compass_data_t *compass_data_ptr = &compass_data;
+    display_data_t *display_data_ptr = &display_data;
     compass_path_t *path = &compass_data_ptr->path;
     if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
         memcpy(path, gatt_svr_chr_val, sizeof(compass_path_t));
         xSemaphoreGive(compass_data_ptr->mutex);
+    }
+    if (xSemaphoreTake(display_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
+        display_data_ptr->next_wp = 0;
+        display_data_ptr->distance = 0;
+        xSemaphoreGive(display_data_ptr->mutex);
     }
 }
 

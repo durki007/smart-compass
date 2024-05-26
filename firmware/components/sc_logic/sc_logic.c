@@ -8,7 +8,7 @@
 
 // Defines
 #define TAG "SC_LOGIC"
-#define NODE_DETECTION_PRECISION_M 5
+#define NODE_DETECTION_PRECISION_M 100
 
 compass_data_t *compass_data_ptr;
 display_data_t *display_data_ptr;
