@@ -14,16 +14,27 @@
 compass_data_t *compass_data_ptr;
 display_data_t *display_data_ptr;
 
-static void calculate_lat_lon(float * lat_km, float * lon_km) {
+static void calculate_lat_lon(float *lat_km, float *lon_km) {
     float lon_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lon - compass_data_ptr->position.lon;
     float lat_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat - compass_data_ptr->position.lat;
 
     *lat_km = lat_diff * 110.574;
-    *lon_km = lon_diff * 111.320*cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
+    *lon_km = lon_diff * 111.320 * cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
+}
+
+static int16_t radian_to_degree(float angle) {
+    float deg = angle * 180 / M_PI;
+    while (deg < 0) {
+        deg += 360;
+    }
+    while (deg > 360) {
+        deg -= 360;
+    }
+    return (int16_t) deg * 10;
 }
 
 static int16_t calculate_angle() {
-    
+
     float curr_lon = compass_data_ptr->position.lon * M_PI / 180;
     float curr_lat = compass_data_ptr->position.lat * M_PI / 180;
     float goal_lon = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lon * M_PI / 180;
@@ -33,22 +44,22 @@ static int16_t calculate_angle() {
 
     float y = sin(dLon) * cos(goal_lat);
     float x = cos(goal_lat) * sin(goal_lat) - sin(curr_lat)
-            * cos(goal_lat) * cos(dLon);
+                                              * cos(goal_lat) * cos(dLon);
 
     float angle_radians = atan2(y, x);
 
     float bearing_radians = compass_data_ptr->bearing;
-    return bearing_radians - angle_radians;
+    return radian_to_degree(angle_radians - bearing_radians);
 }
 
 static uint16_t calculate_next_wp() {
     if (display_data_ptr->distance > NODE_DETECTION_PRECISION_M) {
-      return display_data_ptr->next_wp; 
-    } 
-    if (display_data_ptr->next_wp+1 >= compass_data_ptr->path.length) {
-      return display_data_ptr->next_wp;
+        return display_data_ptr->next_wp;
     }
-    return display_data_ptr->next_wp+1;
+    if (display_data_ptr->next_wp + 1 >= compass_data_ptr->path.length) {
+        return display_data_ptr->next_wp;
+    }
+    return display_data_ptr->next_wp + 1;
 }
 
 static uint16_t calculate_distance() {
@@ -56,8 +67,8 @@ static uint16_t calculate_distance() {
     float lat_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat - compass_data_ptr->position.lat;
 
     float lat_km = lat_diff * 110.574;
-    float lon_km = lon_diff * 111.320*cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
-    
+    float lon_km = lon_diff * 111.320 * cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
+
     return (uint32_t) (sqrt(lat_km * lat_km + lon_km * lon_km) * 1000);
 }
 
