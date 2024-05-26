@@ -27,13 +27,10 @@ static int16_t calculate_angle() {
     float x = cos(goal_lat) * sin(goal_lat) - sin(curr_lat)
             * cos(goal_lat) * cos(dLon);
 
-    float bearing = atan2(y, x);
+    float angle_radians = atan2(y, x);
 
-    int16_t angle = (bearing * 1800 / M_PI);
-    angle = (angle + 3600) % 3600;
-    float bearing_angle = compass_data_ptr->bearing * (1800.0 / 65536.0);
-    int16_t bearing_angle_final = (int16_t)(bearing_angle + BEARING_OFFSET_DEGREES * 10 + 3600) % 3600;
-    return (angle - bearing_angle_final + 3600) % 3600;
+    float bearing_radians = compass_data_ptr->bearing;
+    return bearing_radians - angle_radians;
 }
 
 static uint16_t calculate_next_wp() {
