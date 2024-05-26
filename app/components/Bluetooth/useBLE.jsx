@@ -118,7 +118,7 @@ function useBLE() {
         }
       }
 
-      
+
 
       if (foundCharacteristic) {
         setServiceId(foundCharacteristic.serviceUUID);
@@ -131,7 +131,7 @@ function useBLE() {
 
 
       bleManager.stopDeviceScan();
-      
+
       bleManager.onDeviceDisconnected(device.id, (error, device) => {
         if (error) {
           console.log(error);
@@ -142,7 +142,7 @@ function useBLE() {
       });
 
       console.log('Dev', device, 'id: ', device.id);
-      
+
       return [device, device.id];
     } catch (e) {
       console.log('FAILED TO CONNECT', e);
@@ -184,27 +184,19 @@ function useBLE() {
   const sendMessage = (message) => {
     console.log("Sending message: ", message, " to characteristic: ", caracId);
     const base64Value = Buffer.from(message).toString('base64');
-    connectedDevice.writeCharacteristicWithResponseForService(serviceId, caracId, base64Value)
-      .then(res => {
-        console.log(res);
-        return 1;
-      })
-      .catch(err => {
-        console.error(err)
-        return 0;
-      });
+    return connectedDevice.writeCharacteristicWithResponseForService(serviceId, caracId, base64Value)
   }
 
   const checkConnection = async () => {
     console.log('device:', connectedDevice);
     console.log('deviceID:', deviceId);
-    if( deviceId === null || connectedDevice === null){
+    if (deviceId === null || connectedDevice === null) {
       return false;
     }
 
     return await bleManager.isDeviceConnected(deviceId);
   }
-  
+
 
 
   return {

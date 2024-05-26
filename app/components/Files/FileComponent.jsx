@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import Animated, {useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import useBLE from '../Bluetooth/useBLE';
@@ -34,7 +34,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
       'Enter Course Name',
       'Please enter the name of the course',
       [
-        { text: 'Cancel', onPress: () => console.log('Cancel Pressed') , style: 'cancel' },
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
         { text: 'OK', onPress: (text) => renameRoute(route, text) },
       ],
       {
@@ -58,7 +58,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
       }
     );
   };
-  
+
 
   const handlePress = () => {
     setShowButtons(!showButtons);
@@ -77,16 +77,20 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
       isConnected = await checkConnection();
     } catch (error) {
       console.error('Error checking connection', error);
-      return false; 
+      return false;
     }
 
     if (isConnected) {
-      if (sendMessage(prepareFile(file))) {
-        console.log('Data sent successfully');
-      } else {
-        console.log('Error sending data.');
-        showPromptSending('Error sending data!');
-      }
+      sendMessage(prepareFile(file))
+        .then((result) => {
+          console.log('Data sent successfully');
+          showPromptSending('Data sent successfully');
+        })
+        .catch((error) => {
+          console.error('Error sending data', error);
+          showPromptSending('Error sending data');
+        }
+        );
     } else {
       console.log('No device connected!');
       showPromptSending('No device connected!');
@@ -145,7 +149,7 @@ const FileComponent = ({ name, date, num, thisRoute, deleteRoute, renameRoute })
         </View>
       </TouchableOpacity>
       <Animated.View style={[styles.buttonContainer, animatedStyle]}>
-        <TouchableOpacity onPress={() =>  handleSendFile(thisRoute.data.markers)} style={[styles.button]}>
+        <TouchableOpacity onPress={() => handleSendFile(thisRoute.data.markers)} style={[styles.button]}>
           <Feather name="bluetooth" color={'black'} size={35} />
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
@@ -179,7 +183,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     marginBottom: 5,
-    color: "#EEF5DB" 
+    color: "#EEF5DB"
   },
   buttonContainer: {
     overflow: 'hidden',
@@ -187,10 +191,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    backgroundColor: '#BB86FC', 
-    display: 'flex', 
-    justifyContent: 'space-around', 
-    alignItems: 'center', 
+    backgroundColor: '#BB86FC',
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     margin: 5,
     padding: 10,
     borderRadius: 5,
