@@ -57,9 +57,9 @@ static void configure_device() {
     ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
 }
 
-static void update_shared_data(int16_t *output) {
+static void update_shared_data(const int16_t *output) {
     assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
-    uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
+    int16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
     compass_data_t *compass_data_ptr = &compass_data;
     if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
         compass_data_ptr->bearing = bearing;
