@@ -1,4 +1,5 @@
 #include <sys/cdefs.h>
+#include <math.h>
 #include "sc_compass.h"
 
 // Includes
@@ -12,6 +13,10 @@
 #define TAG "sc_compass"
 #define I2C_MASTER_NUM 1
 #define I2C_MASTER_TIMEOUT_MS 1000
+
+#define X_OFFSET -1711
+#define Y_OFFSET 2895
+#define ROT_OFFSET_RAD 4.18879f
 
 // Bus variables
 uint16_t compass_address;
@@ -57,12 +62,32 @@ static void configure_device() {
     ESP_LOG_BUFFER_HEX(TAG, reg_buf, 12);
 }
 
+static void compass_calibrate(int16_t *output) {
+    output[0] += X_OFFSET;
+    output[1] += Y_OFFSET;
+}
+
+static float calculate_bearing(int16_t *output) {
+    float x = output[0];
+    float y = output[1];
+    return atan2f(y, x) - ROT_OFFSET_RAD;
+}
+
+static float rad_to_deg(float rad) {
+    float deg = rad * 180 / M_PI;
+    while (deg < 0) {
+        deg += 360;
+    }
+    return deg;
+}
+
 static void update_shared_data(int16_t *output) {
-    assert(CONFIG_COMPASS_AXIS_ROTATION >= 0 && CONFIG_COMPASS_AXIS_ROTATION <= 2);
-    uint16_t bearing = output[CONFIG_COMPASS_AXIS_ROTATION];
+    float bearing = calculate_bearing(output);
+    float bearing_deg = rad_to_deg(bearing);
     compass_data_t *compass_data_ptr = &compass_data;
     if (xSemaphoreTake(compass_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
         compass_data_ptr->bearing = bearing;
+        compass_data_ptr->bearing_deg = bearing_deg;
         xSemaphoreGive(compass_data_ptr->mutex);
     }
 }
@@ -72,8 +97,11 @@ _Noreturn static void sc_compass_task(void *args) {
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(100));
         compass_read_data_registers((uint8_t *) output);
+        compass_calibrate(output);
 #ifdef CONFIG_COMPASS_LOGGING
+        ESP_LOG_BUFFER_HEX(TAG, output, 6);
         ESP_LOGI(TAG, "X: %d, Y: %d, Z: %d", output[0], output[1], output[2]);
+        ESP_LOGI("compass_calibration", "%d, %d, %d", output[0], output[1], output[2]);
 #endif
         update_shared_data(output);
     }

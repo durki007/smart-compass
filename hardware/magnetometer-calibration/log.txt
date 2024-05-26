@@ -1,0 +1,380 @@
+I (1551) sc_compass: 9d 05 8d f5 d8 06
+I (1551) sc_compass: X: 1437, Y: -2675, Z: 1752
+I (1551) compass_calibration: 1437, -2675, 1752
+I (1651) sc_compass: b1 05 77 f5 d3 06
+I (1651) sc_compass: X: 1457, Y: -2697, Z: 1747
+I (1651) compass_calibration: 1457, -2697, 1747
+I (1751) sc_compass: a7 05 92 f5 ec 06
+I (1751) sc_compass: X: 1447, Y: -2670, Z: 1772
+I (1751) compass_calibration: 1447, -2670, 1772
+I (1851) sc_compass: a2 05 77 f5 1c 07
+I (1851) sc_compass: X: 1442, Y: -2697, Z: 1820
+I (1851) compass_calibration: 1442, -2697, 1820
+I (1941) sc_gps: Updated: 0.000000, 0.000000
+I (1951) sc_compass: b1 05 9c f5 ec 06
+I (1951) sc_compass: X: 1457, Y: -2660, Z: 1772
+I (1951) compass_calibration: 1457, -2660, 1772
+I (2051) sc_compass: be 05 b3 f5 0d 07
+I (2051) sc_compass: X: 1470, Y: -2637, Z: 1805
+I (2051) compass_calibration: 1470, -2637, 1805
+I (2151) sc_compass: b6 05 86 f5 1c 07
+I (2151) sc_compass: X: 1462, Y: -2682, Z: 1820
+I (2151) compass_calibration: 1462, -2682, 1820
+I (2251) sc_compass: a2 05 68 f5 0d 07
+I (2251) sc_compass: X: 1442, Y: -2712, Z: 1805
+I (2251) compass_calibration: 1442, -2712, 1805
+I (2351) sc_compass: b1 05 5b f5 1c 07
+I (2351) sc_compass: X: 1457, Y: -2725, Z: 1820
+I (2351) compass_calibration: 1457, -2725, 1820
+I (2451) sc_compass: 7a 05 40 f5 3a 07
+I (2451) sc_compass: X: 1402, Y: -2752, Z: 1850
+I (2451) compass_calibration: 1402, -2752, 1850
+I (2461) compass_data: Position: 0.000000, 0.000000
+I (2461) compass_data: Bearing: 62784
+I (2461) compass_data: Path length: 0
+I (2551) sc_compass: 82 05 eb f4 17 07
+I (2551) sc_compass: X: 1410, Y: -2837, Z: 1815
+I (2551) compass_calibration: 1410, -2837, 1815
+I (2651) sc_compass: 87 05 d4 f4 30 07
+I (2651) sc_compass: X: 1415, Y: -2860, Z: 1840
+I (2651) compass_calibration: 1415, -2860, 1840
+I (2751) sc_compass: 7a 05 c8 f4 44 07
+I (2751) sc_compass: X: 1402, Y: -2872, Z: 1860
+I (2751) compass_calibration: 1402, -2872, 1860
+I (2851) sc_compass: 96 05 be f4 4b 07
+I (2851) sc_compass: X: 1430, Y: -2882, Z: 1867
+I (2851) compass_calibration: 1430, -2882, 1867
+I (2941) sc_gps: Updated: 0.000000, 0.000000
+I (2951) sc_compass: 87 05 6b f4 5a 07
+I (2951) sc_compass: X: 1415, Y: -2965, Z: 1882
+I (2951) compass_calibration: 1415, -2965, 1882
+I (3051) sc_compass: 75 05 66 f4 6e 07
+I (3051) sc_compass: X: 1397, Y: -2970, Z: 1902
+I (3051) compass_calibration: 1397, -2970, 1902
+I (3151) sc_compass: cd 05 11 f4 69 07
+I (3151) sc_compass: X: 1485, Y: -3055, Z: 1897
+I (3151) compass_calibration: 1485, -3055, 1897
+I (3251) sc_compass: 9d 05 41 f4 6e 07
+I (3251) sc_compass: X: 1437, Y: -3007, Z: 1902
+I (3251) compass_calibration: 1437, -3007, 1902
+I (3351) sc_compass: ac 05 1b f4 78 07
+I (3351) sc_compass: X: 1452, Y: -3045, Z: 1912
+I (3351) compass_calibration: 1452, -3045, 1912
+I (3451) sc_compass: a7 05 11 f4 5f 07
+I (3451) sc_compass: X: 1447, Y: -3055, Z: 1887
+I (3451) compass_calibration: 1447, -3055, 1887
+I (3461) compass_data: Position: 0.000000, 0.000000
+I (3461) compass_data: Bearing: 62481
+I (3461) compass_data: Path length: 0
+I (3551) sc_compass: ac 05 3c f4 69 07
+I (3551) sc_compass: X: 1452, Y: -3012, Z: 1897
+I (3551) compass_calibration: 1452, -3012, 1897
+I (3651) sc_compass: a7 05 37 f4 4b 07
+I (3651) sc_compass: X: 1447, Y: -3017, Z: 1867
+I (3651) compass_calibration: 1447, -3017, 1867
+I (3751) sc_compass: a7 05 0a f4 3a 07
+I (3751) sc_compass: X: 1447, Y: -3062, Z: 1850
+I (3751) compass_calibration: 1447, -3062, 1850
+I (3851) sc_compass: c3 05 e4 f3 5f 07
+I (3851) sc_compass: X: 1475, Y: -3100, Z: 1887
+I (3851) compass_calibration: 1475, -3100, 1887
+I (3941) sc_gps: Updated: 0.000000, 0.000000
+I (3951) sc_compass: be 05 bf f3 46 07
+I (3951) sc_compass: X: 1470, Y: -3137, Z: 1862
+I (3951) compass_calibration: 1470, -3137, 1862
+I (4051) sc_compass: de 05 9e f3 82 07
+I (4051) sc_compass: X: 1502, Y: -3170, Z: 1922
+I (4051) compass_calibration: 1502, -3170, 1922
+I (4151) sc_compass: c8 05 88 f3 8c 07
+I (4151) sc_compass: X: 1480, Y: -3192, Z: 1932
+I (4151) compass_calibration: 1480, -3192, 1932
+I (4251) sc_compass: cf 05 99 f3 b2 07
+I (4251) sc_compass: X: 1487, Y: -3175, Z: 1970
+I (4251) compass_calibration: 1487, -3175, 1970
+I (4351) sc_compass: 10 06 76 f3 bc 07
+I (4351) sc_compass: X: 1552, Y: -3210, Z: 1980
+I (4351) compass_calibration: 1552, -3210, 1980
+I (4451) sc_compass: fa 05 7e f3 bc 07
+I (4451) sc_compass: X: 1530, Y: -3202, Z: 1980
+I (4451) compass_calibration: 1530, -3202, 1980
+I (4471) compass_data: Position: 0.000000, 0.000000
+I (4471) compass_data: Bearing: 62334
+I (4471) compass_data: Path length: 0
+I (4551) sc_compass: 10 06 67 f3 99 07
+I (4551) sc_compass: X: 1552, Y: -3225, Z: 1945
+I (4551) compass_calibration: 1552, -3225, 1945
+I (4651) sc_compass: 27 06 47 f3 91 07
+I (4651) sc_compass: X: 1575, Y: -3257, Z: 1937
+I (4651) compass_calibration: 1575, -3257, 1937
+I (4751) sc_compass: 63 06 21 f3 a3 07
+I (4751) sc_compass: X: 1635, Y: -3295, Z: 1955
+I (4751) compass_calibration: 1635, -3295, 1955
+I (4851) sc_compass: 9a 06 21 f3 bc 07
+I (4851) sc_compass: X: 1690, Y: -3295, Z: 1980
+I (4851) compass_calibration: 1690, -3295, 1980
+I (4941) sc_gps: Updated: 0.000000, 0.000000
+I (4951) sc_compass: c7 06 1c f3 c6 07
+I (4951) sc_compass: X: 1735, Y: -3300, Z: 1990
+I (4951) compass_calibration: 1735, -3300, 1990
+I (5051) sc_compass: ec 06 21 f3 bc 07
+I (5051) sc_compass: X: 1772, Y: -3295, Z: 1980
+I (5051) compass_calibration: 1772, -3295, 1980
+I (5151) sc_compass: fe 06 42 f3 c1 07
+I (5151) sc_compass: X: 1790, Y: -3262, Z: 1985
+I (5151) compass_calibration: 1790, -3262, 1985
+I (5251) sc_compass: 3f 07 3d f3 cb 07
+I (5251) sc_compass: X: 1855, Y: -3267, Z: 1995
+I (5251) compass_calibration: 1855, -3267, 1995
+I (5351) sc_compass: 71 07 71 f3 bc 07
+I (5351) sc_compass: X: 1905, Y: -3215, Z: 1980
+I (5351) compass_calibration: 1905, -3215, 1980
+I (5451) sc_compass: 71 07 5d f3 e1 07
+I (5451) sc_compass: X: 1905, Y: -3235, Z: 2017
+I (5451) compass_calibration: 1905, -3235, 2017
+I (5471) compass_data: Position: 0.000000, 0.000000
+I (5471) compass_data: Bearing: 62301
+I (5471) compass_data: Path length: 0
+I (5551) sc_compass: 87 07 67 f3 e6 07
+I (5551) sc_compass: X: 1927, Y: -3225, Z: 2022
+I (5551) compass_calibration: 1927, -3225, 2022
+I (5651) sc_compass: be 07 ad f3 04 08
+I (5651) sc_compass: X: 1982, Y: -3155, Z: 2052
+I (5651) compass_calibration: 1982, -3155, 2052
+I (5751) sc_compass: eb 07 99 f3 e1 07
+I (5751) sc_compass: X: 2027, Y: -3175, Z: 2017
+I (5751) compass_calibration: 2027, -3175, 2017
+I (5851) sc_compass: b4 07 df f3 bc 07
+I (5851) sc_compass: X: 1972, Y: -3105, Z: 1980
+I (5851) compass_calibration: 1972, -3105, 1980
+I (5941) sc_gps: Updated: 0.000000, 0.000000
+I (5951) sc_compass: ff 07 e4 f3 9e 07
+I (5951) sc_compass: X: 2047, Y: -3100, Z: 1950
+I (5951) compass_calibration: 2047, -3100, 1950
+I (6051) sc_compass: d0 07 32 f4 a8 07
+I (6051) sc_compass: X: 2000, Y: -3022, Z: 1960
+I (6051) compass_calibration: 2000, -3022, 1960
+I (6151) sc_compass: be 07 46 f4 6e 07
+I (6151) sc_compass: X: 1982, Y: -3002, Z: 1902
+I (6151) compass_calibration: 1982, -3002, 1902
+I (6251) sc_compass: cb 07 5c f4 46 07
+I (6251) sc_compass: X: 1995, Y: -2980, Z: 1862
+I (6251) compass_calibration: 1995, -2980, 1862
+I (6351) sc_compass: c3 07 7d f4 0d 07
+I (6351) sc_compass: X: 1987, Y: -2947, Z: 1805
+I (6351) compass_calibration: 1987, -2947, 1805
+I (6451) sc_compass: e4 07 b9 f4 1c 07
+I (6451) sc_compass: X: 2020, Y: -2887, Z: 1820
+I (6451) compass_calibration: 2020, -2887, 1820
+I (6471) compass_data: Position: 0.000000, 0.000000
+I (6471) compass_data: Bearing: 62649
+I (6471) compass_data: Path length: 0
+I (6551) sc_compass: f5 07 d9 f4 e7 06
+I (6551) sc_compass: X: 2037, Y: -2855, Z: 1767
+I (6551) compass_calibration: 2037, -2855, 1767
+I (6651) sc_compass: cb 07 d9 f4 17 07
+I (6651) sc_compass: X: 1995, Y: -2855, Z: 1815
+I (6651) compass_calibration: 1995, -2855, 1815
+I (6751) sc_compass: df 07 cd f4 ec 06
+I (6751) sc_compass: X: 2015, Y: -2867, Z: 1772
+I (6751) compass_calibration: 2015, -2867, 1772
+I (6851) sc_compass: cb 07 04 f5 d8 06
+I (6851) sc_compass: X: 1995, Y: -2812, Z: 1752
+I (6851) compass_calibration: 1995, -2812, 1752
+I (6941) sc_gps: Updated: 0.000000, 0.000000
+I (6951) sc_compass: e6 07 29 f5 e2 06
+I (6951) sc_compass: X: 2022, Y: -2775, Z: 1762
+I (6951) compass_calibration: 2022, -2775, 1762
+I (7051) sc_compass: c3 07 ff f4 ba 06
+I (7051) sc_compass: X: 1987, Y: -2817, Z: 1722
+I (7051) compass_calibration: 1987, -2817, 1722
+I (7151) sc_compass: 8c 07 29 f5 9f 06
+I (7151) sc_compass: X: 1932, Y: -2775, Z: 1695
+I (7151) compass_calibration: 1932, -2775, 1695
+I (7251) sc_compass: 8c 07 4a f5 9a 06
+I (7251) sc_compass: X: 1932, Y: -2742, Z: 1690
+I (7251) compass_calibration: 1932, -2742, 1690
+I (7351) sc_compass: 82 07 72 f5 c4 06
+I (7351) sc_compass: X: 1922, Y: -2702, Z: 1732
+I (7351) compass_calibration: 1922, -2702, 1732
+I (7451) sc_compass: 91 07 86 f5 8b 06
+I (7451) sc_compass: X: 1937, Y: -2682, Z: 1675
+I (7451) compass_calibration: 1937, -2682, 1675
+I (7471) compass_data: Position: 0.000000, 0.000000
+I (7471) compass_data: Bearing: 62854
+I (7471) compass_data: Path length: 0
+I (7551) sc_compass: 94 07 8d f5 8b 06
+I (7551) sc_compass: X: 1940, Y: -2675, Z: 1675
+I (7551) compass_calibration: 1940, -2675, 1675
+I (7651) sc_compass: ad 07 86 f5 a4 06
+I (7651) sc_compass: X: 1965, Y: -2682, Z: 1700
+I (7651) compass_calibration: 1965, -2682, 1700
+I (7751) sc_compass: 78 07 c2 f5 86 06
+I (7751) sc_compass: X: 1912, Y: -2622, Z: 1670
+I (7751) compass_calibration: 1912, -2622, 1670
+I (7851) sc_compass: 78 07 ce f5 9a 06
+I (7851) sc_compass: X: 1912, Y: -2610, Z: 1690
+I (7851) compass_calibration: 1912, -2610, 1690
+I (7941) sc_gps: Updated: 0.000000, 0.000000
+I (7951) sc_compass: 71 07 ea f5 9f 06
+I (7951) sc_compass: X: 1905, Y: -2582, Z: 1695
+I (7951) compass_calibration: 1905, -2582, 1695
+I (8051) sc_compass: 76 07 e2 f5 86 06
+I (8051) sc_compass: X: 1910, Y: -2590, Z: 1670
+I (8051) compass_calibration: 1910, -2590, 1670
+I (8151) sc_compass: 82 07 05 f6 72 06
+I (8151) sc_compass: X: 1922, Y: -2555, Z: 1650
+I (8151) compass_calibration: 1922, -2555, 1650
+I (8251) sc_compass: 50 07 0a f6 7c 06
+I (8251) sc_compass: X: 1872, Y: -2550, Z: 1660
+I (8251) compass_calibration: 1872, -2550, 1660
+I (8351) sc_compass: 50 07 14 f6 86 06
+I (8351) sc_compass: X: 1872, Y: -2540, Z: 1670
+I (8351) compass_calibration: 1872, -2540, 1670
+I (8451) sc_compass: 19 07 26 f6 95 06
+I (8451) sc_compass: X: 1817, Y: -2522, Z: 1685
+I (8451) compass_calibration: 1817, -2522, 1685
+I (8471) compass_data: Position: 0.000000, 0.000000
+I (8471) compass_data: Bearing: 63014
+I (8471) compass_data: Path length: 0
+I (8551) sc_compass: f9 06 30 f6 95 06
+I (8551) sc_compass: X: 1785, Y: -2512, Z: 1685
+I (8551) compass_calibration: 1785, -2512, 1685
+I (8651) sc_compass: d6 06 0f f6 63 06
+I (8651) sc_compass: X: 1750, Y: -2545, Z: 1635
+I (8651) compass_calibration: 1750, -2545, 1635
+I (8751) sc_compass: e2 06 1e f6 a4 06
+I (8751) sc_compass: X: 1762, Y: -2530, Z: 1700
+I (8751) compass_calibration: 1762, -2530, 1700
+I (8851) sc_compass: d6 06 19 f6 81 06
+I (8851) sc_compass: X: 1750, Y: -2535, Z: 1665
+I (8851) compass_calibration: 1750, -2535, 1665
+I (8941) sc_gps: Updated: 0.000000, 0.000000
+I (8951) sc_compass: ba 06 46 f6 81 06
+I (8951) sc_compass: X: 1722, Y: -2490, Z: 1665
+I (8951) compass_calibration: 1722, -2490, 1665
+I (9051) sc_compass: bf 06 f9 f5 7c 06
+I (9051) sc_compass: X: 1727, Y: -2567, Z: 1660
+I (9051) compass_calibration: 1727, -2567, 1660
+I (9151) sc_compass: 8b 06 03 f6 81 06
+I (9151) sc_compass: X: 1675, Y: -2557, Z: 1665
+I (9151) compass_calibration: 1675, -2557, 1665
+I (9251) sc_compass: 9f 06 1e f6 68 06
+I (9251) sc_compass: X: 1695, Y: -2530, Z: 1640
+I (9251) compass_calibration: 1695, -2530, 1640
+I (9351) sc_compass: 7e 06 0f f6 7c 06
+I (9351) sc_compass: X: 1662, Y: -2545, Z: 1660
+I (9351) compass_calibration: 1662, -2545, 1660
+I (9451) sc_compass: 5e 06 f4 f5 68 06
+I (9451) sc_compass: X: 1630, Y: -2572, Z: 1640
+I (9451) compass_calibration: 1630, -2572, 1640
+I (9471) compass_data: Position: 0.000000, 0.000000
+I (9471) compass_data: Bearing: 62964
+I (9471) compass_data: Path length: 0
+I (9551) sc_compass: 42 06 d8 f5 86 06
+I (9551) sc_compass: X: 1602, Y: -2600, Z: 1670
+I (9551) compass_calibration: 1602, -2600, 1670
+I (9651) sc_compass: 59 06 e2 f5 72 06
+I (9651) sc_compass: X: 1625, Y: -2590, Z: 1650
+I (9651) compass_calibration: 1625, -2590, 1650
+I (9751) sc_compass: 5e 06 e2 f5 90 06
+I (9751) sc_compass: X: 1630, Y: -2590, Z: 1680
+I (9751) compass_calibration: 1630, -2590, 1680
+I (9851) sc_compass: 42 06 19 f6 ba 06
+I (9851) sc_compass: X: 1602, Y: -2535, Z: 1722
+I (9851) compass_calibration: 1602, -2535, 1722
+I (9941) sc_gps: Updated: 0.000000, 0.000000
+I (9951) sc_compass: 0b 06 26 f6 b5 06
+I (9951) sc_compass: X: 1547, Y: -2522, Z: 1717
+I (9951) compass_calibration: 1547, -2522, 1717
+I (10051) sc_compass: fa 05 0a f6 ab 06
+I (10051) sc_compass: X: 1530, Y: -2550, Z: 1707
+I (10051) compass_calibration: 1530, -2550, 1707
+I (10151) sc_compass: 06 06 0a f6 b5 06
+I (10151) sc_compass: X: 1542, Y: -2550, Z: 1717
+I (10151) compass_calibration: 1542, -2550, 1717
+I (10251) sc_compass: 0b 06 14 f6 bf 06
+I (10251) sc_compass: X: 1547, Y: -2540, Z: 1727
+I (10251) compass_calibration: 1547, -2540, 1727
+I (10351) sc_compass: ff 05 ce f5 9a 06
+I (10351) sc_compass: X: 1535, Y: -2610, Z: 1690
+I (10351) compass_calibration: 1535, -2610, 1690
+I (10451) sc_compass: 10 06 c2 f5 b5 06
+I (10451) sc_compass: X: 1552, Y: -2622, Z: 1717
+I (10451) compass_calibration: 1552, -2622, 1717
+I (10471) compass_data: Position: 0.000000, 0.000000
+I (10471) compass_data: Bearing: 62914
+I (10471) compass_data: Path length: 0
+I (10551) sc_compass: 0b 06 05 f6 b0 06
+I (10551) sc_compass: X: 1547, Y: -2555, Z: 1712
+I (10551) compass_calibration: 1547, -2555, 1712
+I (10651) sc_compass: ff 05 ea f5 a4 06
+I (10651) sc_compass: X: 1535, Y: -2582, Z: 1700
+I (10651) compass_calibration: 1535, -2582, 1700
+I (10751) sc_compass: f5 05 c2 f5 9f 06
+I (10751) sc_compass: X: 1525, Y: -2622, Z: 1695
+I (10751) compass_calibration: 1525, -2622, 1695
+I (10851) sc_compass: cd 05 9c f5 b0 06
+I (10851) sc_compass: X: 1485, Y: -2660, Z: 1712
+I (10851) compass_calibration: 1485, -2660, 1712
+I (10941) sc_gps: Updated: 0.000000, 0.000000
+I (10951) sc_compass: f5 05 a1 f5 bf 06
+I (10951) sc_compass: X: 1525, Y: -2655, Z: 1727
+I (10951) compass_calibration: 1525, -2655, 1727
+I (11051) sc_compass: be 05 a6 f5 d8 06
+I (11051) sc_compass: X: 1470, Y: -2650, Z: 1752
+I (11051) compass_calibration: 1470, -2650, 1752
+I (11151) sc_compass: d9 05 97 f5 e2 06
+I (11151) sc_compass: X: 1497, Y: -2665, Z: 1762
+I (11151) compass_calibration: 1497, -2665, 1762
+I (11251) sc_compass: b6 05 8d f5 b5 06
+I (11251) sc_compass: X: 1462, Y: -2675, Z: 1717
+I (11251) compass_calibration: 1462, -2675, 1717
+I (11351) sc_compass: a2 05 92 f5 f1 06
+I (11351) sc_compass: X: 1442, Y: -2670, Z: 1777
+I (11351) compass_calibration: 1442, -2670, 1777
+I (11451) sc_compass: 9b 05 65 f5 0d 07
+I (11451) sc_compass: X: 1435, Y: -2715, Z: 1805
+I (11451) compass_calibration: 1435, -2715, 1805
+I (11471) compass_data: Position: 0.000000, 0.000000
+I (11471) compass_data: Bearing: 62821
+I (11471) compass_data: Path length: 0
+I (11551) sc_compass: 8c 05 81 f5 e7 06
+I (11551) sc_compass: X: 1420, Y: -2687, Z: 1767
+I (11551) compass_calibration: 1420, -2687, 1767
+I (11651) sc_compass: 91 05 5b f5 d3 06
+I (11651) sc_compass: X: 1425, Y: -2725, Z: 1747
+I (11651) compass_calibration: 1425, -2725, 1747
+I (11751) sc_compass: 8c 05 60 f5 17 07
+I (11751) sc_compass: X: 1420, Y: -2720, Z: 1815
+I (11751) compass_calibration: 1420, -2720, 1815
+I (11851) sc_compass: 5f 05 77 f5 ec 06
+I (11851) sc_compass: X: 1375, Y: -2697, Z: 1772
+I (11851) compass_calibration: 1375, -2697, 1772
+I (11941) sc_gps: Updated: 0.000000, 0.000000
+I (11951) sc_compass: ac 05 72 f5 03 07
+I (11951) sc_compass: X: 1452, Y: -2702, Z: 1795
+I (11951) compass_calibration: 1452, -2702, 1795
+I (12051) sc_compass: 91 05 7c f5 17 07
+I (12051) sc_compass: X: 1425, Y: -2692, Z: 1815
+I (12051) compass_calibration: 1425, -2692, 1815
+I (12151) sc_compass: 7f 05 5b f5 fe 06
+I (12151) sc_compass: X: 1407, Y: -2725, Z: 1790
+I (12151) compass_calibration: 1407, -2725, 1790
+I (12251) sc_compass: 96 05 5b f5 f9 06
+I (12251) sc_compass: X: 1430, Y: -2725, Z: 1785
+I (12251) compass_calibration: 1430, -2725, 1785
+I (12351) sc_compass: 7f 05 77 f5 08 07
+I (12351) sc_compass: X: 1407, Y: -2697, Z: 1800
+I (12351) compass_calibration: 1407, -2697, 1800
+I (12451) sc_compass: ac 05 92 f5 e2 06
+I (12451) sc_compass: X: 1452, Y: -2670, Z: 1762
+I (12451) compass_calibration: 1452, -2670, 1762
+I (12471) compass_data: Position: 0.000000, 0.000000
+I (12471) compass_data: Bearing: 62866
+I (12471) compass_data: Path length: 0
+I (12551) sc_compass: 70 05 5b f5 fe 06
+I (12551) sc_compass: X: 1392, Y: -2725, Z: 1790
+I (12551) compass_calibration: 1392, -2725, 1790
+I (12651) sc_compass: 75 05 86 f5 26 07
+I (12651) sc_compass: X: 1397, Y: -2682, Z: 1830
+I (12651) compass_calibration: 1397, -2682, 1830
