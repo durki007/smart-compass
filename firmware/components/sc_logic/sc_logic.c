@@ -14,14 +14,6 @@
 compass_data_t *compass_data_ptr;
 display_data_t *display_data_ptr;
 
-static void calculate_lat_lon(float * lat_km, float * lon_km) {
-    float lon_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lon - compass_data_ptr->position.lon;
-    float lat_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat - compass_data_ptr->position.lat;
-
-    *lat_km = lat_diff * 110.574;
-    *lon_km = lon_diff * 111.320*cos(compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat * M_PI / 180);
-}
-
 static int16_t calculate_angle() {
     
     float curr_lon = compass_data_ptr->position.lon * M_PI / 180;
@@ -76,8 +68,6 @@ _Noreturn static void logic_task() {
             // Obtain semaphore 2
             if (xSemaphoreTake(display_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
                 // Update display data
-                float lon_km, lat_km;
-                calculate_lat_lon(&lat_km, &lon_km);
                 display_data_ptr->angle = calculate_angle();
                 display_data_ptr->distance = calculate_distance();
                 display_data_ptr->next_wp = calculate_next_wp();
