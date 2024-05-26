@@ -41,7 +41,7 @@ static int16_t calculate_angle() {
     angle = (angle + 3600) % 3600;
     int16_t bearing_angle = compass_data_ptr->bearing / 65536 * 1800;
     bearing_angle = (bearing_angle + BEARING_OFFSET_DEGREES * 10 + 3600) % 3600;
-    return angle;
+    return angle - bearing_angle;
 }
 
 static uint16_t calculate_next_wp() {
