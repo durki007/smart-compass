@@ -19,7 +19,7 @@ typedef struct {
 } compass_path_t;
 
 typedef compass_path_node_t compass_position_t;
-typedef uint16_t compass_bearing_t;
+typedef int16_t compass_bearing_t;
 
 typedef struct {
     SemaphoreHandle_t mutex;
