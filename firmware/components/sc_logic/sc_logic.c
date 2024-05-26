@@ -14,6 +14,22 @@
 compass_data_t *compass_data_ptr;
 display_data_t *display_data_ptr;
 
+static float smooth_avg_buf[5];
+static uint8_t smooth_avg_buf_idx = 0;
+
+static void add_reading_to_avg_buf(float reading) {
+    smooth_avg_buf[smooth_avg_buf_idx] = reading;
+    smooth_avg_buf_idx = (smooth_avg_buf_idx + 1) % 5;
+}
+
+static float get_avg_reading() {
+    float sum = 0;
+    for (uint8_t i = 0; i < 5; i++) {
+        sum += smooth_avg_buf[i];
+    }
+    return sum / 5;
+}
+
 static void calculate_lat_lon(float *lat_km, float *lon_km) {
     float lon_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lon - compass_data_ptr->position.lon;
     float lat_diff = compass_data_ptr->path.nodes[display_data_ptr->next_wp].lat - compass_data_ptr->position.lat;
@@ -49,7 +65,8 @@ static int16_t calculate_angle() {
     float angle_radians = atan2(y, x);
 
     float bearing_radians = compass_data_ptr->bearing;
-    return radian_to_degree(angle_radians - bearing_radians);
+    add_reading_to_avg_buf(angle_radians - bearing_radians);
+    return radian_to_degree(get_avg_reading());
 }
 
 static uint16_t calculate_next_wp() {
