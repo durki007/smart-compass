@@ -38,6 +38,7 @@ typedef struct {
     uint16_t next_wp;
     // Distance to next waypoint in meters
     uint32_t distance;
+    bool finished;
 } display_data_t;
 
 // Global variable, initialized in main.c

@@ -65,6 +65,7 @@ static uint16_t calculate_next_wp() {
         return display_data_ptr->next_wp;
     }
     if (display_data_ptr->next_wp + 1 >= compass_data_ptr->path.length) {
+        display_data_ptr->finished = true;
         return display_data_ptr->next_wp;
     }
     return display_data_ptr->next_wp + 1;

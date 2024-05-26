@@ -104,6 +104,7 @@ static lv_obj_t *next_waypoint_label;
 
 static void ui_refresh_task() {
     display_data_t *display_data_ptr = &display_data;
+    compass_data_t *compass_data_ptr = &compass_data;
     if (xSemaphoreTake(display_data_ptr->mutex, pdMS_TO_TICKS(5)) == pdTRUE) {
         // Update the angle
         lv_img_set_angle(img, (int16_t) display_data_ptr->angle);
@@ -113,7 +114,11 @@ static void ui_refresh_task() {
         lv_label_set_text(distance_label, dist_buf);
         // Update label with next waypoint
         char next_waypoint_buf[20];
-        snprintf(next_waypoint_buf, 20, "Next: %d", display_data_ptr->next_wp);
+        if (display_data_ptr->finished) {
+            snprintf(next_waypoint_buf, 20, "FINISH");
+        } else {
+            snprintf(next_waypoint_buf, 20, "Next: %d", display_data_ptr->next_wp);
+        }
         lv_label_set_text(next_waypoint_label, next_waypoint_buf);
         // Unlock the mutex
         xSemaphoreGive(display_data_ptr->mutex);

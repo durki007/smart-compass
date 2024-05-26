@@ -102,6 +102,7 @@ void update_shared_variable() {
     if (xSemaphoreTake(display_data_ptr->mutex, portMAX_DELAY) == pdTRUE) {
         display_data_ptr->next_wp = 0;
         display_data_ptr->distance = 0;
+        display_data_ptr->finished = false;
         xSemaphoreGive(display_data_ptr->mutex);
     }
 }

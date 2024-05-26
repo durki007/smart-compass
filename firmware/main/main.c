@@ -37,7 +37,8 @@ app_main(void) {
             .mutex = (SemaphoreHandle_t) xSemaphoreCreateMutex(),
             .angle = 0,
             .next_wp = 0,
-            .distance = 0
+            .distance = 0,
+            .finished = false
     };
     ESP_LOGI("main", "BLE init");
     sc_ble_init();
