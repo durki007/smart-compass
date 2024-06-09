@@ -1,26 +1,24 @@
 \part{Implementacja}
 
 \section{Projekt urządzenia}
-\subsection{Wybrane moduły elektroniczne}
-Do budowy prototypu wybrano następujące moduły elektroniczne:
+
+Urządzenie zostało zaprojektowane z myślą o maksymalnej prostocie, w związku z czym nie występuje żadna magistrala, a wszystkie moduły podłączone są wedle architektury punkt-punkt. Głównym elementem urządzenia jest płytka prototypowa {\bf DevKitV4 ESP-WROOM-32E}, zawierająca zaprogramowaną logikę sterowania oraz wbudowany moduł Bluetooth/WiFi.\\
+
+Do urządzeń peryferyjnych należą:
 \begin{itemize}
-    \item \textbf{MCU - Espressif DevKitV4 ESP-WROOM-32E}
-          %   \begin{itemize}
-          %       \item Dokumentacja: \url{https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf}
-          %   \end{itemize}
-    \item \textbf{Magnetometr cyfrowy GY-273 3-osiowy I2C 3.3V / 5V - HMC5883L}
-          %   \begin{itemize}
-          %       \item Dokumentacja: \url{https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/635/HMC5883L.pdf}
-          %   \end{itemize}
-    \item \textbf{Moduł GPS GY-NEO6MV2 NEO-6M z Anteną}
-          %   \begin{itemize}
-          %       \item Dokumentacja: \url{https://www.u-blox.com/sites/default/files/products/documents/NEO-6_DataSheet_%28GPS.G6-HW-09005%29.pdf}
-          %   \end{itemize}
-    \item \textbf{Wyświetlacz LCD Waveshare 1.8inch 128x160}
-          %   \begin{itemize}
-          %       \item Dokumentacja: \url{https://files.waveshare.com/upload/e/e2/ST7735S_V1.1_20111121.pdf}
-          %   \end{itemize}
+    \item Wyświetlacz LCD Waveshare 1.8inch 128x160
+    \item Magnetometr cyfrowy 3-osiowy HMC5883L
+    \item GPS GY-NEO6MV2 z anteną
 \end{itemize}
+
+Schemat podłączenia wszystkich elementów zaprezentowano na rysunku \ref{fig:scheme:hardware}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{hardware_schematics.png}
+    \caption{Schemat prototypu urządzenia}
+    \label{fig:scheme:hardware}
+\end{figure}
 
 \subsection{Kosztorys prototypu}
 Kosztorys uwzględnia ceny głównych modułów urządzenia. Dotychczasowe koszty zostały pokryte przez członków grupy projektowej. Posiadamy również inne niezbędne części podstawowe, takie jak rezystory, kondensatory czy przyciski, które będą niezbędne przy testowaniu prototypu.
@@ -38,8 +36,30 @@ Kosztorys uwzględnia ceny głównych modułów urządzenia. Dotychczasowe koszt
     \end{tabular}
     \caption{Kosztorys prototypu}
 \end{table}
+
+\subsection{DevKitV4 ESP-WROOM-32E}
+
+DevKitV4 ESP-WROOM-32E to zaawansowany moduł mikroprocesorowy z serii ESP32. Łączy w sobie  wysoką wydajność, niskie zużycie energii i wszechstronność. Wyposażony jest w podwójny rdzeń, obsługujący taktowanie do 240 MHz, oraz wbudowane Wi-Fi i Bluetooth. Posiada szeroki zakres interfejsów, zapewniając elastyczność w przypadku podłączania z modułami peryferyjnymi.
+
+\subsection{LCD Waveshare 1.8inch 128x160}
+
+Waveshare 1.8inch 128x160 to kolorowy wyświetlacz TFT o rozdzielczości 128x160 pikseli. Oferuje jasny i wyraźny obraz, umożliwiający wyświetlanie tekstu, grafiki i prostych animacji. Dane przesyłane są poprzez interfejs SPI.
+
+\subsection{Mangetometr HMC5883L}
+
+HMC5883L to trójosiowy magnetometr cyfrowy, który może mierzyć pole magnetyczne ziemi, co pozwala na określenie orientacji przestrzennej i wykorzystanie w roli kompasu. Dane odczytywane są poprzez interfejs I2C.
+
+\subsection{GPS GY-NEO6MV2}
+
+GY-NEO6MV2 to moduł GPS oparty na układzie NEO-6M, który umożliwia precyzyjne śledzenie pozycji geograficznej poprzez komunikację z satelitą za pomocą podłączonej anteny. Dane przezkazywane są poprzez standardowy interfejs UART.
+
 \subsection{Napotkane problemy}
-Tu można opisać problemy napotkane podczas projektowania urządzenia.
+
+Podczas programowania oraz testowania komunikacji mikroprocesora z urządzeniami peryferyjnymi napotkano problemy z obsługą modułu GPS oraz magnetometru. \\
+
+W przypadku połączenia z modułem GPS, wykryto wadliwość 2 z 4 zamówionych urządzeń - po wyznaczeniu oraz podłączeniu działających komponentów, nie wystąpiły już dalsze problemy. \\
+
+W przypadku obsługi magnetometru pojawiały się problemy wydające się losowe w chwili próby nawiązania połączenia master-slave z modułem. Problemy te niekiedy zakłócały działanie całego programu załadowanego do mikroprocesora, niekiedy nie występowały, w innych przypadkach zaś powodowały błąd watchdoga w linii inicjalizacji sterownika I2C. Sterownik zawieszał się, oczekując transmisji na linii danych, które nigdy się nie pojawiały. Problem zidentyfikowano w błędzie implementacji sterownika I2C przez ESP-IDF. Użycie starszej wersji sterownika trwale usunęło problem. 
 
 \section{Firmware}
 Firmware aplikacji został napisany w języku C z wykorzystaniem platformy ESP-IDF \cite{esp-idf}.
