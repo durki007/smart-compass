@@ -42,16 +42,98 @@ Kosztorys uwzględnia ceny głównych modułów urządzenia. Dotychczasowe koszt
 Tu można opisać problemy napotkane podczas projektowania urządzenia.
 
 \section{Firmware}
+Firmware aplikacji został napisany w języku C z wykorzystaniem platformy ESP-IDF \cite{esp-idf}.
+ESP-IDF to oficjalne środowisko programistyczne dla platformy ESP32, które zawiera narzędzia do budowania, debugowania i wgrywania oprogramowania na urządzenie.
+
+\subsection{Modularna struktura kodu} \label{sec:modularna-struktura-kodu}
+Framework ESP-IDF pozwala na tworzenie projektów w sposób modułowy, co pozwala na łatwe dodawanie nowych funkcjonalności i niezależne testowanie poszczególnych komponentów.
+W projekcie wyróżniono następujące moduły (komponenty):
+\begin{itemize}
+    \item \textbf{main} - moduł główny, inicjalizuje pozostałe moduły i definiuje zmienne współdzielone.
+    \item \textbf{sc\_ble} - moduł odpowiedzialny za obsługę protokołu BLE. Zawiera definicje usług i charakterystyk GATT.
+    \item \textbf{sc\_gps} - moduł obsługujący moduł GPS. Zawiera funkcje do odczytu współrzędnych geograficznych.
+    \item \textbf{sc\_compass} - moduł obsługujący magnetometr. Zawiera funkcje do odczytu kierunku kompasu.
+    \item \textbf{sc\_display} - moduł obsługujący wyświetlacz LCD. Zawiera funkcje do wyświetlania informacji na ekranie z wykorzystaniem biblioteki LVGL.
+    \item \textbf{sc\_logic} - moduł odpowiedzialny za logikę aplikacji. Zawiera funkcje do obliczania kierunku i dystansu do celu.
+    \item \textbf{lvgl} - moduł zawierający bibliotekę LVGL. \cite{lvgl-esp32-port} Zawiera konfigurację i funkcje pomocnicze do obsługi wyświetlacza.
+    \item \textbf{lvgl\_esp32\_drivers} - moduł zawierający sterowniki dla ESP32 do biblioteki LVGL. \cite{lvgl-esp32-drivers}
+\end{itemize}
+
+\subsection{Architektura wielowątkowa}
+Framework ESP-IDF jest oparty na architekturze FreeRTOS \cite{freertos-docs}, co pozwala na tworzenie wielowątkowych aplikacji.
+Zawarta we frameworku wersja FreeRTOS pozwala na wykorzystanie dwóch rdzeni procesora ESP32, zapewniając równoległe wykonywanie zadań w dwóch wątkach.
+Każdy z modułów aplikacji opisanych w sekcji \ref{sec:modularna-struktura-kodu} działa w osobnym wątku.
+
+\subsubsection{Zmienne współdzielone}
+Program zawiera dwie zmienne współdzielone odpowiedzialne za przechowywanie aktualnych danych na temat odczytów z sensorów oraz przechowywanie aktualnych danych do wyświetlenia na ekranie.
+
+\begin{lstlisting}[language=C, caption=Definicja zmiennej dla odczytów sensorów]
+typedef struct {
+    SemaphoreHandle_t mutex;
+    compass_position_t position;
+    float bearing; // in radians
+    float bearing_deg; // in degrees
+    compass_path_t path;
+    bool position_updated;
+} compass_data_t;
+\end{lstlisting}
+
+\begin{lstlisting}[language=C, caption=Definicja zmiennej dla danych wynikowych]
+typedef struct {
+    SemaphoreHandle_t mutex;
+    // Angle in 0.1 degrees - between 0 and 3600
+    int16_t angle;
+    // Next waypoint id
+    uint16_t next_wp;
+    // Distance to next waypoint in meters
+    uint32_t distance;
+    bool finished;
+} display_data_t;
+\end{lstlisting}
+
+Każda zmienna posiada semafor, który zapewnia dostęp do zasobu w sposób atomowy, co zapobiega konfliktom między wątkami.
+
+
+
 \subsection{Protokół komunikacji Bluetooth Low Energy (BLE)}
-Protokół komunikacji BLE został zaimplementowany zgodnie ze standardem Bluetooth Core 4.2 na platformie ESP32. Użyto stosów ESP-Bluedroid i ESP-NimBLE, które zapewniają odpowiednie zarządzanie pamięcią oraz obsługę komunikacji BLE.
+Protokół komunikacji BLE został zaimplementowany zgodnie ze standardem Bluetooth Core 4.2 \cite{bluetooth-core-spec-4-2} na platformie ESP32.
+Użyto stosu i ESP-NimBLE \cite{esp-idf-nimble-docs}, który zapewni odpowiednie zarządzanie pamięcią oraz obsługę komunikacji BLE.
+Stos ESP-NimBLE jest alternatywną wersją stosu Apache MyNewt Nimble \cite{apache-mynewt-docs}, przystosowaną do pracy z mikrokontrolerami producenta Espressif.
 
 \subsubsection{Obsługa po stronie urządzenia}
-Urządzenie wykorzystuje stos ESP-NimBLE do implementacji protokołu BLE, co pozwala na zmniejszenie zużycia pamięci. Komunikacja z aplikacją mobilną opiera się na deklaracji usług i charakterystyk GATT, umożliwiając przesyłanie danych trasy w postaci tablic par współrzędnych geograficznych.
+Urządzenie wykorzystuje stos ESP-NimBLE do implementacji protokołu BLE, co pozwala na zmniejszenie zużycia pamięci.
+Komunikacja z aplikacją mobilną opiera się na deklaracji usług i charakterystyk GATT, umożliwiając przesyłanie danych trasy w postaci tablic par współrzędnych geograficznych.
 
-\subsubsection{Obsługa po stronie aplikacji mobilnej}
-Aplikacja mobilna wykorzystuje bibliotekę Bluetooth LE dla React Native, wspierającą urządzenia z Android (API 19+) oraz iOS 10+. Połączenie z urządzeniem odbywa się za pomocą standardu BLE, umożliwiając zapisywanie i odczytywanie danych trasy.
+\begin{lstlisting}[language=C, caption=Definicja charakterystyki GATT]
+static uint8_t gatt_svr_chr_val[MAX_CHAR_LEN];
+static uint16_t gatt_svr_chr_val_handle;
+static const ble_uuid128_t gatt_svr_chr_uuid =
+        BLE_UUID128_INIT(0x00, 0x00, 0x00, 0x00, 0x11, 0x11, 0x11, 0x11,
+                         0x22, 0x22, 0x22, 0x22, 0x33, 0x33, 0x33, 0x33);
+\end{lstlisting}
+
+
 \subsection{Napotkane problemy}
-Tu można opisać problemy napotkane podczas pisania oprogramowania.
+W trakcie rozwoju oprogramowania pojawiły się dwa główne problemy opisane w poniższych podrozdziałach.
+\subsubsection{Konflikty między bibliotekami}
+W trakcie rozwoju modułu odpowiedzialnego za komunikację z wyświetlaczem LCD pojawił się konflikt między:
+\begin{itemize}
+    \item Frameworkiem ESP-IDF
+    \item Biblioteką LVGL,\cite{lvgl-esp32-port} która jest prostym silnikiem GUI
+    \item Biblioteką LVGL ESP32 Drivers, \cite{lvgl-esp32-drivers} która zawiera sterowniki dla ESP32 do biblioteki LVGL
+\end{itemize}
+Początkowe próby integracji wszystkich trzech bibliotek w najnowszej wersji nie powiodły się,
+co skutkowało koniecznością doboru kompatybilnych wersji bibliotek oraz dostosowaniem konfiguracji.
+Proces naprawy konfliktów trwał kilka dni.
+
+\subsubsection{Błąd w implementacji protokołu I2C w bibliotece ESP-IDF}
+Do komunikacji z magnetometrem QMC5883 wykorzystano interfejs I2C \textit{(Inter Integrated Circut)}, który jest standardowym interfejsem komunikacyjnym dla urządzeń peryferyjnych.
+Producent mikrokontrolera ESP32, firma Espressif, dostarcza bibliotekę do obsługi interfejsu I2C w ramach frameworku ESP-IDF.
+
+W trakcie implementacji okazało się, że biblioteka ESP-IDF zawiera błąd w implementacji protokołu I2C, który uniemożliwiał poprawną komunikację z magnetometrem.
+Dodatkowo, bład ten był niewykrywalny w procesie debugowania, co nie pozwalało na jednoznaczne zlokalizowanie problemu (mógł wynikać z błędu w kodzie, konfiguracji, podłęczeniu lub z uszkodzenia magnetometru).
+
+Błąd naprawiono poprzez zastosowanie alternatywnej biblioteki do obsługi interfejsu I2C, co pozwoliło na poprawną komunikację z magnetometrem.
 
 \section{Aplikacja mobilna}
 \subsection{Napotkane problemy}
