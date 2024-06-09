@@ -1,10 +1,55 @@
 \part{Implementacja}
 
 \section{Projekt urządzenia}
+\subsection{Wybrane moduły elektroniczne}
+Do budowy prototypu wybrano następujące moduły elektroniczne:
+\begin{itemize}
+    \item \textbf{MCU - Espressif DevKitV4 ESP-WROOM-32E}
+          %   \begin{itemize}
+          %       \item Dokumentacja: \url{https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf}
+          %   \end{itemize}
+    \item \textbf{Magnetometr cyfrowy GY-273 3-osiowy I2C 3.3V / 5V - HMC5883L}
+          %   \begin{itemize}
+          %       \item Dokumentacja: \url{https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/635/HMC5883L.pdf}
+          %   \end{itemize}
+    \item \textbf{Moduł GPS GY-NEO6MV2 NEO-6M z Anteną}
+          %   \begin{itemize}
+          %       \item Dokumentacja: \url{https://www.u-blox.com/sites/default/files/products/documents/NEO-6_DataSheet_%28GPS.G6-HW-09005%29.pdf}
+          %   \end{itemize}
+    \item \textbf{Wyświetlacz LCD Waveshare 1.8inch 128x160}
+          %   \begin{itemize}
+          %       \item Dokumentacja: \url{https://files.waveshare.com/upload/e/e2/ST7735S_V1.1_20111121.pdf}
+          %   \end{itemize}
+\end{itemize}
+
+\subsection{Kosztorys prototypu}
+Kosztorys uwzględnia ceny głównych modułów urządzenia. Dotychczasowe koszty zostały pokryte przez członków grupy projektowej. Posiadamy również inne niezbędne części podstawowe, takie jak rezystory, kondensatory czy przyciski, które będą niezbędne przy testowaniu prototypu.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|r|r|}
+        \hline
+        \textbf{Nazwa części} & \textbf{Typ}                 & \textbf{Cena detaliczna} & \textbf{Faktyczny koszt} \\ \hline
+        Espressif DevKitV4    & ESP-WROOM-32E                & 35,99 zł                 & 35,99 zł                 \\ \hline
+        GY-273                & Magnetometr cyfrowy 3-osiowy & 17,00 zł                 & 13,71 zł                 \\ \hline
+        GY-NEO6MV2            & Moduł GPS z anteną           & 27,99 zł                 & 27,99 zł                 \\ \hline
+        Waveshare 13892       & Wyświetlacz LCD 128x160px    & 33,90 zł                 & 0,00 zł                  \\ \hline
+        \textbf{Razem}        &                              & \textbf{114,88 zł}       & \textbf{77,69 zł}        \\ \hline
+    \end{tabular}
+    \caption{Kosztorys prototypu}
+\end{table}
 \subsection{Napotkane problemy}
 Tu można opisać problemy napotkane podczas projektowania urządzenia.
 
 \section{Firmware}
+\subsection{Protokół komunikacji Bluetooth Low Energy (BLE)}
+Protokół komunikacji BLE został zaimplementowany zgodnie ze standardem Bluetooth Core 4.2 na platformie ESP32. Użyto stosów ESP-Bluedroid i ESP-NimBLE, które zapewniają odpowiednie zarządzanie pamięcią oraz obsługę komunikacji BLE.
+
+\subsubsection{Obsługa po stronie urządzenia}
+Urządzenie wykorzystuje stos ESP-NimBLE do implementacji protokołu BLE, co pozwala na zmniejszenie zużycia pamięci. Komunikacja z aplikacją mobilną opiera się na deklaracji usług i charakterystyk GATT, umożliwiając przesyłanie danych trasy w postaci tablic par współrzędnych geograficznych.
+
+\subsubsection{Obsługa po stronie aplikacji mobilnej}
+Aplikacja mobilna wykorzystuje bibliotekę Bluetooth LE dla React Native, wspierającą urządzenia z Android (API 19+) oraz iOS 10+. Połączenie z urządzeniem odbywa się za pomocą standardu BLE, umożliwiając zapisywanie i odczytywanie danych trasy.
 \subsection{Napotkane problemy}
 Tu można opisać problemy napotkane podczas pisania oprogramowania.
 

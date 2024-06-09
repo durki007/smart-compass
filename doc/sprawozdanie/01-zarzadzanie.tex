@@ -5,18 +5,119 @@ Celem projektu będzie zaprojektowanie i zbudowanie urządzenia służącego do 
 Po skonfigurowaniu trasy, urządzenie będzie wskazywało kierunek i odległość do następnego punktu (na wyświetlaczu LCD).
 
 \subsection{Wymagania projektowe}
-Tablica MoSCoW
+Wymagania projektowe zostały określone za pomocą tablicy MoSCoW:
 
-\section{Harmonogram}
-tu jakiś tekst i opis
-
-\subsection{Etap I - Projektowanie urządzenia i aplikacji}
-
-\subsection{Etap II - Prototypowanie i testowanie}
-
-\subsection{Etap III - Montaż}
+\begin{itemize}
+    \item \textbf{Must have:}
+          \begin{itemize}
+              \item Urządzenie poprawnie wskazuje kierunek i odległość do kolejnych punktów trasy.
+              \item Aplikacja pozwala na zaplanowanie trasy na mapie i wgranie jej do pamięci urządzenia.
+              \item Po konfiguracji urządzenie działa autonomicznie, bez potrzeby komunikacji z aplikacją.
+          \end{itemize}
+    \item \textbf{Should have:}
+          \begin{itemize}
+              \item Bateria pozwala na całodzienne korzystanie z urządzenia (około 8 godzin).
+              \item Urządzenie implementuje mechanizmy zmniejszające zużycie energii (np. wygaszanie ekranu).
+              \item Aktualny stan nawigacji jest zapisywany w pamięci nieulotnej, co umożliwia wznowienie korzystania z urządzenia po utracie zasilania.
+          \end{itemize}
+    \item \textbf{Could have:}
+          \begin{itemize}
+              \item Urządzenie zapisuje aktualne położenie i pozwala na zgranie przebiegu trasy do aplikacji.
+              \item Aplikacja wyświetla historię przebytych tras razem z czasami przejścia.
+              \item Realizacja urządzenia na samodzielnie zaprojektowanej płytce PCB.
+          \end{itemize}
+    \item \textbf{Won't have:}
+          \begin{itemize}
+              \item Urządzenie nie posiada interaktywnego interfejsu użytkownika, wyświetla jedynie aktualny stan trasy.
+          \end{itemize}
+\end{itemize}
 
 \section{Ryzyka projektowe}
+Realizacja projektu wiąże się z kilkoma ryzykami, które zostały zidentyfikowane i ocenione pod względem prawdopodobieństwa wystąpienia oraz wpływu na projekt. Poniżej przedstawiono główne ryzyka oraz planowane działania w celu ich minimalizacji.
+
+\subsection{Odejście członków zespołu}
+\begin{itemize}
+    \item \textbf{Prawdopodobieństwo:} Bardzo niskie
+    \item \textbf{Wpływ:} Bardzo niski
+    \item \textbf{Plan działania:} Akceptacja ryzyka ze względu na niskie prawdopodobieństwo i wpływ.
+\end{itemize}
+
+\subsection{Ograniczony budżet}
+\begin{itemize}
+    \item \textbf{Prawdopodobieństwo:} Średnie
+    \item \textbf{Wpływ:} Wysokie
+    \item \textbf{Plan działania:} Opracowanie szczegółowego kosztorysu oraz pozyskanie dodatkowych środków finansowych od Politechniki.
+\end{itemize}
+
+\subsection{Opóźnienia w dostawie komponentów}
+\begin{itemize}
+    \item \textbf{Prawdopodobieństwo:} Średnie
+    \item \textbf{Wpływ:} Średnie
+    \item \textbf{Plan działania:} Uwzględnienie potencjalnych opóźnień w harmonogramie realizacji oraz opracowanie alternatywnych planów montażu.
+\end{itemize}
+
+\subsection{Opóźnienia w montażu układu (PCB)}
+\begin{itemize}
+    \item \textbf{Prawdopodobieństwo:} Średnie
+    \item \textbf{Wpływ:} Średnie
+    \item \textbf{Plan działania:} Uwzględnienie potencjalnych opóźnień w harmonogramie realizacji oraz opracowanie alternatywnego planu montażu.
+\end{itemize}
+
+\subsection{Niewystarczające umiejętności}
+\begin{itemize}
+    \item \textbf{Prawdopodobieństwo:} Średnie
+    \item \textbf{Wpływ:} Średnie
+    \item \textbf{Plan działania:} Akceptacja ryzyka oraz regularne szkolenia i konsultacje w zespole.
+\end{itemize}
+
+\subsection{Skomplikowana dokumentacja techniczna komponentów}
+\begin{itemize}
+    \item \textbf{Prawdopodobieństwo:} Średnie
+    \item \textbf{Wpływ:} Niskie
+    \item \textbf{Plan działania:} Wybór innych komponentów lub korzystanie z nieoficjalnych dokumentacji i wsparcia społeczności online.
+\end{itemize}
+
+\section{Harmonogram projektu}
+Projekt został podzielony na trzy główne etapy:
+
+\begin{itemize}
+    \item \textbf{Etap I - Projektowanie} (do 8 kwietnia 2024)
+          \begin{itemize}
+              \item Opracowanie listy komponentów elektronicznych.
+              \item Analiza i wybór komponentów.
+              \item Projekt układu elektronicznego.
+              \item Wybór technologii programowania aplikacji mobilnej.
+              \item Projektowanie widoków aplikacji mobilnej.
+              \item Opracowanie protokołu komunikacji między urządzeniem a aplikacją.
+          \end{itemize}
+    \item \textbf{Etap II - Prototypowanie i testowanie} (do 6 maja 2024)
+          \begin{itemize}
+              \item Zakup komponentów.
+              \item Montaż układu na płytce prototypowej.
+              \item Programowanie urządzenia i aplikacji mobilnej.
+              \item Testy komunikacji między aplikacją a urządzeniem.
+          \end{itemize}
+    \item \textbf{Etap III - Montaż} (do 27 maja 2024)
+          \begin{itemize}
+              \item Montaż układu w wybranej technologii.
+              \item Budowa obudowy urządzenia.
+              \item Przygotowanie wersji produkcyjnej aplikacji mobilnej.
+          \end{itemize}
+\end{itemize}
 
 \section{Zarządzanie zespołem}
-Sposób komunikacji, sposób planowania, podział zadań, itp. ?
+\subsection{Podział zadań}
+Przed rozpoczęciem projektu został ustalony następujący podział zadań:
+\begin{itemize}
+    \item \textbf{Dominik Cybulski, Michał Durkalec:} \\ Projektowanie układu elektronicznego, programowanie urządzenia.
+    \item \textbf{Stanisław Kurzyp:} \\ Projektowanie aplikacji mobilnej.
+\end{itemize}
+
+\subsection{Planowanie pracy}
+Do planowania poszczególnych zadań oraz monitorowania postępów wykorzystane zostało narzędzie Github Projects \cite{github-projects-docs}, które pozwala na
+\begin{itemize}
+    \item Tworzenie zadań i przypisywanie ich do członków zespołu.
+    \item Planowanie terminów realizacji zadań.
+    \item Monitorowanie postępów prac.
+    \item Łączenie zadań z konkretnymi gałęziami kodu w systemie kontroli wersji.
+\end{itemize}
