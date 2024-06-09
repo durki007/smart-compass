@@ -1,6 +1,32 @@
 \part{Efekty}
 
 \section{Prototyp urządzenia}
+Finalna wersja urządzenia została zmontowana na płytce prototypowej. (Rysunek \ref{fig:device})
+Z przodu urządzenia widoczny jest wyświetlacz LCD i ceramiczna antena modułu GPS, z tyłu znajdują się mikrokontrolej na płytce prototypowej, moduł GPS i moduł magnetometru.
+Prototyp korzysta z zasilania zewnętrznego poprzez kabel USB.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{res/front.jpg}
+    \includegraphics[width=0.4\textwidth]{res/back.jpg}
+    \caption{Prototyp urządzenia (widok z przodu i z tyłu)}
+    \label{fig:device}
+\end{figure}
+
+\subsection{Funkcjonalności}
+W aktualnej wersji urządzenie jest w stanie:
+\begin{itemize}
+    \item Odczytywać dane z modułu GPS i magnetometru.
+    \item Nawiązać połączenie w trybie BLE z aplikacją mobilną.
+    \item Odbierać komendy od aplikacji mobilnej. (dane o nowej trasie)
+    \item Wyświetlać na ekranie informacje o:
+          \begin{itemize}
+              \item Numerze następnego punktu na trasie
+              \item Kierunku do następnego punktu
+              \item Odległości do następnego punktu
+              \item Zakończeniu nawigacji
+          \end{itemize}
+\end{itemize}
 
 \section{Aplikacja mobilna}
 \subsection{Widoki aplikacji}
@@ -55,6 +81,28 @@ Ponadto do interakcji z mapą użytkownik wykorzystuje następujące gesty:
 \end{itemize}
 
 \section{Możliwości rozwoju}
+\subsection{Rozwój urządzenia}
+W aktualnej wersji prototyp spełnia wszystkie wymagania prototypu funkcjonalnego, tzn. pozwala na:
+\begin{itemize}
+    \item Weryfikacje komunikacji między wszystkimi komponentami.
+    \item Weryfikacje działania algorytmu nawigacji.
+    \item Weryfikacje działania aplikacji mobilnej.
+    \item Sprawdzenie trafności pomysłu na projekt. \textit{(Czy urządzenie w praktyce ma sens?)}
+    \item Szybką iterację nad projektem. \textit{(Wymiana modułów i sensorów bez dużych nakładów czasowych i finansowych)}
+\end{itemize}
+Następnym krokiem w rozwoju urządzenia byłoby przygotowanie produktu do produkcji seryjnej. Wymagałoby to:
+\begin{itemize}
+    \item Zaprojektowanie dedykowanego układu PCB, który zintegruje wszystkie komponenty i umożliwi miniaturyzacje urządzenia.
+    \item Zaprojektowanie dedykowanego modułu zasilania, który będzie spełniał wymagania dotyczące czasu pracy urządzenia.
+    \item Zaprojektowanie obudowy, która będzie spełniała wymagania wodoodporności i odporności na wstrząsy.
+\end{itemize}
+Dodatkowo, w celu zwiększenia atrakcyjności produktu można wprowadzić usprawnienia:
+\begin{itemize}
+    \item W interfejsie użytkownika - dodanie dodatkowych informacji na wyświetlaczu, prezentacja informacji w bardziej atrakcyjny sposób.
+    \item W stabilności działania - poprawa algorytmów nawigacji, zwiększenie dokładności pomiarów.
+    \item W zużyciu energii - zastosowanie bardziej energooszczędnych komponentów, optymalizacja algorytmów.
+    \item W funkcjonalności - dodanie dodatkowych funkcji, takich jak zapisywanie przebytej trasy, zapisywanie punktów zainteresowania, przechowywanie większej liczby tras.
+\end{itemize}
 
 \subsection{Rozwój aplikacji mobilnej}
 Aplikacja realizuje zdefiniowane dla niej założenia. Potencjał na rozwój znajduje się w interfejsie użytkownika i, pomimo że jest kompletny, można wprowadzić zmiany, które poprawią ogólne wrażenia oraz intuicyjność korzystania z aplikacji dla użytkownika końcowego.
