@@ -136,5 +136,85 @@ Dodatkowo, bład ten był niewykrywalny w procesie debugowania, co nie pozwalał
 Błąd naprawiono poprzez zastosowanie alternatywnej biblioteki do obsługi interfejsu I2C, co pozwoliło na poprawną komunikację z magnetometrem.
 
 \section{Aplikacja mobilna}
+Aplikacja mobilna spełnia następujące funkcjonalności:
+\begin{itemize}
+    \item rysowanie tras
+    \item zapisywanie tras
+    \item zarządzanie trasami
+    \item nawiązywanie połączenia z urządzeniem SmartCompass
+    \item przesyłanie tras do urządzenia SmartCompass
+\end{itemize}
+
+\subsection{Wykorzystane technologie}
+Aplikacja została zrealizowana przy użyciu frameworku \textbf{React Native} \cite{react-native-docs} pozwalającego tworzyć jeden projekt, który następnie kompilowany jest do kodu aplikacji wykonywalnej na urządzeniach z Androidem jak i iOS. Ze względu na wymagania powiązane z uzyskaniem dostępu do modułu Bluetooth Low Energy urządzenia, zadecydowaliśmy się rozwijać naszą aplikację jedynie w kierunku systemu Android.
+Ponadto wykorzystano platformę i zestaw narzędzi \textbf{Expo} \cite{expo-docs}, które upraszczają proces tworzenia, testowania i wdrażania aplikacji mobilnych.
+
+\subsection{Wykorzystane biblioteki}
+
+W aplikacji wykorzystano szereg bibliotek, które ułatwiły realizację poszczególnych funkcjonalności:
+
+\begin{itemize}
+    \item \textbf{react-native-async-storage} - Służy do przechowywania danych lokalnych na urządzeniu. Umożliwia łatwe zapisywanie i odczytywanie danych, takich jak ustawienia użytkownika czy trasy.
+    \item \textbf{react-navigation} - Biblioteka do nawigacji w aplikacjach React Native. Umożliwia łatwe zarządzanie stosami ekranów, nawigację pomiędzy nimi oraz implementację różnorodnych wzorców nawigacji.
+    \item \textbf{react-native-ble-plx} - Biblioteka do obsługi Bluetooth Low Energy (BLE). Umożliwia skanowanie, łączenie i komunikację z urządzeniami BLE, co jest kluczowe dla integracji z urządzeniem SmartCompass.
+    \item \textbf{react-native-quick-base64} - Umożliwia szybkie kodowanie i dekodowanie danych w formacie base64, co jest przydatne przy przesyłaniu danych przez BLE.
+    \item \textbf{react-native-vector-icons} - Biblioteka dostarczająca zestaw ikon do aplikacji. Umożliwia łatwe dodawanie ikon do przycisków, menu i innych elementów interfejsu użytkownika.
+    \item \textbf{react-native-maps} - Biblioteka do integracji map w aplikacji. Umożliwia wyświetlanie map, rysowanie tras oraz interakcję z punktami na mapie.
+    \item \textbf{react-native-reanimated} - Biblioteka do tworzenia płynnych i wydajnych animacji w aplikacji. Umożliwia tworzenie zaawansowanych animacji i interakcji, co poprawia ogólne wrażenia użytkownika.
+\end{itemize}
+
+\subsection{Tworzenie wersji \textit{release} aplikacji}
+Pierwszym krokiem jest dodanie informacji takich jak nazwa, ikona, splash screen oraz konfiguracje specyficzne dla platformy Android do pliku \texttt{app.json}.
+
+\begin{lstlisting}[caption=Plik app.json]
+"expo": {
+    "name": "app",
+    "slug": "app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "plugins": [
+      "react-native-ble-plx"
+    ],
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+}
+\end{lstlisting}
+
+należy również utworzyć konfigurację dla usługi \textbf{Expo Application Services (EAS)}, który jest częścią procesu budowania aplikacji. Konfigurację tą umieszcza się w pliku \texttt{eas.json}.
+
+\begin{lstlisting}[caption=Plik eas.json]
+{
+  "cli": {
+    "version": ">= 8.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+};
+\end{lstlisting}
+
+Dla klucza \texttt{preview} określamy typ budowania aplikacji jako \texttt{"apk"} dla platformy Android.
+Następnie należy zalogować się do konta \textit{Expo}, a później, korzystając z komendy \texttt{'npx build -p android –profile preview'}, wygenerować plik \texttt{.apk}, który dostępny będzie do pobrania z konta użytkownika w platformie \textit{Expo}. Proces generowania pliku \texttt{.apk} jest zautomatyzowany i przeprowadzany przez narzędzie \textbf{Expo Build Service}. W przypadku naszej aplikacji rozwiązanie to znacząco ułatwia cały proces względem \textit{Bare Workflow}, czyli podejścia w którym nie wykorzystuje się frameworka \textit{Expo}.
+
+\subsubsection{Różnice pomiędzy wersją testową, a \textit{release}}
+Wersje testowe i release różnią się znacząco pod względem celu, konfiguracji, procesu budowania oraz dystrybucji. Wersje testowe są przeznaczone do szybkich iteracji i debugowania, zawierając narzędzia deweloperskie i umożliwiając natychmiastowe aktualizacje. Wersje release są zoptymalizowane pod kątem wydajności, stabilności i bezpieczeństwa, przeznaczone do dystrybucji do szerokiego grona użytkowników końcowych poprzez oficjalne sklepy aplikacji.
+
 \subsection{Napotkane problemy}
-Tu można opisać problemy napotkane podczas pisania oprogramowania.
+Obsługa połączenia BLE z urządzeniem okazała się być trudniejsza niż zakładaliśmy, w szczególności monitorowanie sesji z poziomu aplikacji mobilnej. Cały proces wymaga również uzyskania odpowiednich pozwoleń od urządzenia na którym działa aplikacja, a proces testowania był utrudniony ponieważ posiadamy tylko jeden egzemplarz urządzenia SmartCompass. Ze względów technicznych UUID serwisu BLE naszego urządzenia SmartCompass został na sztywno ustawiony w aplikacji.
