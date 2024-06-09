@@ -1,0 +1,87 @@
+\documentclass[titlepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{polski}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    margin=1in
+}
+
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{lipsum}
+\usepackage{hyperref}
+\hypersetup{
+pdftitle={Cybulski, Durkalec, Kurzyp - SmartCompass},
+}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage[counterclockwise]{rotating}
+\graphicspath{ {./res/} }
+% Headers and footers
+\usepackage{fancyhdr, lastpage}
+\pagestyle{fancy}
+\lhead{PWr}
+\chead{SmartCompass}
+\rhead{Projekt Zespołowy, Lato 2024} 
+% Footers
+\lfoot{D. Cybulski, M. Durkalec, S. Kurzyp}
+\cfoot{}
+\rfoot{Strona \thepage \hspace{1pt} z \pageref{LastPage}}
+\setlength{\headheight}{15pt}
+
+% Custom footer and header on new chapter pages
+\usepackage{etoolbox}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
+% Custom commands
+% Display info about module
+\newenvironment{module}[1]
+{
+    \begin{minipage}{\textwidth}
+    \begin{equation*}
+        #1
+    \end{equation*}
+    \begin{center}
+    \renewcommand{\arraystretch}{1.2}
+}
+{
+\end{center}
+\end{minipage}
+\vspace{1em}
+\\ \noindent
+}
+
+\title{
+SmartCompass \\ \vspace{5px}
+\large Inteligentne urządzenie do nawigacji 
+}
+\author{
+    \makebox[3.5cm]{Dominik Cybulski}  - \texttt{\href{mailto:255520@student.pwr.edu.pl}{255520@student.pwr.edu.pl}} \\
+    \makebox[3.5cm]{Michał Durkalec}   - \texttt{\href{mailto:263917@student.pwr.edu.pl}{263917@student.pwr.edu.pl}} \\
+    \makebox[3.5cm]{Stanisław Kurzyp}  - \texttt{\href{mailto:264477@student.pwr.edu.pl}{264477@student.pwr.edu.pl}}
+}
+\date{
+\textbf{Prowadzący:} prof. Robert Burduk \\
+Politechnika Wrocławska \\
+Semestr letni 2024
+}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\include{01-zarzadzanie}
+\include{02-implementacja}
+\include{03-efekty}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}
